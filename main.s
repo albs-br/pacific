@@ -1,5 +1,5 @@
 {
- Pacific v.0.1.0
+ Pacific v.0.2.0
  for MSX 1 computers
 
  File to be assembled by tniasm 0.45
@@ -26,12 +26,13 @@ INCLUDE "include/romheader.s"
 ; Program code entry point
 Execute:
 
-; Define screen colors
+
+; Define screen colors and mode
     ld a, 15                ; Foregoung color
     ld (BIOS_FORCLR), a    
     ld a, 4                 ; Backgroung color
     ld (BIOS_BAKCLR), a     
-    ld a, 14                ; Border color
+    ld a, 5                 ; Border color
     ld (BIOS_BDRCLR), a    
     ld a, 2                 ; Screen mode (0 to 3 for MSX1)
     call BIOS_CHGCLR        ; Change Screen Color
@@ -62,7 +63,7 @@ INCLUDE "initvram.s"
 MainLoop:
 
 ; Scrolling by rotating the pattern tile downwards
-    call RotateTile3Thirds;
+    call RotateTile3Thirds
 
     call Delay
 
