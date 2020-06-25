@@ -42,16 +42,16 @@ Sprite_1:           ; Player plane 2nd color
 	db  0000 0000 b 		; 
 	db  0000 0000 b 		; 
 	db  0000 0000 b 		; 
-	db  0000 0000 b 		; 
-	db  1000 0000 b 		; 
-	db  0111 0000 b 		; 
+	db  0000 0001 b 		; 
+	db  1000 0001 b 		; 
+	db  0111 0001 b 		; 
 
 	db  0000 1100 b 		; 
-	db  0000 0011 b 		; 
+	db  0000 0010 b 		; 
 	db  0000 0000 b 		; 
 	db  0000 0000 b 		; 
-	db  0000 0001 b 		; 
-	db  0000 0001 b 		; 
+	db  0000 0000 b 		; 
+	db  0000 0000 b 		; 
 	db  0000 0000 b 		; 
 	db  0000 0111 b 		; 
 
@@ -73,7 +73,44 @@ Sprite_1:           ; Player plane 2nd color
 	db  1000 0000 b 		; 
 	db  1111 0000 b 		; 
 
+Sprite_2:           ; Player shot
+	db  0000 0010 b 		; 
+	db  0000 0000 b 		; 
+	db  0000 0010 b 		; 
+	db  0000 0010 b 		; 
+	db  0000 0010 b 		; 
+	db  0000 0010 b 		; 
+	db  0000 0010 b 		; 
+	db  0000 0010 b 		; 
 
+	db  0000 0010 b 		; 
+	db  0000 0000 b 		; 
+	db  0000 0000 b 		; 
+	db  0000 0000 b 		; 
+	db  0000 0000 b 		; 
+	db  0000 0000 b 		; 
+	db  0000 0000 b 		; 
+	db  0000 0000 b 		; 
+
+	db  0100 0000 b 		; 
+	db  0000 0000 b 		; 
+	db  0100 0000 b 		; 
+	db  0100 0000 b 		; 
+	db  0100 0000 b 		; 
+	db  0100 0000 b 		; 
+	db  0100 0000 b 		; 
+	db  0100 0000 b 		; 
+
+	db  0100 0000 b 		; 
+	db  0000 0000 b 		; 
+	db  0000 0000 b 		; 
+	db  0000 0000 b 		; 
+	db  0000 0000 b 		; 
+	db  0000 0000 b 		; 
+	db  0000 0000 b 		; 
+	db  0000 0000 b 		; 
+
+{
 ; Sprite attributes: y, x, number, color    
 SpriteAttr_0:
     db  (192-32), (256/2)-4, 4, 14          ; Player Plane 2nd color
@@ -84,3 +121,4 @@ SpriteAttr_0:
     db  80, 188, 0, 12     ; y, x, number, color
     db  90, 208, 0, 11     ; y, x, number, color
     db  80, 228, 0, 10     ; y, x, number, color
+}

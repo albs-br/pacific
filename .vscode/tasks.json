@@ -9,7 +9,8 @@
             "command": "C:\\Program Files\\tniasm045\\tniasm.exe",
                 "args": [
                     {
-                      "value": "${file}",
+                      "value": "main.s",
+                      //"value": "${file}",
                       "quoting": "strong"
                     }
                 ],

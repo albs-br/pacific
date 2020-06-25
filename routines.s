@@ -9,13 +9,13 @@
 ; Self explanatory
 Delay:
     push de
-    ld d, 0x30              ; Two nested loops
+    ld d, 0x00                  ; Two nested loops
     ld e, 0xff              
-DelayLoop:
+.loop:                          ; local label
     dec e
-    jp nz, DelayLoop        ; inner loop
-    dec d
-    jp nz, DelayLoop        ; outer loop
+    jp nz, .loop                ; inner loop
+    ; dec d
+    ; jp nz, .loop                ; outer loop
     
     pop de
     ret
@@ -23,7 +23,7 @@ DelayLoop:
 
 
 ; ---------------------------------------------------------
-; Scrolling by rotating the pattern tile downwards
+; Scrolling by rotating the tile pattern downwards
 ; 
 ; Inputs:
 ;   none
@@ -68,7 +68,7 @@ RotateTile:
 ; FOR I=7 TO 1 STEP -1
     ld b, 7                     ; repeat 7 times
 
-RotateTileLoop:
+.loop:
 ; VPEEK(C+I-1)
 	dec hl                      ; VRAM Address
 	call BIOS_RDVRM		        ; Reads data from VRAM, as VPEEK (HL: address, output in A)
@@ -79,7 +79,7 @@ RotateTileLoop:
 
     dec hl
 
-    djnz RotateTileLoop
+    djnz .loop
 
 ;VPOKE C, B
     pop bc                      ; Retrieve entry address
@@ -91,3 +91,66 @@ RotateTileLoop:
 
     ret
 
+
+
+; ---------------------------------------------------------
+; Put sprite 16x16 on screen, similar to BASIC command
+; 
+; Inputs:
+;   d: x coord
+;   e: y coord
+;   c: color (0-15)
+;   a: pattern number (0-63)
+;   b: layer (0-31)
+; Destroys:
+;   hl
+PutSprite16x16:
+    ld hl, SpriteAttrTable - 4      ; start by - 4 as there will be at least one loop iteration
+    inc b
+    
+.loop:
+    inc hl                          ; calc base sprite addr = 6912 + (4 * layer)
+    inc hl
+    inc hl
+    inc hl
+    djnz .loop
+
+    sla a                           ; multiply pattern number by 4 (necessary when using 16x16 sprites)
+    sla a
+
+    push af
+
+    ; Sprite attributes: y, x, number, color    
+
+    ; y coord    
+	ld	a, e        	            ; Value
+    dec a                           ; fix bug of -1 on y axis
+	call BIOS_WRTVRM		        ; Writes data in VRAM (HL: address, A: value)
+
+    ; x coord    
+    inc hl                          ; VRAM address
+	ld	a, d        	            ; Value
+	call BIOS_WRTVRM		        ; Writes data in VRAM (HL: address, A: value)
+
+    ; pattern number    
+    inc hl                          ; VRAM address
+	pop af           	            ; Value
+	call BIOS_WRTVRM		        ; Writes data in VRAM (HL: address, A: value)
+
+    ; color    
+    inc hl                          ; VRAM address
+	ld a, c           	            ; Value
+	call BIOS_WRTVRM		        ; Writes data in VRAM (HL: address, A: value)
+
+    ret
+
+
+
+{
+;if a < d 
+    cp d
+    call LabelThen
+;else
+    call LabelElse
+
+}

@@ -124,15 +124,20 @@
 
 
 ;-----------------------------------------
-
 ; Define sprites
-	ld	bc, 32 * 2           		; Block length
+
+NumberOfSprites:	equ 3			;
+
+	ld	bc, 32 * NumberOfSprites	; Block length
 	ld	de, SpritePatternTable		; VRAM address
 	ld	hl, Sprite_0        		; RAM address
     call BIOS_LDIRVM        		; Block transfer to VRAM from memory
 
-; Put sprite on screen
-	ld	bc, 4 * 7               		; Block length
+; Put sprite on screen (test)
+{
+	ld	bc, 4 * 7               	; Block length
 	ld	de, SpriteAttrTable			; VRAM address
 	ld	hl, SpriteAttr_0        	; RAM address
     call BIOS_LDIRVM        		; Block transfer to VRAM from memory
+}
+

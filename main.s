@@ -1,11 +1,10 @@
 {
- Pacific v.0.2.0
+ Pacific v.0.3.0
  for MSX 1 computers
 
  File to be assembled by tniasm 0.45
 
- Code adapted from sample from:
- https://www.msx.org/wiki/Assembler_for_Dummies_(Z80)#Program_Samples
+ Tested on WebMSX and openMSX emulators
 }
 
 FNAME "pacific.rom"      ; output file
@@ -60,12 +59,40 @@ INCLUDE "initvram.s"
     djnz Loop
 }
 
+; call InitVariables
+    ld a, 0                 ;
+    ld (Counter), a         ; save value
+
+    ld a, 120               ; (256/2) + 8  ; middle of screen minus half of sprite
+    ld (Player_X), a        ; save value
+
+    ld a, 160               ;
+    ld (Player_Y), a        ; save value
+
+    ld a, 0                 ;
+    ld (Player_Shot), a        ; save value
+
+
+
 MainLoop:
 
-; Scrolling by rotating the pattern tile downwards
-    call RotateTile3Thirds
+    call ReadInput
+
+    ; call UpdateVariables
+
+    call UpdateScreen
+
 
     call Delay
+
+    ; increment counter
+	ld a, (Counter)				;
+    inc a
+    
+    and 0000 1111 b
+    call z, RotateTile3Thirds   ; background scroll at each 16 cycles
+
+    ld (Counter), a        ; save value
 
     jp MainLoop
 
@@ -79,6 +106,9 @@ Finished:
 
  ; Routines
 INCLUDE "routines.s"
+INCLUDE "readinput.s"
+; INCLUDE "updatevariables.s"
+INCLUDE "updatescreen.s"
 
 
 
@@ -92,3 +122,9 @@ End:
 ; (Alternatively, include macros.asm and use ALIGN 4000H)
  
 	ds 4000h+RomSize-End,255	; 8000h+RomSize-End if org 8000h
+
+
+
+; Variables mapped to RAM memory
+	org 0xc000
+INCLUDE "variables.s"
