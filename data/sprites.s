@@ -110,6 +110,43 @@ Sprite_2:           ; Player shot
 	db  0000 0000 b 		; 
 	db  0000 0000 b 		; 
 
+Sprite_3:           ; Enemy plane type 1 1st color
+	db  0000 0001 b 		; 
+	db  0000 1111 b 		; 
+	db  0000 1111 b 		; 
+	db  0000 0001 b 		; 
+	db  0000 0001 b 		; 
+	db  0000 0011 b 		; 
+	db  0111 1111 b 		; 
+	db  1111 1111 b 		; 
+
+	db  0111 1111 b 		; 
+	db  0000 0001 b 		; 
+	db  0000 0001 b 		; 
+	db  0000 0000 b 		; 
+	db  0000 0000 b 		; 
+	db  0000 0000 b 		; 
+	db  0000 0000 b 		; 
+	db  0000 0000 b 		; 
+
+	db  0000 0000 b 		; 
+	db  1110 0000 b 		; 
+	db  1110 0000 b 		; 
+	db  0000 0000 b 		; 
+	db  0000 0000 b 		; 
+	db  1000 0000 b 		; 
+	db  1111 1100 b 		; 
+	db  1111 1110 b 		; 
+
+	db  1111 1100 b 		; 
+	db  0000 0000 b 		; 
+	db  0000 0000 b 		; 
+	db  0000 0000 b 		; 
+	db  0000 0000 b 		; 
+	db  0000 0000 b 		; 
+	db  0000 0000 b 		; 
+	db  0000 0000 b 		; 
+
 {
 ; Sprite attributes: y, x, number, color    
 SpriteAttr_0:

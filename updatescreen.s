@@ -9,7 +9,7 @@ UpdateScreen:
 	ld d, a
 	ld a, (Player_Y)				;   e: y coord
 	ld e, a
-	ld c, 14						;   c: color (0-15)
+	ld c, 12;14						;   c: color (0-15)
 	ld a, 1							;   a: pattern number (0-63)
 	ld b, 0							;   b: layer (0-31)
 	call PutSprite16x16				;
@@ -17,7 +17,7 @@ UpdateScreen:
 	; Player plane 1st color
 	; ld d, (256/2)-4					;   d: x coord
 	; ld e, (192-32)					;   e: y coord
-	ld c, 15						;   c: color (0-15)
+	ld c, 3;15						;   c: color (0-15)
 	ld a, 0							;   a: pattern number (0-63)
 	ld b, 1							;   b: layer (0-31)
 	call PutSprite16x16				;	
@@ -54,9 +54,9 @@ UpdateScreen:
 	
     ld c, 14						;   color gray
 
-	ld a, (Counter)				    ;
+	ld a, (Counter+4)	    	    ;
     bit 0, a
-    jp z, .continueColor            ;   alternate colors of shot
+    jp z, .continueColor            ;   alternate colors of shot at each frame
 
     ld c, 8						    ;   color red
 
@@ -65,7 +65,51 @@ UpdateScreen:
 	ld a, 2							;   a: pattern number (0-63)
 	ld b, 2							;   b: layer (0-31)
 	call PutSprite16x16				;
+
+
+
+    ; Test colision between shot and enemy
+	ld a, (Player_Shot_X)			;   h: x coord
+	ld h, a
+	ld a, (Player_Shot_Y)			;   l: y coord
+	ld l, a
+
+	ld a, (Enemy_1_X)				;   b: x1 coord
+	ld b, a
+    add a, 16                       ;   d: x2 coord
+    ld d, a
+	ld a, (Enemy_1_Y)				;   c: y1 coord
+	ld c, a
+    add a, 16                        ;   e: y2 coord
+    ld e, a
+
+    call CheckCollision             ; 
+    cp a
+    jp nz, .colisionTrue
+
+	; Enemy plane
+	ld a, (Enemy_1_X)				;   d: x coord
+	ld d, a
+	ld a, (Enemy_1_Y)				;   e: y coord
+	ld e, a
+	ld c, 8;14						;   c: color (0-15)
+	ld a, 3							;   a: pattern number (0-63)
+	ld b, 5							;   b: layer (0-31)
+	call PutSprite16x16				;
+
+    jp .continue1
+
+.colisionTrue:
+	ld a, 63					    ;   a: pattern number (0-63)
+	ld b, 5							;   b: layer (0-31)
+	call PutSprite16x16				;   put non existent sprite at layer, to hide the shot
+
+
+.continue1:
+
     jp .continue
+
+
 
 .shotReachesTop:
     ld a, 0
@@ -73,9 +117,12 @@ UpdateScreen:
 
 	ld a, 63					    ;   a: pattern number (0-63)
 	ld b, 2							;   b: layer (0-31)
-	call PutSprite16x16				;   put non existent sprite at layer, to hid the shot
+	call PutSprite16x16				;   put non existent sprite at layer, to hide the shot
 
 .continue:
+
+
+
 
 
 

@@ -581,3 +581,9 @@ BIOS_FCALL:   equ 0xffca
 BIOS_DISINT:  equ 0xffcf
 BIOS_ENAINT:  equ 0xffd4
 
+
+
+;MSX System Variables located in Main ROM
+;https://github.com/nataliapc/MSX_devs/blob/master/sdcc_projects/sc2view/includes/msx_const.h
+; #define ADDR_CLIKSW		0xf3db	//Key Press Click Switch 0:Off 1:On (1B/RW)
+ADDR_CLIKSW:   equ 0xf3db	;Key Press Click Switch 0:Off 1:On (1B/RW)

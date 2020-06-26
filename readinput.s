@@ -13,6 +13,16 @@ ReadInput:
 
     ld a, 8                 ; 8th line
     call BIOS_SNSMAT        ; Read Data Of Specified Line From Keyboard Matrix
+    bit 5, a                ; 5th bit (key up)
+    call z, PlanePlayerUp
+
+    ld a, 8                 ; 8th line
+    call BIOS_SNSMAT        ; Read Data Of Specified Line From Keyboard Matrix
+    bit 6, a                ; 6th bit (key down)
+    call z, PlanePlayerDown
+
+    ld a, 8                 ; 8th line
+    call BIOS_SNSMAT        ; Read Data Of Specified Line From Keyboard Matrix
     bit 0, a                ; 0th bit (space bar)
     call z, PlanePlayerShot
 
@@ -30,13 +40,31 @@ PlanePlayerLeft:
     ret
 
 
-
 PlanePlayerRight:
     ld a, (Player_X)            ; player to left
     inc a
     cp 241
-    ret nc                      ; cancel if x >= 231
+    ret nc                      ; cancel if x >= 241
     ld (Player_X), a            ; save value
+
+    ret
+
+
+PlanePlayerUp:
+    ld a, (Player_Y)            ; player up
+    dec a
+    ret z                       ; cancel if y=1
+    ld (Player_Y), a            ; save value
+
+    ret
+
+
+PlanePlayerDown:
+    ld a, (Player_Y)            ; player down
+    inc a
+    cp 175
+    ret nc                      ; cancel if y >= 175
+    ld (Player_Y), a            ; save value
 
     ret
 
@@ -45,6 +73,8 @@ PlanePlayerShot:
     ld a, (Player_Shot)         ; player shot
     cp 0
     ret nz                      ; cancel if already shot
+
+    ; call SoundExplosion
 
     inc a                       ; set indicator of shot fired
     ld (Player_Shot), a         ; 

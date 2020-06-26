@@ -1,5 +1,5 @@
 {
- Pacific v.0.3.0
+ Pacific v.0.4.0
  for MSX 1 computers
 
  File to be assembled by tniasm 0.45
@@ -36,6 +36,9 @@ Execute:
     ld a, 2                 ; Screen mode (0 to 3 for MSX1)
     call BIOS_CHGCLR        ; Change Screen Color
 
+    ld a, 0
+    ld (ADDR_CLIKSW), a     ; Key Press Click Switch 0:Off 1:On (1B/RW)
+
     call BIOS_INIGRP        ; Screen 2
 
 
@@ -60,17 +63,25 @@ INCLUDE "initvram.s"
 }
 
 ; call InitVariables
+ 
+ ; fill all bytes of counter with 0
     ld a, 0                 ;
-    ld (Counter), a         ; save value
+    ld b, 5
+.loop:
+    ld (Counter+4), a       ; save value
+    djnz .loop
 
     ld a, 120               ; (256/2) + 8  ; middle of screen minus half of sprite
     ld (Player_X), a        ; save value
-
     ld a, 160               ;
     ld (Player_Y), a        ; save value
-
     ld a, 0                 ;
     ld (Player_Shot), a        ; save value
+
+    ld a, 120               ;
+    ld (Enemy_1_X), a       ; save value
+    ld a, 20                ;
+    ld (Enemy_1_Y), a       ; save value
 
 
 
@@ -85,14 +96,7 @@ MainLoop:
 
     call Delay
 
-    ; increment counter
-	ld a, (Counter)				;
-    inc a
-    
-    and 0000 1111 b
-    call z, RotateTile3Thirds   ; background scroll at each 16 cycles
-
-    ld (Counter), a        ; save value
+    call IncrementCounter
 
     jp MainLoop
 
@@ -105,9 +109,10 @@ Finished:
  
 
  ; Routines
-INCLUDE "routines.s"
+INCLUDE "include/commonroutines.s"
+INCLUDE "specificroutines.s"
 INCLUDE "readinput.s"
-; INCLUDE "updatevariables.s"
+INCLUDE "sound.s"
 INCLUDE "updatescreen.s"
 
 

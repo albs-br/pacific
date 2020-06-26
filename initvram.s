@@ -52,9 +52,9 @@
 
 ; -----------------------------------------------
 ; Define pattern
-;	ld	hl, PatternsTable   ; VRAM Address
-;	ld	a, 1000 0000 b      ; Value
-;	call BIOS_WRTVRM		; Writes data in VRAM, as VPOKE (HL: address, A: value)
+	; ld	hl, PatternsTable   ; VRAM Address
+	; ld	a, 1000 0000 b      ; Value
+	; call BIOS_WRTVRM		; Writes data in VRAM, as VPOKE (HL: address, A: value)
 
 ; Define pattern (copying 8 bytes from memory to VRAM)
 ; First third
@@ -126,7 +126,7 @@
 ;-----------------------------------------
 ; Define sprites
 
-NumberOfSprites:	equ 3			;
+NumberOfSprites:	equ 4			;
 
 	ld	bc, 32 * NumberOfSprites	; Block length
 	ld	de, SpritePatternTable		; VRAM address

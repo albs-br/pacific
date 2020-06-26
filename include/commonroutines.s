@@ -1,4 +1,5 @@
-; routines.s
+; commonroutines.s (can be used on other programs)
+
 ; depends on:
 ;   include/msxbios.s
 ;   include/vram.s
@@ -144,6 +145,57 @@ PutSprite16x16:
 
     ret
 
+
+
+
+
+; ---------------------------------------------------------
+; Checks if the point (x, y) is inside the box (x1, y1, x2, y2)
+; 
+; Destroys:
+;   
+; Inputs:
+;   HL: point to be checked (H: x, L: y)
+;   BC: upper left corner of box to be checked (B: x1, C: y1)
+;   DE: down right corner of box to be checked (D: x2, E: y2)
+; Output:
+;   A = 0 not collision
+;   A = 1 collision
+CheckCollision:
+
+;To compare stuff, simply do a CP, and if the zero flag is set,
+;A and the argument were equal, else if the carry is set the argument was greater, and finally, if 
+;neither is set, then A must be greater (CP does nothing to the registers, only the F (flag) register 
+;is changed). 
+
+; if (x >= x1)
+    ld a, h
+    cp b
+    jp c, .false
+
+; if (x <= x2)
+    ld a, h
+    cp d
+    jp nc, .false
+
+; if (y >= y1)
+    ld a, l
+    cp c
+    jp c, .false
+
+; if (y <= y2)
+    ld a, l
+    cp e
+    jp nc, .false
+
+
+;true:
+    ld a, 1
+    ret
+
+.false:
+    ld a, 0
+    ret
 
 
 {
