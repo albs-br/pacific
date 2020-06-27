@@ -1,5 +1,5 @@
 {
- Pacific v.0.5.0
+ Pacific v.0.5.1
  for MSX 1 computers
 
  File to be assembled by tniasm 0.45

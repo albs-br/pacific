@@ -127,32 +127,104 @@
 
 ;---------------------
 ; test chars
+	; ld hl, Tile_Char_0			; Tile origin base address on RAM
+	; ld a, Tile_Char_0_Number	; Number on Pattern table
+	; call DefineTile
+
+
+
 ; Patterns Table
-	ld	bc, 16               ; Block length
-	ld	de, PatternsTable+8 ; VRAM Address
+	ld	bc, 5*8               ; Block length
+	ld	de, PatternsTable+(Tile_Char_0_Number*8) ; VRAM Address
 	ld	hl, Tile_Char_0          ; RAM Address
     call BIOS_LDIRVM        ; Block transfer to VRAM from memory
 ;Colors table
+; 	ld	de, ColorsTable+(Tile_Char_0_Number*8)     ; VRAM Address
+; 	ld a, 2											; number of repeats
+; .loop:
+; 	ld	bc, 8               ; Block length
+; 	ld	hl, Colors_Char        ; RAM Address
+; 	push af
+;     call BIOS_LDIRVM        ; Block transfer to VRAM from memory
+	
+; 	ld b, 8
+; .add8:
+; 	inc de
+; 	djnz .add8
+	
+; 	pop af
+; 	dec a
+; 	jp z, .loop
+
 	ld	bc, 8               ; Block length
-	ld	de, ColorsTable+8     ; VRAM Address
+	ld	de, ColorsTable+(Tile_Char_0_Number*8)     ; VRAM Address
 	ld	hl, Colors_Char        ; RAM Address
     call BIOS_LDIRVM        ; Block transfer to VRAM from memory
 
 	ld	bc, 8               ; Block length
-	ld	de, ColorsTable+16     ; VRAM Address
+	ld	de, ColorsTable+(Tile_Char_1_Number*8)     ; VRAM Address
 	ld	hl, Colors_Char        ; RAM Address
     call BIOS_LDIRVM        ; Block transfer to VRAM from memory
+
+	ld	bc, 8               ; Block length
+	ld	de, ColorsTable+(Tile_Char_2_Number*8)     ; VRAM Address
+	ld	hl, Colors_Char        ; RAM Address
+    call BIOS_LDIRVM        ; Block transfer to VRAM from memory
+
+	ld	bc, 8               ; Block length
+	ld	de, ColorsTable+(Tile_Char_3_Number*8)     ; VRAM Address
+	ld	hl, Colors_Char        ; RAM Address
+    call BIOS_LDIRVM        ; Block transfer to VRAM from memory
+
+	ld	bc, 8               ; Block length
+	ld	de, ColorsTable+(Tile_Char_4_Number*8)     ; VRAM Address
+	ld	hl, Colors_Char        ; RAM Address
+    call BIOS_LDIRVM        ; Block transfer to VRAM from memory
+
 ;names table
+; 	ld	hl, NamesTable+1      ; VRAM start address
+;     ld  a, 48                ; value
+;     ld  bc, 1             ; number of bytes
+; 	ld d, 3				; number of repetitions
+; .loop1:
+;     push af
+; 	push bc
+; 	push de
+; 	push hl
+; 	call BIOS_FILVRM        ; Fill VRAM
+; 	pop hl
+; 	pop de
+; 	pop bc
+; 	pop af
+; 	inc a
+; 	inc hl
+; 	dec d
+; 	jp z, .loop1
+
 	ld	hl, NamesTable+1      ; VRAM start address
     ld  bc, 1             ; number of bytes
-    ld  a, 1                ; value
+    ld  a, 48                ; value
     call BIOS_FILVRM        ; Fill VRAM
 
 	ld	hl, NamesTable+2      ; VRAM start address
     ld  bc, 1             ; number of bytes
-    ld  a, 2                ; value
+    ld  a, 49                ; value
     call BIOS_FILVRM        ; Fill VRAM
 
+	ld	hl, NamesTable+3      ; VRAM start address
+    ld  bc, 1             ; number of bytes
+    ld  a, 50                ; value
+    call BIOS_FILVRM        ; Fill VRAM
+
+	ld	hl, NamesTable+4      ; VRAM start address
+    ld  bc, 1             ; number of bytes
+    ld  a, 51                ; value
+    call BIOS_FILVRM        ; Fill VRAM
+
+	ld	hl, NamesTable+5      ; VRAM start address
+    ld  bc, 1             ; number of bytes
+    ld  a, 52                ; value
+    call BIOS_FILVRM        ; Fill VRAM
 
 
 ;-----------------------------------------
