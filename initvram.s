@@ -134,7 +134,7 @@
 
 
 ; Patterns Table
-	ld	bc, 5*8               ; Block length
+	ld	bc, 10*8               ; Block length
 	ld	de, PatternsTable+(Tile_Char_0_Number*8) ; VRAM Address
 	ld	hl, Tile_Char_0          ; RAM Address
     call BIOS_LDIRVM        ; Block transfer to VRAM from memory
@@ -181,6 +181,31 @@
 	ld	hl, Colors_Char        ; RAM Address
     call BIOS_LDIRVM        ; Block transfer to VRAM from memory
 
+	ld	bc, 8               ; Block length
+	ld	de, ColorsTable+(Tile_Char_5_Number*8)     ; VRAM Address
+	ld	hl, Colors_Char        ; RAM Address
+    call BIOS_LDIRVM        ; Block transfer to VRAM from memory
+
+	ld	bc, 8               ; Block length
+	ld	de, ColorsTable+(Tile_Char_6_Number*8)     ; VRAM Address
+	ld	hl, Colors_Char        ; RAM Address
+    call BIOS_LDIRVM        ; Block transfer to VRAM from memory
+
+	ld	bc, 8               ; Block length
+	ld	de, ColorsTable+(Tile_Char_7_Number*8)     ; VRAM Address
+	ld	hl, Colors_Char        ; RAM Address
+    call BIOS_LDIRVM        ; Block transfer to VRAM from memory
+
+	ld	bc, 8               ; Block length
+	ld	de, ColorsTable+(Tile_Char_8_Number*8)     ; VRAM Address
+	ld	hl, Colors_Char        ; RAM Address
+    call BIOS_LDIRVM        ; Block transfer to VRAM from memory
+
+	ld	bc, 8               ; Block length
+	ld	de, ColorsTable+(Tile_Char_9_Number*8)     ; VRAM Address
+	ld	hl, Colors_Char        ; RAM Address
+    call BIOS_LDIRVM        ; Block transfer to VRAM from memory
+
 ;names table
 ; 	ld	hl, NamesTable+1      ; VRAM start address
 ;     ld  a, 48                ; value
@@ -201,36 +226,42 @@
 ; 	dec d
 ; 	jp z, .loop1
 
-	ld	hl, NamesTable+1      ; VRAM start address
-    ld  bc, 1             ; number of bytes
-    ld  a, 48                ; value
-    call BIOS_FILVRM        ; Fill VRAM
+	ld	bc, 10               ; Block length
+	ld	de, NamesTable+1    ; VRAM Address
+	ld	hl, TestChars        ; RAM Address
+    call BIOS_LDIRVM        ; Block transfer to VRAM from memory
 
-	ld	hl, NamesTable+2      ; VRAM start address
-    ld  bc, 1             ; number of bytes
-    ld  a, 49                ; value
-    call BIOS_FILVRM        ; Fill VRAM
 
-	ld	hl, NamesTable+3      ; VRAM start address
-    ld  bc, 1             ; number of bytes
-    ld  a, 50                ; value
-    call BIOS_FILVRM        ; Fill VRAM
+	; ld	hl, NamesTable+1      ; VRAM start address
+    ; ld  bc, 1             ; number of bytes
+    ; ld  a, 48                ; value
+    ; call BIOS_FILVRM        ; Fill VRAM
 
-	ld	hl, NamesTable+4      ; VRAM start address
-    ld  bc, 1             ; number of bytes
-    ld  a, 51                ; value
-    call BIOS_FILVRM        ; Fill VRAM
+	; ld	hl, NamesTable+2      ; VRAM start address
+    ; ld  bc, 1             ; number o f bytes
+    ; ld  a, 49                ; value
+    ; call BIOS_FILVRM        ; Fill VRAM
 
-	ld	hl, NamesTable+5      ; VRAM start address
-    ld  bc, 1             ; number of bytes
-    ld  a, 52                ; value
-    call BIOS_FILVRM        ; Fill VRAM
+	; ld	hl, NamesTable+3      ; VRAM start address
+    ; ld  bc, 1             ; number of bytes
+    ; ld  a, 50                ; value
+    ; call BIOS_FILVRM        ; Fill VRAM
+
+	; ld	hl, NamesTable+4      ; VRAM start address
+    ; ld  bc, 1             ; number of bytes
+    ; ld  a, 51                ; value
+    ; call BIOS_FILVRM        ; Fill VRAM
+
+	; ld	hl, NamesTable+5      ; VRAM start address
+    ; ld  bc, 1             ; number of bytes
+    ; ld  a, 52                ; value
+    ; call BIOS_FILVRM        ; Fill VRAM
 
 
 ;-----------------------------------------
 ; Define sprites
 
-NumberOfSprites:	equ 4			;
+NumberOfSprites:	equ 5			;
 
 	ld	bc, 32 * NumberOfSprites	; Block length
 	ld	de, SpritePatternTable		; VRAM address

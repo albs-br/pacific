@@ -168,32 +168,36 @@ CheckCollision:
 ;neither is set, then A must be greater (CP does nothing to the registers, only the F (flag) register 
 ;is changed). 
 
-; if (x >= x1)
-    ld a, h
-    cp b
-    jp c, .false        	; c: a < parameter
-
 ; if (x <= x2)
     ld a, h
     cp d
-    jp nc, .false           ; nc: a > parameter
+	jp z, .checkY			; if x == x2 there is no need to check against x1
+	jp nc, .collisionfalse	; nc: a >= argument
+
+; if (x >= x1)
+    ld a, h
+    cp b
+    jp c, .collisionfalse	; c: a < argument
+
+.checkY:
+; if (y <= y2)
+    ld a, l
+    cp e
+    jp z, .collisionTrue			; if y == y2 there is no need to check against y1
+    jp nc, .collisionfalse	; nc: a >= argument
 
 ; if (y >= y1)
     ld a, l
     cp c
-    jp c, .false        	; c: a < parameter
-
-; if (y <= y2)
-    ld a, l
-    cp e
-    jp nc, .false           ; nc: a > parameter
+    jp c, .collisionfalse	; c: a < argument
 
 
-;true:
+
+.collisionTrue:
     ld a, 1
     ret
 
-.false:
+.collisionfalse:
     ld a, 0
     ret
 

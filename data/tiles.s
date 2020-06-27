@@ -74,6 +74,61 @@ Tile_Char_4:                     ;
 	db  00011110 b 		; 
 	db  00000000 b 		; 
 
+Tile_Char_5_Number:	equ 53	; same as ascii code for this char
+Tile_Char_5:                     ;
+	db  01111100 b 		; 
+	db  01000000 b 		; 
+	db  01111100 b 		; 
+	db  00000110 b 		; 
+	db  00000110 b 		; 
+	db  00000110 b 		; 
+	db  01111100 b 		; 
+	db  00000000 b 		; 
+
+Tile_Char_6_Number:	equ 54	; same as ascii code for this char
+Tile_Char_6:                     ;
+	db  00111100 b 		; 
+	db  01100000 b 		; 
+	db  01111100 b 		; 
+	db  01100110 b 		; 
+	db  01100110 b 		; 
+	db  01100110 b 		; 
+	db  00111100 b 		; 
+	db  00000000 b 		; 
+
+Tile_Char_7_Number:	equ 55	; same as ascii code for this char
+Tile_Char_7:                     ;
+	db  01111110 b 		; 
+	db  01000110 b 		; 
+	db  00001100 b 		; 
+	db  00011000 b 		; 
+	db  00011000 b 		; 
+	db  00011000 b 		; 
+	db  00011000 b 		; 
+	db  00000000 b 		; 
+
+Tile_Char_8_Number:	equ 56	; same as ascii code for this char
+Tile_Char_8:                     ;
+	db  00111100 b 		; 
+	db  01100110 b 		; 
+	db  00111100 b 		; 
+	db  01100110 b 		; 
+	db  01100110 b 		; 
+	db  01100110 b 		; 
+	db  00111100 b 		; 
+	db  00000000 b 		; 
+
+Tile_Char_9_Number:	equ 57	; same as ascii code for this char
+Tile_Char_9:                     ;
+	db  00111100 b 		; 
+	db  01100110 b 		; 
+	db  01100110 b 		; 
+	db  00111110 b 		; 
+	db  00000110 b 		; 
+	db  00000110 b 		; 
+	db  00111100 b 		; 
+	db  00000000 b 		; 
+
 Colors_Char:                   ;
     db 0xf1                 ;   high nibble: foreground color; low nibble: background color
     db 0xf1                 ;
@@ -105,3 +160,7 @@ Colors_1:
     db 0x1f                 ;
     db 0x14                 ;
 }
+
+TestChars:
+	db  48,49,50,51,52,53,54,55,56,57 		; 
+

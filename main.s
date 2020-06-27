@@ -1,10 +1,17 @@
 {
- Pacific v.0.5.1
+ Pacific v.0.6.0
  for MSX 1 computers
 
  File to be assembled by tniasm 0.45
 
  Tested on WebMSX and openMSX emulators
+
+ Acknowledgements:
+ -Datasette
+ -Msx.org and users
+ -Web MSX
+ -Open MSX
+ -MSX Pen
 }
 
 FNAME "pacific.rom"      ; output file
