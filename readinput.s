@@ -70,13 +70,13 @@ PlanePlayerDown:
 
 
 PlanePlayerShot:
-    ld a, (Player_Shot)         ; player shot
+    ld a, (Player_Shot)         ; get player shot flag
     cp 0
     ret nz                      ; cancel if already shot
 
     ; call SoundExplosion
 
-    inc a                       ; set indicator of shot fired
+    inc a                       ; set flag of shot fired
     ld (Player_Shot), a         ; 
 
     ld a, (Player_X)            ; set X of shot = X of player

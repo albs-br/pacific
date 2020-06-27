@@ -157,10 +157,10 @@ PutSprite16x16:
 ; Inputs:
 ;   HL: point to be checked (H: x, L: y)
 ;   BC: upper left corner of box to be checked (B: x1, C: y1)
-;   DE: down right corner of box to be checked (D: x2, E: y2)
+;   DE: bottom right corner of box to be checked (D: x2, E: y2)
 ; Output:
-;   A = 0 not collision
-;   A = 1 collision
+;   A = 0 : not collided
+;   A = 1 : collided
 CheckCollision:
 
 ;To compare stuff, simply do a CP, and if the zero flag is set,
@@ -171,22 +171,22 @@ CheckCollision:
 ; if (x >= x1)
     ld a, h
     cp b
-    jp c, .false
+    jp c, .false        	; c: a < parameter
 
 ; if (x <= x2)
     ld a, h
     cp d
-    jp nc, .false
+    jp nc, .false           ; nc: a > parameter
 
 ; if (y >= y1)
     ld a, l
     cp c
-    jp c, .false
+    jp c, .false        	; c: a < parameter
 
 ; if (y <= y2)
     ld a, l
     cp e
-    jp nc, .false
+    jp nc, .false           ; nc: a > parameter
 
 
 ;true:

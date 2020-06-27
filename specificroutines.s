@@ -7,7 +7,7 @@
 
 
 ; ---------------------------------------------------------
-; Incrment counter, do some actions based on its value 
+; Increment counter, do some actions based on its value 
 ; and show it on screen if debug mode = true
 IncrementCounter:
 

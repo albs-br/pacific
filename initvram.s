@@ -123,6 +123,38 @@
     call BIOS_FILVRM        ; Fill VRAM
 
 
+
+
+;---------------------
+; test chars
+; Patterns Table
+	ld	bc, 16               ; Block length
+	ld	de, PatternsTable+8 ; VRAM Address
+	ld	hl, Tile_Char_0          ; RAM Address
+    call BIOS_LDIRVM        ; Block transfer to VRAM from memory
+;Colors table
+	ld	bc, 8               ; Block length
+	ld	de, ColorsTable+8     ; VRAM Address
+	ld	hl, Colors_Char        ; RAM Address
+    call BIOS_LDIRVM        ; Block transfer to VRAM from memory
+
+	ld	bc, 8               ; Block length
+	ld	de, ColorsTable+16     ; VRAM Address
+	ld	hl, Colors_Char        ; RAM Address
+    call BIOS_LDIRVM        ; Block transfer to VRAM from memory
+;names table
+	ld	hl, NamesTable+1      ; VRAM start address
+    ld  bc, 1             ; number of bytes
+    ld  a, 1                ; value
+    call BIOS_FILVRM        ; Fill VRAM
+
+	ld	hl, NamesTable+2      ; VRAM start address
+    ld  bc, 1             ; number of bytes
+    ld  a, 2                ; value
+    call BIOS_FILVRM        ; Fill VRAM
+
+
+
 ;-----------------------------------------
 ; Define sprites
 

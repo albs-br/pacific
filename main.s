@@ -1,5 +1,5 @@
 {
- Pacific v.0.4.0
+ Pacific v.0.5.0
  for MSX 1 computers
 
  File to be assembled by tniasm 0.45
@@ -13,12 +13,12 @@ INCLUDE "include/msxbios.s"
 INCLUDE "include/vram.s"
 
 
-RomSize:	equ 4000h	; For 16kB Rom size.
+RomSize:	equ 0x4000	; For 16kB Rom size.
 
 
 
 ; Compilation address
-	org 4000h	; 8000h can be also used here if Rom size is 16kB or less.
+	org 0x4000	; 0x8000 can be also used here if Rom size is 16kB or less.
  
 INCLUDE "include/romheader.s"
 
@@ -78,6 +78,8 @@ INCLUDE "initvram.s"
     ld a, 0                 ;
     ld (Player_Shot), a        ; save value
 
+    ld a, 1                 ;
+    ld (Enemy_1_Show), a    ; save value
     ld a, 120               ;
     ld (Enemy_1_X), a       ; save value
     ld a, 20                ;
@@ -93,6 +95,7 @@ MainLoop:
 
     call UpdateScreen
 
+    call GameLogic
 
     call Delay
 
@@ -114,6 +117,7 @@ INCLUDE "specificroutines.s"
 INCLUDE "readinput.s"
 INCLUDE "sound.s"
 INCLUDE "updatescreen.s"
+INCLUDE "gamelogic.s"
 
 
 
