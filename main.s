@@ -1,5 +1,5 @@
 {
- Pacific v.0.6.0
+ Pacific v.0.7.0
  for MSX 1 computers
 
  File to be assembled by tniasm 0.45
@@ -131,6 +131,7 @@ INCLUDE "gamelogic.s"
  ; Data
 INCLUDE "data/tiles.s"
 INCLUDE "data/sprites.s"
+INCLUDE "data/data.s"
 
 End:
 ; Padding with 255 to make the file of 16K size (can be 4K, 8K, 16k, etc) but

@@ -134,7 +134,7 @@
 
 
 ; Patterns Table
-	ld	bc, 10*8               ; Block length
+	ld	bc, 13 * 8               ; Block length
 	ld	de, PatternsTable+(Tile_Char_0_Number*8) ; VRAM Address
 	ld	hl, Tile_Char_0          ; RAM Address
     call BIOS_LDIRVM        ; Block transfer to VRAM from memory
@@ -156,6 +156,7 @@
 ; 	dec a
 ; 	jp z, .loop
 
+; colors for 0-9
 	ld	bc, 8               ; Block length
 	ld	de, ColorsTable+(Tile_Char_0_Number*8)     ; VRAM Address
 	ld	hl, Colors_Char        ; RAM Address
@@ -206,6 +207,22 @@
 	ld	hl, Colors_Char        ; RAM Address
     call BIOS_LDIRVM        ; Block transfer to VRAM from memory
 
+; color changed (A-E):
+	ld	bc, 8               ; Block length
+	ld	de, ColorsTable+(Tile_Char_A_Number*8)     ; VRAM Address
+	ld	hl, Colors_Char_1        ; RAM Address
+    call BIOS_LDIRVM        ; Block transfer to VRAM from memory
+
+	ld	bc, 8               ; Block length
+	ld	de, ColorsTable+(Tile_Char_B_Number*8)     ; VRAM Address
+	ld	hl, Colors_Char_1        ; RAM Address
+    call BIOS_LDIRVM        ; Block transfer to VRAM from memory
+
+	ld	bc, 8               ; Block length
+	ld	de, ColorsTable+(Tile_Char_C_Number*8)     ; VRAM Address
+	ld	hl, Colors_Char_1        ; RAM Address
+    call BIOS_LDIRVM        ; Block transfer to VRAM from memory
+
 ;names table
 ; 	ld	hl, NamesTable+1      ; VRAM start address
 ;     ld  a, 48                ; value
@@ -226,7 +243,7 @@
 ; 	dec d
 ; 	jp z, .loop1
 
-	ld	bc, 10               ; Block length
+	ld	bc, 13               ; Block length
 	ld	de, NamesTable+1    ; VRAM Address
 	ld	hl, TestChars        ; RAM Address
     call BIOS_LDIRVM        ; Block transfer to VRAM from memory

@@ -52,26 +52,42 @@ UpdateScreen:
 	call PutSprite16x16				;
 
 	; Enemy plane 1st color
-	ld a, (Enemy_1_X)				;   d: x coord
-	ld d, a
-	ld a, (Enemy_1_Y)				;   e: y coord
-	ld e, a
+	; ld a, (Enemy_1_X)				;   d: x coord
+	; ld d, a
+	; ld a, (Enemy_1_Y)				;   e: y coord
+	; ld e, a
 	ld c, 9							;   c: color (0-15)
 	ld a, 3							;   a: pattern number (0-63)
 	ld b, 6							;   b: layer (0-31)
 	call PutSprite16x16				;
+	
+	; Enemy plane shadow
+	ld b, 8
+	ld a, (Enemy_1_X)				;   d: x coord
+	add a, b
+	ld d, a
+	ld a, (Enemy_1_Y)				;   e: y coord
+	add a, b
+	ld e, a
+	ld c, 1							;   c: color (0-15)
+	ld a, 3							;   a: pattern number (0-63)
+	ld b, 30						;   b: layer (0-31)
+	call PutSprite16x16				;	
+
 	jp .next
 
 .enemyHide:
 	ld d, 0							;   d: x coord
-	ld e, 192						;   e: y coord		; place sprite off screen
+	ld e, 256 - 16					;   e: y coord		; place sprite off screen
 	ld a, 63					    ;   a: pattern number (0-63)
 	ld b, 5							;   b: layer (0-31)
 	call PutSprite16x16				;   put non existent sprite at layer, to hide the enemy
-	ld d, 0							;   d: x coord
-	ld e, 192						;   e: y coord		; place sprite off screen
-	ld a, 63					    ;   a: pattern number (0-63)
+	; ld d, 0							;   d: x coord
+	; ld e, 256 - 16					;   e: y coord		; place sprite off screen
+	; ld a, 63					    ;   a: pattern number (0-63)
 	ld b, 6							;   b: layer (0-31)
+	call PutSprite16x16				;   put non existent sprite at layer, to hide the enemy
+	ld b, 30						;   b: layer (0-31)
 	call PutSprite16x16				;   put non existent sprite at layer, to hide the enemy
 
 

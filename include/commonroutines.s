@@ -29,13 +29,13 @@ Delay:
 ; Inputs:
 ;   none
 RotateTile3Thirds:
-    ld bc, PatternsTable
+    ld bc, PatternsTable                            ; first third
     call RotateTile
 
-    ld bc, PatternsTable + (256 * 8)
+    ld bc, PatternsTable + (256 * 8)                ; second third
     call RotateTile
 
-    ld bc, PatternsTable + (256 * 8) + (256 * 8)
+    ld bc, PatternsTable + (256 * 8) + (256 * 8)    ; last third
     call RotateTile
 
     ret

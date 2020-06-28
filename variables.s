@@ -1,4 +1,5 @@
-; Global counter
+
+; Global counter                       ; big endian, LSB: 5th byte
     Counter:            rb 5           ; rb n  = reserve n bytes in RAM
 
 ; Player plane
