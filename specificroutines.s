@@ -62,6 +62,10 @@ IncrementCounter:
     ld e, a                         ; lo
     ld hl, LevelDataStart
 
+    ; TODO: lots of optimizations are possible here
+    ; 1 - save the address of last action done, next time start there instead of from the beginning
+    ; 2 - after read an addr on chunck, tests if is > than current counter, if so, gives up, as the actions are ordered
+
 .loop1:
     push hl
     ld a, (hl)
@@ -75,9 +79,31 @@ IncrementCounter:
     pop hl
     
     ; do the action
-    call PlanePlayerShot
+    ; call PlanePlayerShot
+    inc hl
+    inc hl
+    ld a, (hl)                  ; get action type
+    cp 0                        ; 0 = show enemy
+    call z, .showEnemy
+
     jp .continue1
+
+.showEnemy:
+    ld a, 1
+    ld (Enemy_1_Show), a
     
+    inc hl
+    inc hl
+    inc hl
+    inc hl
+    ld a, (hl)              ; get x coord
+    ld (Enemy_1_X), a       ; save value
+    inc hl
+    ld a, (hl)              ; get y coord
+    ld (Enemy_1_Y), a       ; save value
+
+    ret
+
 .next:
     pop hl
     ld bc, LevelDataChunckSize

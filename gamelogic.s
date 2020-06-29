@@ -1,11 +1,29 @@
 
 GameLogic:
 
-	ld a, (Enemy_1_Show)			; if enemy 1 is hide, skip check collision
+	ld a, (Enemy_1_Show)			; if enemy 1 is hide, skip enemy logic/check collision
 	cp 0
 	jp z, .skipCheckEnemy_1
 
+	; update enemy position
+	ld a, (Enemy_1_Y)				;
+	inc a
+	cp 192
+	call z, .enemyReachedBottom
+
+	ld (Enemy_1_Y), a				; save updated value
+
+	jp .contGameLogic
+
+.enemyReachedBottom:
+	ld a, 0
+	ld (Enemy_1_Show), a			; hide enemy
+	ret
+
+.contGameLogic:
+
     ; Test colision between shot and enemy
+	; TODO: check all 4 points not only one
 	ld a, (Player_Shot_X)			;   h: x coord
 	add a, 6						;   get the correct upper left pixel
 	ld h, a

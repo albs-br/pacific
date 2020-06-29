@@ -1,5 +1,5 @@
 {
- Pacific v.0.7.0
+ Pacific v.0.8.0
  for MSX 1 computers
 
  File to be assembled by tniasm 0.45
@@ -73,9 +73,11 @@ INCLUDE "initvram.s"
  
  ; fill all bytes of counter with 0
     ld a, 0                 ;
+    ld hl, Counter
     ld b, 5
 .loop:
-    ld (Counter+4), a       ; save value
+    ld (hl), a       ; save value
+    inc hl
     djnz .loop
 
     ld a, 120               ; (256/2) + 8  ; middle of screen minus half of sprite
@@ -85,12 +87,12 @@ INCLUDE "initvram.s"
     ld a, 0                 ;
     ld (Player_Shot), a        ; save value
 
-    ld a, 1                 ;
+    ld a, 0                 ;
     ld (Enemy_1_Show), a    ; save value
-    ld a, 120               ;
-    ld (Enemy_1_X), a       ; save value
-    ld a, 20                ;
-    ld (Enemy_1_Y), a       ; save value
+    ; ld a, 120               ;
+    ; ld (Enemy_1_X), a       ; save value
+    ; ld a, 20                ;
+    ; ld (Enemy_1_Y), a       ; save value
 
 
 
