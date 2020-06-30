@@ -1,5 +1,5 @@
 {
- Pacific v.0.8.0
+ Pacific v.0.9.0
  for MSX 1 computers
 
  File to be assembled by tniasm 0.45
@@ -69,30 +69,9 @@ INCLUDE "initvram.s"
     djnz Loop
 }
 
-; call InitVariables
+call InitVariables
  
- ; fill all bytes of counter with 0
-    ld a, 0                 ;
-    ld hl, Counter
-    ld b, 5
-.loop:
-    ld (hl), a       ; save value
-    inc hl
-    djnz .loop
 
-    ld a, 120               ; (256/2) + 8  ; middle of screen minus half of sprite
-    ld (Player_X), a        ; save value
-    ld a, 160               ;
-    ld (Player_Y), a        ; save value
-    ld a, 0                 ;
-    ld (Player_Shot), a        ; save value
-
-    ld a, 0                 ;
-    ld (Enemy_1_Show), a    ; save value
-    ; ld a, 120               ;
-    ; ld (Enemy_1_X), a       ; save value
-    ; ld a, 20                ;
-    ; ld (Enemy_1_Y), a       ; save value
 
 
 
@@ -123,6 +102,7 @@ Finished:
  ; Routines
 INCLUDE "include/commonroutines.s"
 INCLUDE "specificroutines.s"
+INCLUDE "constants.s"
 INCLUDE "readinput.s"
 INCLUDE "sound.s"
 INCLUDE "updatescreen.s"
@@ -144,6 +124,6 @@ End:
 
 
 
-; Variables mapped to RAM memory
+; Variables (mapped to RAM memory)
 	org 0xc000
 INCLUDE "variables.s"

@@ -93,6 +93,7 @@ UpdateScreen:
 
 .next:
 
+	; TODO: maybe this logic would be on gamelogic.s
 	; Player plane shot
 	ld a, (Player_Shot)				;   get indicator of shot fired
     cp 0
@@ -100,7 +101,8 @@ UpdateScreen:
 
 	ld a, (Player_Shot_Y)			;   get Y position of shot  
     dec a
-    jp z, .shotReachesTop           ;   if y=0 disable shot
+    cp TOP_SCREEN - 1
+    jp z, .shotReachesTop           ;   if y=TOP_SCREEN disable shot
 
 	ld (Player_Shot_Y), a			;   saves updated Y position of shot  
 	ld e, a                         ;   put in e to call PutSprite later
@@ -134,14 +136,8 @@ UpdateScreen:
 
 
 .shotReachesTop:
-    ld a, 0
-	ld (Player_Shot), a			    ;   disable shot
 
-	ld d, 0							;   d: x coord
-	ld e, 192						;   e: y coord		; place sprite off screen
-	ld a, 63					    ;   a: pattern number (0-63)
-	ld b, 2							;   b: layer (0-31)
-	call PutSprite16x16				;   put non existent sprite at layer, to hide the shot
+	call DisableShot
 
 .continue:
 

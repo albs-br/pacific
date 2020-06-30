@@ -56,9 +56,9 @@
 	; ld	a, 1000 0000 b      ; Value
 	; call BIOS_WRTVRM		; Writes data in VRAM, as VPOKE (HL: address, A: value)
 
-; Define pattern (copying 8 bytes from memory to VRAM)
+; Define patterns (copying 8 bytes from memory to VRAM)
 ; First third
-	ld	bc, 8               ; Block length
+	ld	bc, 3 * 8           ; Block length
 	ld	de, PatternsTable   ; VRAM Address
 	ld	hl, Tile_0          ; RAM Address
     call BIOS_LDIRVM        ; Block transfer to VRAM from memory
@@ -84,7 +84,7 @@
  
 ; Define colors (copying 8 bytes from memory to VRAM)
 ; First third
-	ld	bc, 8               ; Block length
+	ld	bc, 3 * 8           ; Block length
 	ld	de, ColorsTable     ; VRAM Address
 	ld	hl, Colors_0        ; RAM Address
     call BIOS_LDIRVM        ; Block transfer to VRAM from memory
@@ -105,19 +105,28 @@
 
 ; Fill names table
 ; First third
-	ld	hl, NamesTable      ; VRAM start address
+	ld	bc, 32              ; Block length
+	ld	de, NamesTable		; VRAM address
+	ld	hl, TopStripTiles   ; RAM Address
+    call BIOS_LDIRVM        ; Block transfer to VRAM from memory
+	; ld	hl, NamesTable 		; VRAM start address
+    ; ld  bc, 32              ; number of bytes
+    ; ld  a, 1                ; value
+    ; call BIOS_FILVRM        ; Fill VRAM
+
+	ld	hl, NamesTable + 32 ; VRAM start address
     ld  bc, 256             ; number of bytes
     ld  a, 0                ; value
     call BIOS_FILVRM        ; Fill VRAM
 
 ; Second third
-	ld	hl, NamesTable + 256
+	ld	hl, NamesTable + 256 + 32 
     ld  bc, 256             ; number of bytes
     ld  a, 0                ; value
     call BIOS_FILVRM        ; Fill VRAM
 
 ; Last third
-	ld	hl, NamesTable + 256 + 256
+	ld	hl, NamesTable + 256 + 256 + 32 
     ld  bc, 256             ; number of bytes
     ld  a, 0                ; value
     call BIOS_FILVRM        ; Fill VRAM
@@ -126,10 +135,6 @@
 
 
 ;---------------------
-; test chars
-	; ld hl, Tile_Char_0			; Tile origin base address on RAM
-	; ld a, Tile_Char_0_Number	; Number on Pattern table
-	; call DefineTile
 
 
 
@@ -138,105 +143,100 @@
 	ld	de, PatternsTable+(Tile_Char_0_Number*8) ; VRAM Address
 	ld	hl, Tile_Char_0          ; RAM Address
     call BIOS_LDIRVM        ; Block transfer to VRAM from memory
+
 ;Colors table
-; 	ld	de, ColorsTable+(Tile_Char_0_Number*8)     ; VRAM Address
-; 	ld a, 2											; number of repeats
-; .loop:
-; 	ld	bc, 8               ; Block length
-; 	ld	hl, Colors_Char        ; RAM Address
-; 	push af
-;     call BIOS_LDIRVM        ; Block transfer to VRAM from memory
-	
-; 	ld b, 8
-; .add8:
-; 	inc de
-; 	djnz .add8
-	
-; 	pop af
-; 	dec a
-; 	jp z, .loop
 
 ; colors for 0-9
-	ld	bc, 8               ; Block length
-	ld	de, ColorsTable+(Tile_Char_0_Number*8)     ; VRAM Address
-	ld	hl, Colors_Char        ; RAM Address
-    call BIOS_LDIRVM        ; Block transfer to VRAM from memory
+	ld	de, ColorsTable+(Tile_Char_0_Number*8)     	; VRAM color table start address
+	ld	hl, Colors_Char        						; RAM start address of tile patetrn (8 bytes)
+	ld a, 10										; number of cells in color table to be filled by the pattern 
+	call FillColorTable
 
-	ld	bc, 8               ; Block length
-	ld	de, ColorsTable+(Tile_Char_1_Number*8)     ; VRAM Address
-	ld	hl, Colors_Char        ; RAM Address
-    call BIOS_LDIRVM        ; Block transfer to VRAM from memory
+	; ld	bc, 8               ; Block length
+	; ld	de, ColorsTable+(Tile_Char_0_Number*8)     ; VRAM Address
+	; ld	hl, Colors_Char        ; RAM Address
+    ; call BIOS_LDIRVM        ; Block transfer to VRAM from memory
 
-	ld	bc, 8               ; Block length
-	ld	de, ColorsTable+(Tile_Char_2_Number*8)     ; VRAM Address
-	ld	hl, Colors_Char        ; RAM Address
-    call BIOS_LDIRVM        ; Block transfer to VRAM from memory
+	; ld	bc, 8               ; Block length
+	; ld	de, ColorsTable+(Tile_Char_1_Number*8)     ; VRAM Address
+	; ld	hl, Colors_Char        ; RAM Address
+    ; call BIOS_LDIRVM        ; Block transfer to VRAM from memory
 
-	ld	bc, 8               ; Block length
-	ld	de, ColorsTable+(Tile_Char_3_Number*8)     ; VRAM Address
-	ld	hl, Colors_Char        ; RAM Address
-    call BIOS_LDIRVM        ; Block transfer to VRAM from memory
+	; ld	bc, 8               ; Block length
+	; ld	de, ColorsTable+(Tile_Char_2_Number*8)     ; VRAM Address
+	; ld	hl, Colors_Char        ; RAM Address
+    ; call BIOS_LDIRVM        ; Block transfer to VRAM from memory
 
-	ld	bc, 8               ; Block length
-	ld	de, ColorsTable+(Tile_Char_4_Number*8)     ; VRAM Address
-	ld	hl, Colors_Char        ; RAM Address
-    call BIOS_LDIRVM        ; Block transfer to VRAM from memory
+	; ld	bc, 8               ; Block length
+	; ld	de, ColorsTable+(Tile_Char_3_Number*8)     ; VRAM Address
+	; ld	hl, Colors_Char        ; RAM Address
+    ; call BIOS_LDIRVM        ; Block transfer to VRAM from memory
 
-	ld	bc, 8               ; Block length
-	ld	de, ColorsTable+(Tile_Char_5_Number*8)     ; VRAM Address
-	ld	hl, Colors_Char        ; RAM Address
-    call BIOS_LDIRVM        ; Block transfer to VRAM from memory
+	; ld	bc, 8               ; Block length
+	; ld	de, ColorsTable+(Tile_Char_4_Number*8)     ; VRAM Address
+	; ld	hl, Colors_Char        ; RAM Address
+    ; call BIOS_LDIRVM        ; Block transfer to VRAM from memory
 
-	ld	bc, 8               ; Block length
-	ld	de, ColorsTable+(Tile_Char_6_Number*8)     ; VRAM Address
-	ld	hl, Colors_Char        ; RAM Address
-    call BIOS_LDIRVM        ; Block transfer to VRAM from memory
+	; ld	bc, 8               ; Block length
+	; ld	de, ColorsTable+(Tile_Char_5_Number*8)     ; VRAM Address
+	; ld	hl, Colors_Char        ; RAM Address
+    ; call BIOS_LDIRVM        ; Block transfer to VRAM from memory
 
-	ld	bc, 8               ; Block length
-	ld	de, ColorsTable+(Tile_Char_7_Number*8)     ; VRAM Address
-	ld	hl, Colors_Char        ; RAM Address
-    call BIOS_LDIRVM        ; Block transfer to VRAM from memory
+	; ld	bc, 8               ; Block length
+	; ld	de, ColorsTable+(Tile_Char_6_Number*8)     ; VRAM Address
+	; ld	hl, Colors_Char        ; RAM Address
+    ; call BIOS_LDIRVM        ; Block transfer to VRAM from memory
 
-	ld	bc, 8               ; Block length
-	ld	de, ColorsTable+(Tile_Char_8_Number*8)     ; VRAM Address
-	ld	hl, Colors_Char        ; RAM Address
-    call BIOS_LDIRVM        ; Block transfer to VRAM from memory
+	; ld	bc, 8               ; Block length
+	; ld	de, ColorsTable+(Tile_Char_7_Number*8)     ; VRAM Address
+	; ld	hl, Colors_Char        ; RAM Address
+    ; call BIOS_LDIRVM        ; Block transfer to VRAM from memory
 
-	ld	bc, 8               ; Block length
-	ld	de, ColorsTable+(Tile_Char_9_Number*8)     ; VRAM Address
-	ld	hl, Colors_Char        ; RAM Address
-    call BIOS_LDIRVM        ; Block transfer to VRAM from memory
+	; ld	bc, 8               ; Block length
+	; ld	de, ColorsTable+(Tile_Char_8_Number*8)     ; VRAM Address
+	; ld	hl, Colors_Char        ; RAM Address
+    ; call BIOS_LDIRVM        ; Block transfer to VRAM from memory
+
+	; ld	bc, 8               ; Block length
+	; ld	de, ColorsTable+(Tile_Char_9_Number*8)     ; VRAM Address
+	; ld	hl, Colors_Char        ; RAM Address
+    ; call BIOS_LDIRVM        ; Block transfer to VRAM from memory
 
 ; color changed (A-E):
-	ld	bc, 8               ; Block length
-	ld	de, ColorsTable+(Tile_Char_A_Number*8)     ; VRAM Address
-	ld	hl, Colors_Char_1        ; RAM Address
-    call BIOS_LDIRVM        ; Block transfer to VRAM from memory
+	ld	de, ColorsTable+(Tile_Char_A_Number*8)     	; VRAM color table start address
+	ld	hl, Colors_Char_1        					; RAM start address of tile patetrn (8 bytes)
+	ld a, 6											; number of cells in color table to be filled by the pattern 
+	call FillColorTable
 
-	ld	bc, 8               ; Block length
-	ld	de, ColorsTable+(Tile_Char_B_Number*8)     ; VRAM Address
-	ld	hl, Colors_Char_1        ; RAM Address
-    call BIOS_LDIRVM        ; Block transfer to VRAM from memory
+	; ld	bc, 8               ; Block length
+	; ld	de, ColorsTable+(Tile_Char_A_Number*8)     ; VRAM Address
+	; ld	hl, Colors_Char_1        ; RAM Address
+    ; call BIOS_LDIRVM        ; Block transfer to VRAM from memory
 
-	ld	bc, 8               ; Block length
-	ld	de, ColorsTable+(Tile_Char_C_Number*8)     ; VRAM Address
-	ld	hl, Colors_Char_1        ; RAM Address
-    call BIOS_LDIRVM        ; Block transfer to VRAM from memory
+	; ld	bc, 8               ; Block length
+	; ld	de, ColorsTable+(Tile_Char_B_Number*8)     ; VRAM Address
+	; ld	hl, Colors_Char_1        ; RAM Address
+    ; call BIOS_LDIRVM        ; Block transfer to VRAM from memory
 
-	ld	bc, 8               ; Block length
-	ld	de, ColorsTable+(Tile_Char_D_Number*8)     ; VRAM Address
-	ld	hl, Colors_Char_1        ; RAM Address
-    call BIOS_LDIRVM        ; Block transfer to VRAM from memory
+	; ld	bc, 8               ; Block length
+	; ld	de, ColorsTable+(Tile_Char_C_Number*8)     ; VRAM Address
+	; ld	hl, Colors_Char_1        ; RAM Address
+    ; call BIOS_LDIRVM        ; Block transfer to VRAM from memory
 
-	ld	bc, 8               ; Block length
-	ld	de, ColorsTable+(Tile_Char_E_Number*8)     ; VRAM Address
-	ld	hl, Colors_Char_1        ; RAM Address
-    call BIOS_LDIRVM        ; Block transfer to VRAM from memory
+	; ld	bc, 8               ; Block length
+	; ld	de, ColorsTable+(Tile_Char_D_Number*8)     ; VRAM Address
+	; ld	hl, Colors_Char_1        ; RAM Address
+    ; call BIOS_LDIRVM        ; Block transfer to VRAM from memory
 
-	ld	bc, 8               ; Block length
-	ld	de, ColorsTable+(Tile_Char_F_Number*8)     ; VRAM Address
-	ld	hl, Colors_Char_1        ; RAM Address
-    call BIOS_LDIRVM        ; Block transfer to VRAM from memory
+	; ld	bc, 8               ; Block length
+	; ld	de, ColorsTable+(Tile_Char_E_Number*8)     ; VRAM Address
+	; ld	hl, Colors_Char_1        ; RAM Address
+    ; call BIOS_LDIRVM        ; Block transfer to VRAM from memory
+
+	; ld	bc, 8               ; Block length
+	; ld	de, ColorsTable+(Tile_Char_F_Number*8)     ; VRAM Address
+	; ld	hl, Colors_Char_1        ; RAM Address
+    ; call BIOS_LDIRVM        ; Block transfer to VRAM from memory
 
 ;names table
 ; 	ld	hl, NamesTable+1      ; VRAM start address

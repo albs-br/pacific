@@ -202,11 +202,92 @@ CheckCollision:
     ret
 
 
+
+; ---------------------------------------------------------
+; Fills a range of cells in color table with a color pattern in RAM
+; 
+; Destroys:
+;   All registers
+;
+; Inputs:
+;   DE: VRAM color table start address
+;   HL: RAM start address of tile patetrn (8 bytes)
+;   A: number of cells in color table to be filled by the pattern 
+; Output:
+;   
+FillColorTable:
+	; ld	de, ColorsTable+(Tile_Char_0_Number*8)     ; VRAM Address
+	; ld	hl, Colors_Char        ; RAM Address
+	; ld a, 10				; loop control variable
+; .loop:
+	ld	bc, 8               ; Block length
+	push hl
+    push af
+	push de
+	call BIOS_LDIRVM        ; Block transfer to VRAM from memory
+	pop de
+	pop af
+	
+	ld	bc, 8               ; increment register pair de by 8
+	ld h, d					; 
+	ld l, e					;
+	add hl, bc
+	ld d, h
+	ld e, l
+	
+	pop hl
+	
+	dec a
+	jr nz, FillColorTable
+	
+	ret
 {
 ;if a < d 
     cp d
     call LabelThen
 ;else
     call LabelElse
+
+}
+
+;random number generator:
+{
+	
+;In: nothing
+;Out: A with a random number
+;Author: Ricardo Bittencourt aka RicBit (BrMSX, Tetrinet and several other projects)
+; choose a random number in the set [0,255] with uniform distribution
+RAND:
+PUSH HL
+LD HL,(SEED)
+ADD HL,HL
+SBC A,A
+AND 83h
+XOR L
+LD L,A
+LD (SEED),HL
+POP HL
+RET
+
+The random number generated will be any number from 0 to FFh.
+
+Despite be a random number generator routine, your results will pass in several statistical tests.
+
+Before the first call, the SEED value must be initiated with a value different of 0.
+
+For a deterministic behavior (the sequence of values will be the same if the program was initiated), use a fixed SEED value.
+
+For a somewhat more random sequence, use:
+
+LD A,(JIFFY);MSX BIOS time variable
+OR 80H ;A value different of zero is granted
+LD A,(SEED)
+
+The values obtained from this method is much more *random* that what you get from LD A,R.
+
+---------------------
+
+FC9Eh	JIFFY	1	Contains value of the software clock, each interrupt of the VDP it is increased by 1.
+The contents can be read or changed by the function 'TIME' or instruction 'TIME'.
 
 }

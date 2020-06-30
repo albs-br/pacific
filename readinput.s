@@ -53,7 +53,8 @@ PlanePlayerRight:
 PlanePlayerUp:
     ld a, (Player_Y)            ; player up
     dec a
-    ret z                       ; cancel if y=1
+    cp TOP_SCREEN - 1
+    ret z                       ; cancel if y=TOP_SCREEN
     ld (Player_Y), a            ; save value
 
     ret

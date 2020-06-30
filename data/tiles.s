@@ -9,6 +9,26 @@ Tile_0:                     ; Sea
 	db  00000000 b 		; 
 	db  00000000 b 		; 
 
+Tile_Black:                 ; 
+	db  00000000 b 		; 
+	db  00000000 b 		; 
+	db  00000000 b 		; 
+	db  00000000 b 		; 
+	db  00000000 b 		; 
+	db  00000000 b 		; 
+	db  00000000 b 		; 
+	db  00000000 b 		; 
+
+Tile_Plane_Lives:                 ; 
+	db  00001000 b 		; 
+	db  00001000 b 		; 
+	db  01111111 b 		; 
+	db  00111110 b 		; 
+	db  00001000 b 		; 
+	db  00001000 b 		; 
+	db  00011100 b 		; 
+	db  00000000 b 		; 
+
 Colors_0:                   ; Sea
     db 0x74                 ;   high nibble: foreground color; low nibble: background color
     db 0x74                 ;
@@ -18,6 +38,26 @@ Colors_0:                   ; Sea
     db 0x74                 ;
     db 0x74                 ;
     db 0x74                 ;
+
+Colors_Black:                   ;
+    db 0x11                 ;   high nibble: foreground color; low nibble: background color
+    db 0x11                 ;
+    db 0x11                 ;
+    db 0x11                 ;
+    db 0x11                 ;
+    db 0x11                 ;
+    db 0x11                 ;
+    db 0x11                 ;
+
+Colors_Plane_Lives:                   ;
+    db 0x31                 ;   high nibble: foreground color; low nibble: background color
+    db 0x31                 ;
+    db 0x31                 ;
+    db 0x21                 ;
+    db 0x21                 ;
+    db 0xc1                 ;
+    db 0xc1                 ;
+    db 0xc1                 ;
 
 Tile_Char_0_Number:	equ 48	; same as ascii code for this char
 Tile_Char_0:                     ;
@@ -238,5 +278,8 @@ Colors_1:
 }
 
 TestChars:
-	db  48,49,50,51,52,53,54,55,56,57,58,59,60,61,62,63 		; 
+	db      48,49,50,51,52,53,54,55,56,57,58,59,60,61,62,63 		; 
 
+TopStripTiles:                   ; screen top strip with lives, score, etc
+    db      2, 48, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1
+    db      1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1

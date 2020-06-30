@@ -22,6 +22,10 @@ GameLogic:
 
 .contGameLogic:
 
+	ld a, (Player_Shot)				; if there is no shot fired skip check collision between shot and enemy
+	cp 0
+	jp z, .skipCheckEnemy_1
+
     ; Test colision between shot and enemy
 	; TODO: check all 4 points not only one
 	ld a, (Player_Shot_X)			;   h: x coord
@@ -54,11 +58,36 @@ GameLogic:
 
 .skipCheckEnemy_1:
 
+	;rest of logic here
 
     ret
 
 .colisionTrue:
 	ld a, 0							; hide enemy
 	ld (Enemy_1_Show), a
+
+	call DisableShot
+    ; ld a, (Player_Shot)
+	; dec a                       	; reset flag of shot fired
+    ; ld (Player_Shot), a         	; 
+
+	; ld d, 0							;   d: x coord
+	; ld e, 192						;   e: y coord		; place sprite off screen
+	; ld a, 63					    ;   a: pattern number (0-63)
+	; ld b, 2							;   b: layer (0-31)
+	; call PutSprite16x16				;   put non existent sprite at layer, to hide the shot
+
+
+	; add points to the score
+	ld hl, (Player_Score)			;
+	ld bc, 5						; TODO: get this value correct for each kind of enemy
+	add hl, bc
+	ld (Player_Score), hl			;
+
+	; show updated score on screen
+	ld hl, Player_Score       	; LSB
+    ld d, 2                     ; size in bytes
+    ld bc, 10                   ; names table offset (0-255)
+    call PrintNumber_LittleEndian
 
     ret

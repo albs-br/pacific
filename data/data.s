@@ -5,7 +5,7 @@ LevelDataStart:
     db  0                   ; action type (0: show enemy)
     db  0                   ; enemy type
     db  0, 0                ; enemy 1st, 2nd color (not used yet)
-    db  180, 0              ; enemy position (x, y)
+    db  180, TOP_SCREEN     ; enemy position (x, y)
     db  0, 0, 0, 0          ; reserved
     db  0, 0, 0, 0          ; reserved
 
@@ -13,7 +13,7 @@ LevelDataStart:
     db  0                   ; action type (0: show enemy)
     db  0                   ; enemy type
     db  0, 0                ; enemy 1st, 2nd color (not used yet)
-    db  40, 0              ; enemy position (x, y)
+    db  40, TOP_SCREEN      ; enemy position (x, y)
     db  0, 0, 0, 0          ; reserved
     db  0, 0, 0, 0          ; reserved
 
@@ -21,7 +21,23 @@ LevelDataStart:
     db  0                   ; action type (0: show enemy)
     db  0                   ; enemy type
     db  0, 0                ; enemy 1st, 2nd color (not used yet)
-    db  240, 0              ; enemy position (x, y)
+    db  240, TOP_SCREEN     ; enemy position (x, y)
+    db  0, 0, 0, 0          ; reserved
+    db  0, 0, 0, 0          ; reserved
+
+    db  0x05, 0x00          ; counter value (HSB, LSB)
+    db  0                   ; action type (0: show enemy)
+    db  0                   ; enemy type
+    db  0, 0                ; enemy 1st, 2nd color (not used yet)
+    db  240, TOP_SCREEN     ; enemy position (x, y)
+    db  0, 0, 0, 0          ; reserved
+    db  0, 0, 0, 0          ; reserved
+
+    db  0x06, 0x00          ; counter value (HSB, LSB)
+    db  0                   ; action type (0: show enemy)
+    db  0                   ; enemy type
+    db  0, 0                ; enemy 1st, 2nd color (not used yet)
+    db  240, TOP_SCREEN     ; enemy position (x, y)
     db  0, 0, 0, 0          ; reserved
     db  0, 0, 0, 0          ; reserved
 

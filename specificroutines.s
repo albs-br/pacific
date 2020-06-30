@@ -3,6 +3,36 @@
 ; depends on:
 ;   include/msxbios.s
 ;   include/vram.s
+ 
+
+
+InitVariables:
+ ; fill all bytes of counter with 0
+    ld a, 0                 ;
+    ld hl, Counter
+    ld b, 5
+.loop:
+    ld (hl), a       ; save value
+    inc hl
+    djnz .loop
+
+    ld a, 120               ; (256/2) + 8  ; middle of screen minus half of sprite
+    ld (Player_X), a        ; save value
+    ld a, 160               ;
+    ld (Player_Y), a        ; save value
+    ld a, 0                 ;
+    ld (Player_Shot), a     ; save value
+    ld (Player_Score), a    ; save value
+
+    ld a, 0                 ;
+    ld (Enemy_1_Show), a    ; save value
+    ; ld a, 120               ;
+    ; ld (Enemy_1_X), a       ; save value
+    ; ld a, 20                ;
+    ; ld (Enemy_1_Y), a       ; save value
+    
+    ret
+
 
 
 
@@ -121,10 +151,11 @@ IncrementCounter:
 
 .continue1:
 
+;TODO put if debug here
     ; Show counter on screen (debug mode)
 	ld hl, Counter+4            ; LSB (5th byte)
-    ld d, 2
-    ld bc, 35
+    ld d, 2                     ; size in bytes (for now using only 2 bytes, although 5 bytes were reserved)
+    ld bc, 35                   ; names table offset (0-255), 35 = 2nd line, 4th column
     call PrintNumber
 
     ret
@@ -142,26 +173,79 @@ PrintNumber:
 
 ; .loop:
 	push af
-    and 0000 1111 b             ; get the low nibble
-    add a, 48                   ; ASCII char (0-9)
+    and 0000 1111 b             ; masking to get the low nibble
+    add a, 48                   ; convert it to ASCII char (0-9)
 	call BIOS_WRTVRM		    ; Writes data in VRAM, as VPOKE (HL: address, A: value)
 
     pop af
-    dec hl
-    and 1111 0000 b             ; get the high nibble
+    dec hl                      ; go to previous char position on screen
+    and 1111 0000 b             ; masking to get the high nibble
     srl a                       ; shift right 4 times
     srl a
     srl a
     srl a
-    add a, 48                   ; ASCII char (0-9)
+    add a, 48                   ; convert it to ASCII char (0-9)
 	call BIOS_WRTVRM		    ; Writes data in VRAM, as VPOKE (HL: address, A: value)
 
     pop hl
-    dec hl
-    dec bc
+    dec hl                      ; go to next byte on value
+    
+    dec bc                      ; go to previous char position on screen (it's necessary 2x)
     dec bc
 
     dec d
     jp nz, PrintNumber
+
+    ret
+
+;   hl: address of LSB
+;   d: size of number in bytes
+;   bc: names table offset (0-255)
+PrintNumber_LittleEndian:
+    ld a, (hl)	    			; get value
+    push hl
+    ld	hl, NamesTable          ; VRAM Address
+    add hl, bc                  ;
+
+; .loop:
+	push af
+    and 0000 1111 b             ; masking to get the low nibble
+    add a, 48                   ; convert it to ASCII char (0-9)
+	call BIOS_WRTVRM		    ; Writes data in VRAM, as VPOKE (HL: address, A: value)
+
+    pop af
+    dec hl                      ; go to previous char position on screen
+    and 1111 0000 b             ; masking to get the high nibble
+    srl a                       ; shift right 4 times
+    srl a
+    srl a
+    srl a
+    add a, 48                   ; convert it to ASCII char (0-9)
+	call BIOS_WRTVRM		    ; Writes data in VRAM, as VPOKE (HL: address, A: value)
+
+    pop hl
+    inc hl                      ; go to next byte on value
+    
+    dec bc                      ; go to previous char position on screen (it's necessary 2x)
+    dec bc
+
+    dec d
+    jp nz, PrintNumber_LittleEndian
+
+    ret
+
+
+
+DisableShot:
+    ; ld a, (Player_Shot)
+	; dec a                       	; reset flag of shot fired ; CAUSING BUG
+    ld a, 0
+    ld (Player_Shot), a         	; 
+
+	ld d, 0							;   d: x coord
+	ld e, 256 - 16					;   e: y coord		; place sprite off screen
+	ld a, 63					    ;   a: pattern number (0-63)
+	ld b, 2							;   b: layer (0-31)
+	call PutSprite16x16				;   put non existent sprite at layer, to hide the shot
 
     ret
