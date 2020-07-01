@@ -258,11 +258,13 @@
 ; 	dec d
 ; 	jp z, .loop1
 
-	ld	bc, 16               ; Block length
-	ld	de, NamesTable+32+6    ; VRAM Address
-	ld	hl, TestChars        ; RAM Address
-    call BIOS_LDIRVM        ; Block transfer to VRAM from memory
-
+    IFDEF DEBUG
+        ; Show tile set on screen (debug mode)
+		ld	bc, 16               ; Block length
+		ld	de, NamesTable+32+6    ; VRAM Address
+		ld	hl, TestChars        ; RAM Address
+		call BIOS_LDIRVM        ; Block transfer to VRAM from memory
+	ENDIF
 
 	; ld	hl, NamesTable+1      ; VRAM start address
     ; ld  bc, 1             ; number of bytes

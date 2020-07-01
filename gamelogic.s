@@ -80,14 +80,25 @@ GameLogic:
 
 	; add points to the score
 	ld hl, (Player_Score)			;
-	ld bc, 5						; TODO: get this value correct for each kind of enemy
-	add hl, bc
-	ld (Player_Score), hl			;
+	; attention: BCD constants should always be written in hexa
+	ld bc, 0x05						; TODO: get this value correct for each kind of enemy
+	;add hl, bc
+	ld d, h							; high byte
+	ld a, l							; low byte
+	add a, c
+	daa
+	jp nc, .notIncScoreHi
+	inc d
+.notIncScoreHi:
+	ld h, d
+	ld l, a
+	ld (Player_Score), hl			; save updated score
 
-	; show updated score on screen
-	ld hl, Player_Score       	; LSB
-    ld d, 2                     ; size in bytes
-    ld bc, 10                   ; names table offset (0-255)
-    call PrintNumber_LittleEndian
+	; call ShowScore
+	; ; show updated score on screen
+	; ld hl, Player_Score       	; LSB
+    ; ld d, 2                     ; size in bytes
+    ; ld bc, 10                   ; names table offset (0-255)
+    ; call PrintNumber_LittleEndian
 
     ret

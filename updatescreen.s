@@ -4,6 +4,9 @@ UpdateScreen:
     ; db  (192-32), (256/2)-4, 0, 15          ; Player Plane 1st color
     ; db  (192-32)+8, (256/2)-4+8, 0, 1       ; Player Plane shadow
 
+	call ShowLives
+	call ShowScore
+
 	; Player plane 2nd color
 	ld a, (Player_X)				;   d: x coord
 	ld d, a

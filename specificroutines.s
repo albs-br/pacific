@@ -22,7 +22,10 @@ InitVariables:
     ld (Player_Y), a        ; save value
     ld a, 0                 ;
     ld (Player_Shot), a     ; save value
-    ld (Player_Score), a    ; save value
+    ld bc, 0
+    ld (Player_Score), bc    ; save value
+    ld a, 3                 ;
+    ld (Player_Lives), a     ; save value
 
     ld a, 0                 ;
     ld (Enemy_1_Show), a    ; save value
@@ -151,12 +154,17 @@ IncrementCounter:
 
 .continue1:
 
-;TODO put if debug here
-    ; Show counter on screen (debug mode)
-	ld hl, Counter+4            ; LSB (5th byte)
-    ld d, 2                     ; size in bytes (for now using only 2 bytes, although 5 bytes were reserved)
-    ld bc, 35                   ; names table offset (0-255), 35 = 2nd line, 4th column
-    call PrintNumber
+
+
+
+    IFDEF DEBUG
+        ; Show counter on screen (debug mode)
+        ld hl, Counter+4            ; LSB (5th byte)
+        ld d, 2                     ; size in bytes (for now using only 2 bytes, although 5 bytes were reserved)
+        ld bc, 35                   ; names table offset (0-255), 35 = 2nd line, 4th column
+        call PrintNumber
+    ENDIF
+
 
     ret
 
@@ -247,5 +255,32 @@ DisableShot:
 	ld a, 63					    ;   a: pattern number (0-63)
 	ld b, 2							;   b: layer (0-31)
 	call PutSprite16x16				;   put non existent sprite at layer, to hide the shot
+
+    ret
+
+
+
+ShowLives:
+	; show current number of lives on top of screen
+    ld hl, NamesTable + 1	    ; VRAM address
+    ld a, (Player_Lives)
+    add a, 48	                ; convert number to chars
+    call BIOS_WRTVRM	        ; write to VRAM
+
+    ret 
+
+
+
+ShowScore:
+	; show current score on top of screen
+	ld hl, Player_Score       	; LSB
+    ld d, 2                     ; size in bytes
+    ld bc, 10                   ; names table offset (0-255)
+    call PrintNumber_LittleEndian
+
+    ; add 0 to number at right (score is shown on screen multiplied by ten)
+    ld hl, NamesTable + 11	    ; VRAM address
+    ld a, 48	                ; char '0'
+    call BIOS_WRTVRM	        ; write to VRAM
 
     ret
