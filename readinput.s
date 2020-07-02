@@ -21,12 +21,32 @@ ReadInput:
     bit 6, a                ; 6th bit (key down)
     call z, PlanePlayerDown
 
+
+
+
+
+    ld a, (Player_Trigger_Pressed)          ; get trigger pressed flag
+    cp 0
+    call z, .checkTriggerPressed              
+    call .checkTriggerReleased
+
+    ret
+
+.checkTriggerPressed:
     ld a, 8                 ; 8th line
     call BIOS_SNSMAT        ; Read Data Of Specified Line From Keyboard Matrix
     bit 0, a                ; 0th bit (space bar)
     call z, PlanePlayerShot
-
     ret
+
+.checkTriggerReleased:
+    ld a, 8                 ; 8th line
+    call BIOS_SNSMAT        ; Read Data Of Specified Line From Keyboard Matrix
+    bit 0, a                ; 0th bit (space bar)
+    call nz, PlaneTriggerReleased
+    ret
+
+
 
 
 
@@ -71,19 +91,32 @@ PlanePlayerDown:
 
 
 PlanePlayerShot:
-    ld a, (Player_Shot)         ; get player shot flag
+    ld a, (Player_Shot)                     ; get player shot flag
     cp 0
-    ret nz                      ; cancel if already shot
+    ret nz                                  ; cancel if already shot
+
+    ld a, (Player_Trigger_Pressed)          ; get trigger pressed flag
+    cp 0
+    ret nz                                  ; cancel if already pressed
 
     ; call SoundExplosion
 
-    inc a                       ; set flag of shot fired
-    ld (Player_Shot), a         ; 
+    inc a                                   ; set flag of shot fired
+    ld (Player_Shot), a                     ; 
+    ld (Player_Trigger_Pressed), a          ; trigger pressed flag
 
-    ld a, (Player_X)            ; set X of shot = X of player
-    ld (Player_Shot_X), a       ;
+    ld a, (Player_X)                        ; set X of shot = X of player
+    ld (Player_Shot_X), a                   ;
 
-    ld a, (Player_Y)            ; set Y of shot = Y of player
-    ld (Player_Shot_Y), a       ;
+    ld a, (Player_Y)                        ; set Y of shot = Y of player
+    ld (Player_Shot_Y), a                   ;
+
+    ret
+
+
+
+PlaneTriggerReleased:
+    ld a, 0                                 ; reset flag of shot fired
+    ld (Player_Trigger_Pressed), a          ; trigger pressed flag
 
     ret

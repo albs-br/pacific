@@ -22,13 +22,14 @@ InitVariables:
     ld (Player_Y), a        ; save value
     ld a, 0                 ;
     ld (Player_Shot), a     ; save value
+    ld (Enemy_1_Show), a    ; save value
+    ld (Player_Trigger_Pressed), a    ; save value
     ld bc, 0
     ld (Player_Score), bc    ; save value
     ld a, 3                 ;
     ld (Player_Lives), a     ; save value
 
-    ld a, 0                 ;
-    ld (Enemy_1_Show), a    ; save value
+    
     ; ld a, 120               ;
     ; ld (Enemy_1_X), a       ; save value
     ; ld a, 20                ;
@@ -275,11 +276,11 @@ ShowScore:
 	; show current score on top of screen
 	ld hl, Player_Score       	; LSB
     ld d, 2                     ; size in bytes
-    ld bc, 10                   ; names table offset (0-255)
+    ld bc, 17                   ; names table offset (0-255); position of least significant digit
     call PrintNumber_LittleEndian
 
     ; add 0 to number at right (score is shown on screen multiplied by ten)
-    ld hl, NamesTable + 11	    ; VRAM address
+    ld hl, NamesTable + 18	    ; VRAM address
     ld a, 48	                ; char '0'
     call BIOS_WRTVRM	        ; write to VRAM
 

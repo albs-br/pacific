@@ -159,46 +159,51 @@ PutSprite16x16:
 ;   BC: upper left corner of box to be checked (B: x1, C: y1)
 ;   DE: bottom right corner of box to be checked (D: x2, E: y2)
 ; Output:
-;   A = 0 : not collided
-;   A = 1 : collided
+;   Z flag set (Z): not collided
+;   Z flag reset (NZ) : collided
 CheckCollision:
+
+; TODO (optimization):
+; Source: https://www.msx.org/forum/msx-talk/development/collision-detection-in-assembly-not-working-at-all?page=1
+; So instead of x>=x1 and x<=x2 (two comparisons) you can check if abs(x-xc)<=w/2 (with xc being the x_center and w being the width; or even better having half the width pre-computed).
+; And if there are two overlapping rectangles... well abs(xc - uc)<=(w1+w2)/2 (distance between the centers less than half of the sum of the widths).
 
 ;To compare stuff, simply do a CP, and if the zero flag is set,
 ;A and the argument were equal, else if the carry is set the argument was greater, and finally, if 
 ;neither is set, then A must be greater (CP does nothing to the registers, only the F (flag) register 
 ;is changed). 
 
+    ld a, h                 ; get x value
+
 ; if (x <= x2)
-    ld a, h
     cp d
 	jp z, .checkY			; if x == x2 there is no need to check against x1
 	jp nc, .collisionfalse	; nc: a >= argument
 
 ; if (x >= x1)
-    ld a, h
     cp b
     jp c, .collisionfalse	; c: a < argument
 
 .checkY:
+    ld a, l                 ; get y value
+
 ; if (y <= y2)
-    ld a, l
     cp e
     jp z, .collisionTrue			; if y == y2 there is no need to check against y1
     jp nc, .collisionfalse	; nc: a >= argument
 
 ; if (y >= y1)
-    ld a, l
     cp c
     jp c, .collisionfalse	; c: a < argument
 
 
 
 .collisionTrue:
-    ld a, 1
+    or 1                    ; same as ld a, 1, but faster
     ret
 
 .collisionfalse:
-    ld a, 0
+    xor a                   ; same as ld a, 0, but faster
     ret
 
 

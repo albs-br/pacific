@@ -52,7 +52,7 @@ GameLogic:
 	; ld e, 101
 
 	call CheckCollision             ; 
-    or a							; same as cp 0, but faster
+    ;or a							; same as cp 0, but faster
     jp nz, .colisionTrue
 
 

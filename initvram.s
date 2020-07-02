@@ -137,16 +137,17 @@
 ;---------------------
 
 
+NUMBER_OF_CHARS:  equ 29
 
 ; Patterns Table
-	ld	bc, 16 * 8               ; Block length
+	ld	bc, NUMBER_OF_CHARS * 8               ; Block length
 	ld	de, PatternsTable+(Tile_Char_0_Number*8) ; VRAM Address
 	ld	hl, Tile_Char_0          ; RAM Address
     call BIOS_LDIRVM        ; Block transfer to VRAM from memory
 
 ;Colors table
 
-; colors for 0-9
+; colors for digits 0-9
 	ld	de, ColorsTable+(Tile_Char_0_Number*8)     	; VRAM color table start address
 	ld	hl, Colors_Char        						; RAM start address of tile patetrn (8 bytes)
 	ld a, 10										; number of cells in color table to be filled by the pattern 
@@ -205,7 +206,7 @@
 ; color changed (A-E):
 	ld	de, ColorsTable+(Tile_Char_A_Number*8)     	; VRAM color table start address
 	ld	hl, Colors_Char_1        					; RAM start address of tile patetrn (8 bytes)
-	ld a, 6											; number of cells in color table to be filled by the pattern 
+	ld a, NUMBER_OF_CHARS - 10						; number of cells in color table to be filled by the pattern 
 	call FillColorTable
 
 	; ld	bc, 8               ; Block length
@@ -260,10 +261,10 @@
 
     IFDEF DEBUG
         ; Show tile set on screen (debug mode)
-		ld	bc, 16               ; Block length
-		ld	de, NamesTable+32+6    ; VRAM Address
-		ld	hl, TestChars        ; RAM Address
-		call BIOS_LDIRVM        ; Block transfer to VRAM from memory
+		ld	bc, NUMBER_OF_CHARS    	; Block length
+		ld	de, NamesTable + 64		; VRAM Address
+		ld	hl, TestChars        	; RAM Address
+		call BIOS_LDIRVM        	; Block transfer to VRAM from memory
 	ENDIF
 
 	; ld	hl, NamesTable+1      ; VRAM start address
