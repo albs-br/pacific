@@ -58,7 +58,35 @@ GameLogic:
 
 .skipCheckEnemy_1:
 
+	ld a, (Enemy_Shot_1_Show)			;
+	cp 0
+	jp z, .next
+
+	ld a, (Enemy_Shot_1_X)				;
+	ld b, a
+	ld a, (Enemy_Shot_1_DeltaX)
+	add a, b
+    cp 0
+    jp z, .disableEnemyShot           	;   if x == 0 disable enemy shot
+	
+	ld (Enemy_Shot_1_X), a				;
+
+	ld a, (Enemy_Shot_1_Y)				;
+	inc a
+	cp 192
+    jp z, .disableEnemyShot           	;   if y == 192 disable enemy shot
+
+	ld (Enemy_Shot_1_Y), a				;
+
+	jp .next
+
+.disableEnemyShot:
+	ld a, 0
+	ld (Enemy_Shot_1_Show), a			;
+
+
 	;rest of logic here
+.next:
 
     ret
 

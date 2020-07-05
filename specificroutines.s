@@ -8,26 +8,27 @@
 
 InitVariables:
  ; fill all bytes of counter with 0
-    ld a, 0                 ;
+    ld a, 0                             ; value
     ld hl, Counter
-    ld b, 5
+    ld b, 5                             ; number of bytes
 .loop:
-    ld (hl), a       ; save value
+    ld (hl), a                          ; save value
     inc hl
     djnz .loop
 
-    ld a, 120               ; (256/2) + 8  ; middle of screen minus half of sprite
-    ld (Player_X), a        ; save value
-    ld a, 160               ;
-    ld (Player_Y), a        ; save value
-    ld a, 0                 ;
-    ld (Player_Shot), a     ; save value
-    ld (Enemy_1_Show), a    ; save value
-    ld (Player_Trigger_Pressed), a    ; save value
+    ld a, 120                           ; (256/2) + 8  ; middle of screen minus half of sprite
+    ld (Player_X), a                    ; save value
+    ld a, 160                           ;
+    ld (Player_Y), a                    ; save value
+    ld a, 0                             ;
+    ld (Player_Shot), a                 ; save value
+    ld (Enemy_1_Show), a                ; save value
+    ld (Enemy_Shot_1_Show), a           ; save value
+    ld (Player_Trigger_Pressed), a      ; save value
     ld bc, 0
-    ld (Player_Score), bc    ; save value
-    ld a, 3                 ;
-    ld (Player_Lives), a     ; save value
+    ld (Player_Score), bc               ; save value
+    ld a, 3                             ;
+    ld (Player_Lives), a                ; save value
 
     
     ; ld a, 120               ;
@@ -119,6 +120,8 @@ IncrementCounter:
     ld a, (hl)                  ; get action type
     cp 0                        ; 0 = show enemy
     call z, .showEnemy
+    cp 1                        ; 1 = enemy shoots
+    call z, .enemyShoots
 
     jp .continue1
 
@@ -136,6 +139,41 @@ IncrementCounter:
     ld a, (hl)              ; get y coord
     ld (Enemy_1_Y), a       ; save value
 
+    ret
+
+.enemyShoots:
+    inc hl                      ;TODO: use add hl, bc
+    inc hl
+    inc hl
+    inc hl
+    inc hl
+    inc hl
+    inc hl
+    ld a, (hl)                  ; get number of related enemy
+    cp 0                        ; TODO: optimize
+    jp z, .checkIfEnemy_1_IsAlive
+    ret
+
+.checkIfEnemy_1_IsAlive:
+    ld a, (Enemy_1_Show)
+    cp 0
+    ret z
+
+    ld a, 1
+    ld (Enemy_Shot_1_Show), a
+
+    inc hl
+    ld a, (hl)                  ; get delta x (-1 to +1)
+    ld (Enemy_Shot_1_DeltaX), a ; save
+    
+    ld a, (Enemy_1_X)           ; get x coord of enemy
+    add a, 6                    ; add 6
+    ld (Enemy_Shot_1_X), a      ; save as x coord of shot
+    
+    ld a, (Enemy_1_Y)           ; get y coord of enemy
+    add a, 16                   ; add 16
+    ld (Enemy_Shot_1_Y), a      ; save as y coord of shot
+    
     ret
 
 .next:

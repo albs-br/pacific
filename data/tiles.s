@@ -378,6 +378,83 @@ Tile_Char_S:                     ;
 	db  01111100 b 		; 
 	db  00000000 b 		; 
 
+Tile_Char_T_Number:	equ 77	; NOT same as ascii code for this char
+Tile_Char_T:                     ;
+	db  01111110 b 		; 
+	db  00011000 b 		; 
+	db  00011000 b 		; 
+	db  00011000 b 		; 
+	db  00011000 b 		; 
+	db  00011000 b 		; 
+	db  00011000 b 		; 
+	db  00000000 b 		; 
+
+Tile_Char_U_Number:	equ 78	; NOT same as ascii code for this char
+Tile_Char_U:                     ;
+	db  01100110 b 		; 
+	db  01100110 b 		; 
+	db  01100110 b 		; 
+	db  01100110 b 		; 
+	db  01100110 b 		; 
+	db  01100110 b 		; 
+	db  00111100 b 		; 
+	db  00000000 b 		; 
+
+Tile_Char_V_Number:	equ 79	; NOT same as ascii code for this char
+Tile_Char_V:                     ;
+	db  01100010 b 		; 
+	db  01100010 b 		; 
+	db  01100010 b 		; 
+	db  00110100 b 		; 
+	db  00110100 b 		; 
+	db  00011000 b 		; 
+	db  00011000 b 		; 
+	db  00000000 b 		; 
+
+Tile_Char_W_Number:	equ 80	; NOT same as ascii code for this char
+Tile_Char_W:                     ;
+	db  01100010 b 		; 
+	db  01100010 b 		; 
+	db  01100010 b 		; 
+	db  01100010 b 		; 
+	db  01101010 b 		; 
+	db  01110110 b 		; 
+	db  01100010 b 		; 
+	db  00000000 b 		; 
+
+Tile_Char_X_Number:	equ 81	; NOT same as ascii code for this char
+Tile_Char_X:                     ;
+	db  01100010 b 		; 
+	db  01100010 b 		; 
+	db  00110100 b 		; 
+	db  00011000 b 		; 
+	db  00110100 b 		; 
+	db  01100010 b 		; 
+	db  01100010 b 		; 
+	db  00000000 b 		; 
+
+Tile_Char_Y_Number:	equ 82	; NOT same as ascii code for this char
+Tile_Char_Y:                     ;
+	db  01100010 b 		; 
+	db  01100010 b 		; 
+	db  00110100 b 		; 
+	db  00011000 b 		; 
+	db  00011000 b 		; 
+	db  00011000 b 		; 
+	db  00011000 b 		; 
+	db  00000000 b 		; 
+
+Tile_Char_Z_Number:	equ 83	; NOT same as ascii code for this char
+Tile_Char_Z:                     ;
+	db  01111110 b 		; 
+	db  00001100 b 		; 
+	db  00011000 b 		; 
+	db  00110000 b 		; 
+	db  01100000 b 		; 
+	db  01100000 b 		; 
+	db  01111110 b 		; 
+	db  00000000 b 		; 
+
 Colors_Char:                   ;
     db 0xf1                 ;   high nibble: foreground color; low nibble: background color
     db 0xf1                 ;
@@ -386,7 +463,7 @@ Colors_Char:                   ;
     db 0xe1                 ;
     db 0x71                 ;
     db 0x71                 ;
-    db 0xf1                 ;
+    db 0x71                 ;
 
 Colors_Char_1:                   ;
     db 0x31                 ;   high nibble: foreground color; low nibble: background color
@@ -425,8 +502,8 @@ TestChars:
     db      48,49,50,51,52,53,54,55,56,57
     ;       A                                   M
     db      58,59,60,61,62,63,64,65,66,67,68,69,70
-    ;       N               S
-    db      71,72,73,74,75,76
+    ;       N              S              X     Z
+    db      71,72,73,74,75,76,77,78,79,80,81,82,83
 
 TopStripTiles:                   ; screen top strip with lives, score, etc
     db      2, 1, 1, 1, 1, 1, 1, 1,  1, 76, 60, 72, 75, 62, 1, 1

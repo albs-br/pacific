@@ -184,6 +184,43 @@ Sprite_4:           ; Enemy plane type 2nd color
 	db  0000 0000 b 		; 
 	db  0000 0000 b 		; 
 
+Sprite_5:           ; Enemy shot
+	db  0100 0000 b 		; 
+	db  1110 0000 b 		; 
+	db  0100 0000 b 		; 
+	db  0000 0000 b 		; 
+	db  0000 0000 b 		; 
+	db  0000 0000 b 		; 
+	db  0000 0000 b 		; 
+	db  0000 0000 b 		; 
+
+	db  0000 0000 b 		; 
+	db  0000 0000 b 		; 
+	db  0000 0000 b 		; 
+	db  0000 0000 b 		; 
+	db  0000 0000 b 		; 
+	db  0000 0000 b 		; 
+	db  0000 0000 b 		; 
+	db  0000 0000 b 		; 
+
+	db  0000 0000 b 		; 
+	db  0000 0000 b 		; 
+	db  0000 0000 b 		; 
+	db  0000 0000 b 		; 
+	db  0000 0000 b 		; 
+	db  0000 0000 b 		; 
+	db  0000 0000 b 		; 
+	db  0000 0000 b 		; 
+
+	db  0000 0000 b 		; 
+	db  0000 0000 b 		; 
+	db  0000 0000 b 		; 
+	db  0000 0000 b 		; 
+	db  0000 0000 b 		; 
+	db  0000 0000 b 		; 
+	db  0000 0000 b 		; 
+	db  0000 0000 b 		; 
+
 {
 ; Sprite attributes: y, x, number, color    
 SpriteAttr_0:
