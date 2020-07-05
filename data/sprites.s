@@ -221,6 +221,80 @@ Sprite_5:           ; Enemy shot
 	db  0000 0000 b 		; 
 	db  0000 0000 b 		; 
 
+Sprite_6:           ; Enemy plane type 2 1st color
+	db  0000 0110 b 		; 
+	db  0000 0110 b 		; 
+	db  0000 0111 b 		; 
+	db  0000 0111 b 		; 
+	db  0000 0111 b 		; 
+	db  0000 0111 b 		; 
+	db  0000 0111 b 		; 
+	db  0111 1111 b 		; 
+
+	db  0111 1111 b 		; 
+	db  0000 0111 b 		; 
+	db  0000 0111 b 		; 
+	db  0000 0111 b 		; 
+	db  0000 0111 b 		; 
+	db  0000 0111 b 		; 
+	db  0000 0110 b 		; 
+	db  0000 0110 b 		; 
+
+	db  0000 0000 b 		; 
+	db  0000 0000 b 		; 
+	db  0000 0000 b 		; 
+	db  0000 0001 b 		; 
+	db  0000 0011 b 		; 
+	db  1111 1111 b 		; 
+	db  1000 0011 b 		; 
+	db  1000 0011 b 		; 
+
+	db  1000 0011 b 		; 
+	db  1000 0011 b 		; 
+	db  1111 1111 b 		; 
+	db  0000 0011 b 		; 
+	db  0000 0001 b 		; 
+	db  0000 0000 b 		; 
+	db  0000 0000 b 		; 
+	db  0000 0000 b 		; 
+
+Sprite_7:           ; Enemy plane type 2 2nd color
+	db  0000 0010 b 		; 
+	db  0000 0010 b 		; 
+	db  0000 0001 b 		; 
+	db  0000 0001 b 		; 
+	db  0000 0001 b 		; 
+	db  0000 0001 b 		; 
+	db  0000 0001 b 		; 
+	db  0011 1111 b 		; 
+
+	db  0000 0110 b 		; 
+	db  0000 0001 b 		; 
+	db  0000 0001 b 		; 
+	db  0000 0001 b 		; 
+	db  0000 0001 b 		; 
+	db  0000 0001 b 		; 
+	db  0000 0010 b 		; 
+	db  0000 0010 b 		; 
+
+	db  0000 0000 b 		; 
+	db  0000 0000 b 		; 
+	db  0000 0000 b 		; 
+	db  0000 0001 b 		; 
+	db  0000 0001 b 		; 
+	db  1111 1100 b 		; 
+	db  1000 0001 b 		; 
+	db  1000 0001 b 		; 
+
+	db  1000 0001 b 		; 
+	db  1000 0001 b 		; 
+	db  1111 1100 b 		; 
+	db  0000 0001 b 		; 
+	db  0000 0001 b 		; 
+	db  0000 0000 b 		; 
+	db  0000 0000 b 		; 
+	db  0000 0000 b 		; 
+
 {
 ; Sprite attributes: y, x, number, color    
 SpriteAttr_0:

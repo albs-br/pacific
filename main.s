@@ -1,13 +1,13 @@
 {
- Pacific v.0.12.0           jun-jul/2020
+ Pacific v.0.13.0           jun-jul/2020
  for MSX 1 computers
 
  File to be assembled by tniasm 0.45
 
- Tested on WebMSX and openMSX emulators
+ Tested on WebMSX, Emulicious and openMSX emulators
 
  Acknowledgements:
- -Datasette
+ -https://datassette.org/
  -Msx.org and users
  -Web MSX
  -Open MSX
@@ -23,7 +23,7 @@ INCLUDE "include/vram.s"
 RomSize:	equ 0x4000	; For 16kB Rom size.
 
 
-; DEBUG:      equ 255                ; defines debug mode, value is irrelevant (comment out for production version)
+DEBUG:      equ 255                ; defines debug mode, value is irrelevant (comment out for production version)
 
 ; Compilation address
 	org 0x4000	; 0x8000 can be also used here if Rom size is 16kB or less.

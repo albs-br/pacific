@@ -4,6 +4,37 @@ UpdateScreen:
     ; db  (192-32), (256/2)-4, 0, 15          ; Player Plane 1st color
     ; db  (192-32)+8, (256/2)-4+8, 0, 1       ; Player Plane shadow
 
+
+
+
+
+    IFDEF DEBUG
+		; test sprite (1st color)
+		ld d, 128
+		ld e, 80
+		ld c, 15						;   c: color (0-15)
+		ld a, 6							;   a: pattern number (0-63)
+		ld b, 20						;   b: layer (0-31)
+		call PutSprite16x16				;
+		; test sprite (2nd color)
+		ld d, 128
+		ld e, 80
+		ld c, 14						;   c: color (0-15)
+		ld a, 7							;   a: pattern number (0-63)
+		ld b, 19						;   b: layer (0-31)
+		call PutSprite16x16				;
+		; test sprite (1st color)
+		ld d, 128+8
+		ld e, 80+8
+		ld c, 1							;   c: color (0-15)
+		ld a, 6							;   a: pattern number (0-63)
+		ld b, 21						;   b: layer (0-31)
+		call PutSprite16x16				;
+    ENDIF
+
+
+
+
 	call ShowLives
 	call ShowScore
 
@@ -49,7 +80,9 @@ UpdateScreen:
 	ld d, a
 	ld a, (Enemy_1_Y)				;   e: y coord
 	ld e, a
-	ld c, 6 						;   c: color (0-15)
+	ld a, (Enemy_1_2ndColor)		;   c: color (0-15)
+	ld c, a
+	; ld c, 6 						;   c: color (0-15)
 	ld a, 4							;   a: pattern number (0-63)
 	ld b, 5							;   b: layer (0-31)
 	call PutSprite16x16				;
@@ -59,7 +92,9 @@ UpdateScreen:
 	; ld d, a
 	; ld a, (Enemy_1_Y)				;   e: y coord
 	; ld e, a
-	ld c, 9							;   c: color (0-15)
+	ld a, (Enemy_1_1stColor)		;   c: color (0-15)
+	ld c, a
+	; ld c, 9							;   c: color (0-15)
 	ld a, 3							;   a: pattern number (0-63)
 	ld b, 6							;   b: layer (0-31)
 	call PutSprite16x16				;
@@ -154,12 +189,12 @@ UpdateScreen:
 	ld a, (Enemy_Shot_1_Y)			;   e: y coord
 	ld e, a
 	
-    ld c, 15						;   color gray
+    ld c, 15						;   color white
 	ld a, 5							;   a: pattern number (0-63)
 	ld b, 10						;   b: layer (0-31)
 	call PutSprite16x16				;
 	jp .continue1
-	
+
 .enemyShotHide:
 	ld d, 0							;   d: x coord
 	ld e, 256 - 16					;   e: y coord		; place sprite off screen

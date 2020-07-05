@@ -130,14 +130,22 @@ IncrementCounter:
     ld (Enemy_1_Show), a
     
     inc hl
+
     inc hl
+    ld a, (hl)                  ; get 2nd color
+    ld (Enemy_1_1stColor), a    ; save value
+    
     inc hl
+    ld a, (hl)                  ; get 2nd color
+    ld (Enemy_1_2ndColor), a    ; save value
+    
     inc hl
-    ld a, (hl)              ; get x coord
-    ld (Enemy_1_X), a       ; save value
+    ld a, (hl)                  ; get x coord
+    ld (Enemy_1_X), a           ; save value
+    
     inc hl
-    ld a, (hl)              ; get y coord
-    ld (Enemy_1_Y), a       ; save value
+    ld a, (hl)                  ; get y coord
+    ld (Enemy_1_Y), a           ; save value
 
     ret
 

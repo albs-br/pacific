@@ -14,6 +14,8 @@
 
 ; Enemy plane 1
     Enemy_1_Show:               rb 1            ;
+    Enemy_1_1stColor:           rb 1            ;
+    Enemy_1_2ndColor:           rb 1            ;
     Enemy_1_X:                  rb 1            ;
     Enemy_1_Y:                  rb 1            ;
 
@@ -22,4 +24,3 @@
     Enemy_Shot_1_X:             rb 1            ;
     Enemy_Shot_1_Y:             rb 1            ;
     Enemy_Shot_1_DeltaX:        rb 1            ;
-    
