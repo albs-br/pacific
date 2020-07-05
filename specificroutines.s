@@ -22,8 +22,12 @@ InitVariables:
     ld (Player_Y), a                    ; save value
     ld a, 0                             ;
     ld (Player_Shot), a                 ; save value
+
     ld (Enemy_1_Show), a                ; save value
+    ld (Enemy_1_State), a               ; save value
+    
     ld (Enemy_Shot_1_Show), a           ; save value
+
     ld (Player_Trigger_Pressed), a      ; save value
     ld bc, 0
     ld (Player_Score), bc               ; save value
@@ -329,5 +333,58 @@ ShowScore:
     ld hl, NamesTable + 18	    ; VRAM address
     ld a, 48	                ; char '0'
     call BIOS_WRTVRM	        ; write to VRAM
+
+    ret
+
+
+
+ShowDebugInfo:
+    IFDEF DEBUG
+		; test sprite (1st color)
+		ld d, 128
+		ld e, 80
+		ld c, 15						;   c: color (0-15)
+		ld a, 6							;   a: pattern number (0-63)
+		ld b, 20						;   b: layer (0-31)
+		call PutSprite16x16				;
+		; test sprite (2nd color)
+		ld d, 128
+		ld e, 80
+		ld c, 14						;   c: color (0-15)
+		ld a, 7							;   a: pattern number (0-63)
+		ld b, 19						;   b: layer (0-31)
+		call PutSprite16x16				;
+		; test sprite (1st color)
+		ld d, 128+8
+		ld e, 80+8
+		ld c, 1							;   c: color (0-15)
+		ld a, 6							;   a: pattern number (0-63)
+		ld b, 21						;   b: layer (0-31)
+		call PutSprite16x16				;
+		; test sprite (explosion frame 1)
+		ld d, 160
+		ld e, 100
+		ld c, 15						;   c: color (0-15)
+		ld a, 8							;   a: pattern number (0-63)
+		ld b, 22						;   b: layer (0-31)
+		call PutSprite16x16				;
+		; test sprite (explosion frame 2)
+		ld d, 160+16
+		ld e, 100
+		ld c, 15						;   c: color (0-15)
+		ld a, 9							;   a: pattern number (0-63)
+		ld b, 23						;   b: layer (0-31)
+		call PutSprite16x16				;
+		; test sprite (explosion frame 3)
+		ld d, 160+32
+		ld e, 100
+		ld c, 15						;   c: color (0-15)
+		ld a, 10							;   a: pattern number (0-63)
+		ld b, 24						;   b: layer (0-31)
+		call PutSprite16x16				;
+
+
+
+    ENDIF
 
     ret

@@ -6,37 +6,8 @@ UpdateScreen:
 
 
 
-
-
-    IFDEF DEBUG
-		; test sprite (1st color)
-		ld d, 128
-		ld e, 80
-		ld c, 15						;   c: color (0-15)
-		ld a, 6							;   a: pattern number (0-63)
-		ld b, 20						;   b: layer (0-31)
-		call PutSprite16x16				;
-		; test sprite (2nd color)
-		ld d, 128
-		ld e, 80
-		ld c, 14						;   c: color (0-15)
-		ld a, 7							;   a: pattern number (0-63)
-		ld b, 19						;   b: layer (0-31)
-		call PutSprite16x16				;
-		; test sprite (1st color)
-		ld d, 128+8
-		ld e, 80+8
-		ld c, 1							;   c: color (0-15)
-		ld a, 6							;   a: pattern number (0-63)
-		ld b, 21						;   b: layer (0-31)
-		call PutSprite16x16				;
-    ENDIF
-
-
-
-
-	call ShowLives
-	call ShowScore
+	; call ShowLives
+	; call ShowScore
 
 	; Player plane 2nd color
 	ld a, (Player_X)				;   d: x coord

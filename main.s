@@ -1,5 +1,5 @@
 {
- Pacific v.0.13.0           jun-jul/2020
+ Pacific v.0.14.0           jun-jul/2020
  for MSX 1 computers
 
  File to be assembled by tniasm 0.45
@@ -23,7 +23,7 @@ INCLUDE "include/vram.s"
 RomSize:	equ 0x4000	; For 16kB Rom size.
 
 
-DEBUG:      equ 255                ; defines debug mode, value is irrelevant (comment out for production version)
+; DEBUG:      equ 255                ; defines debug mode, value is irrelevant (comment out for production version)
 
 ; Compilation address
 	org 0x4000	; 0x8000 can be also used here if Rom size is 16kB or less.
@@ -70,9 +70,17 @@ INCLUDE "initvram.s"
     djnz Loop
 }
 
-call InitVariables
+IFDEF DEBUG
+    call ShowDebugInfo
+ENDIF
+
+
+    call InitVariables
  
 
+; Show initial values of lives and score
+    call ShowScore
+    call ShowLives
 
 
 
@@ -80,13 +88,11 @@ MainLoop:
 
     call ReadInput
 
-    ; call UpdateVariables
-
     call UpdateScreen
 
     call GameLogic
 
-    call Delay
+    ; call Delay
 
     call IncrementCounter
 

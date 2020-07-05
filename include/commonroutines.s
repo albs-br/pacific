@@ -9,7 +9,7 @@
 ; ---------------------------------------------------------
 ; Self explanatory
 Delay:
-    push de
+    ; push de
     ld d, 0x00                  ; Two nested loops
     ld e, 0xff              
 .loop:                          ; local label
@@ -18,7 +18,7 @@ Delay:
     ; dec d
     ; jp nz, .loop                ; outer loop
     
-    pop de
+    ; pop de
     ret
 
 
@@ -106,17 +106,20 @@ RotateTile:
 ; Destroys:
 ;   hl
 PutSprite16x16:
+    ; TODO: optimization oportunity here (use constants and pass the VRAM sprite address)
     ld hl, SpriteAttrTable - 4      ; start by - 4 as there will be at least one loop iteration
     inc b
-    
+    push de
+    ld de, 4                        ; constant to increment hl
 .loop:
-    inc hl                          ; calc base sprite addr = 6912 + (4 * layer)
-    inc hl
-    inc hl
-    inc hl
+
+    add hl, de                      ; calc base sprite addr = 6912 + (4 * layer)
     djnz .loop
 
-    sla a                           ; multiply pattern number by 4 (necessary when using 16x16 sprites)
+    pop de
+
+    ; TODO: optimization oportunity here (use constants for sprite number and pass already multiplied by 4)
+    sla a                           ; shift left accumulator; multiply pattern number by 4 (necessary when using 16x16 sprites)
     sla a
 
     push af

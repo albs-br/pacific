@@ -14,6 +14,7 @@
 
 ; Enemy plane 1
     Enemy_1_Show:               rb 1            ;
+    Enemy_1_State:              rb 1            ; State, to control the explosion animation
     Enemy_1_1stColor:           rb 1            ;
     Enemy_1_2ndColor:           rb 1            ;
     Enemy_1_X:                  rb 1            ;

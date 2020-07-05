@@ -122,6 +122,8 @@ GameLogic:
 	ld l, a
 	ld (Player_Score), hl			; save updated score
 
+	call ShowScore
+
 	; call ShowScore
 	; ; show updated score on screen
 	; ld hl, Player_Score       	; LSB
