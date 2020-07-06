@@ -46,6 +46,31 @@ UpdateScreen:
     cp 0
     jp z, .enemyHide                 
 
+	ld a, (Enemy_1_Type)			;
+    cp 0
+    jp z, .enemyType_0                 
+    cp 1
+    jp z, .enemyType_1
+    cp 2
+    jp z, .enemyType_2
+	jp .next
+
+.enemyType_0:
+	ld a, 4							; pattern number (2nd color)
+	jp .enemyTypeCont
+
+.enemyType_1:
+	ld a, 7							; pattern number (2nd color)
+	jp .enemyTypeCont
+
+.enemyType_2:
+	ld a, 12							; pattern number (2nd color)
+	jp .enemyTypeCont
+
+.enemyTypeCont:
+
+	push af							; save pattern number
+
 	; Enemy plane 2nd color
 	ld a, (Enemy_1_X)				;   d: x coord
 	ld d, a
@@ -54,9 +79,12 @@ UpdateScreen:
 	ld a, (Enemy_1_2ndColor)		;   c: color (0-15)
 	ld c, a
 	; ld c, 6 						;   c: color (0-15)
-	ld a, 4							;   a: pattern number (0-63)
+	; ld a, 4						;   a: pattern number (0-63)
+	pop af							; 	retrieve pattern number
+	push af							; save pattern number
 	ld b, 5							;   b: layer (0-31)
 	call PutSprite16x16				;
+
 
 	; Enemy plane 1st color
 	; ld a, (Enemy_1_X)				;   d: x coord
@@ -66,10 +94,14 @@ UpdateScreen:
 	ld a, (Enemy_1_1stColor)		;   c: color (0-15)
 	ld c, a
 	; ld c, 9							;   c: color (0-15)
-	ld a, 3							;   a: pattern number (0-63)
+	; ld a, 3							;   a: pattern number (0-63)
+	pop af							; 	retrieve pattern number
+	dec a
+	push af							; save pattern number
 	ld b, 6							;   b: layer (0-31)
 	call PutSprite16x16				;
 	
+
 	; Enemy plane shadow
 	ld b, 8
 	ld a, (Enemy_1_X)				;   d: x coord
@@ -79,7 +111,8 @@ UpdateScreen:
 	add a, b
 	ld e, a
 	ld c, 1							;   c: color (0-15)
-	ld a, 3							;   a: pattern number (0-63)
+	; ld a, 3							;   a: pattern number (0-63)
+	pop af							; 	retrieve pattern number
 	ld b, 30						;   b: layer (0-31)
 	call PutSprite16x16				;	
 

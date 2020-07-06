@@ -6,16 +6,54 @@ GameLogic:
 	jp z, .skipCheckEnemy_1
 
 	; update enemy position
+	;if(enemytype == 0)
+	ld a, (Enemy_1_Type)			;
+	cp 0
+	jp z, .enemyType_0
+
+	;elseif(enemytype == 1)
+	cp 1
+	jp z, .enemyType_1
+
+	;elseif(enemytype == 2)
+	cp 2
+	jp z, .enemyType_2
+
+	;else
+	jp .contGameLogic
+
+
+.enemyType_0:
 	ld a, (Enemy_1_Y)				;
 	inc a
 	cp 192
-	call z, .enemyReachedBottom
+	call z, .hideEnemy
 
 	ld (Enemy_1_Y), a				; save updated value
 
 	jp .contGameLogic
 
-.enemyReachedBottom:
+.enemyType_1:
+	ld a, (Enemy_1_X)				;
+	dec a
+	cp 0
+	call z, .hideEnemy
+
+	ld (Enemy_1_X), a				; save updated value
+
+	jp .contGameLogic
+
+.enemyType_2:
+	ld a, (Enemy_1_X)				;
+	inc a
+	cp 0
+	call z, .hideEnemy
+
+	ld (Enemy_1_X), a				; save updated value
+
+	jp .contGameLogic
+
+.hideEnemy:
 	ld a, 0
 	ld (Enemy_1_Show), a			; hide enemy
 	ret

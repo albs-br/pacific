@@ -406,6 +406,81 @@ Sprite_10:           ; Explosion frame 3
 	db  1110 0010 b 		; 
 	db  1001 0000 b 		; 
 
+Sprite_11:           ; Enemy plane type 3 1st color
+	db  0000 0000 b 		; 
+	db  0000 0000 b 		; 
+	db  0000 0000 b 		; 
+	db  0000 0000 b 		; 
+	db  1100 0011 b 		; 
+	db  1100 0001 b 		; 
+	db  1110 0001 b 		; 
+	db  0111 1111 b 		; 
+
+	db  0111 1111 b 		; 
+	db  1110 0001 b 		; 
+	db  1100 0001 b 		; 
+	db  1100 0011 b 		; 
+	db  0000 0000 b 		; 
+	db  0000 0000 b 		; 
+	db  0000 0000 b 		; 
+	db  0000 0000 b 		; 
+
+	db  0100 0000 b 		; 
+	db  1100 0000 b 		; 
+	db  1100 0000 b 		; 
+	db  1100 0000 b 		; 
+	db  1111 0000 b 		; 
+	db  1100 0000 b 		; 
+	db  1110 0000 b 		; 
+	db  1111 1111 b 		; 
+
+	db  1111 1111 b 		; 
+	db  1110 0000 b 		; 
+	db  1100 0000 b 		; 
+	db  1111 0000 b 		; 
+	db  1100 0000 b 		; 
+	db  1100 0000 b 		; 
+	db  1100 0000 b 		; 
+	db  0100 0000 b 		; 
+
+Sprite_12:           ; Enemy plane type 3 2nd color
+	db  0000 0000 b 		; 
+	db  0000 0000 b 		; 
+	db  0000 0000 b 		; 
+	db  0000 0000 b 		; 
+	db  1000 0011 b 		; 
+	db  1000 0001 b 		; 
+	db  1000 0001 b 		; 
+	db  0000 0000 b 		; 
+
+	db  0111 1111 b 		; 
+	db  1000 0001 b 		; 
+	db  1000 0001 b 		; 
+	db  1000 0011 b 		; 
+	db  0000 0000 b 		; 
+	db  0000 0000 b 		; 
+	db  0000 0000 b 		; 
+	db  0000 0000 b 		; 
+
+	db  0000 0000 b 		; 
+	db  0000 0000 b 		; 
+	db  1000 0000 b 		; 
+	db  1000 0000 b 		; 
+	db  1111 0000 b 		; 
+	db  0000 0000 b 		; 
+	db  0000 0000 b 		; 
+	db  0111 0000 b 		; 
+
+	db  1111 1111 b 		; 
+	db  0000 0000 b 		; 
+	db  0000 0000 b 		; 
+	db  1111 0000 b 		; 
+	db  1000 0000 b 		; 
+	db  1000 0000 b 		; 
+	db  0000 0000 b 		; 
+	db  0000 0000 b 		; 
+
+
 {
 ; Sprite attributes: y, x, number, color    
 SpriteAttr_0:

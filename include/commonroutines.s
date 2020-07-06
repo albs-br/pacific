@@ -10,7 +10,7 @@
 ; Self explanatory
 Delay:
     ; push de
-    ld d, 0x00                  ; Two nested loops
+    ; ld d, 0x00                  ; Two nested loops
     ld e, 0xff              
 .loop:                          ; local label
     dec e
@@ -104,7 +104,7 @@ RotateTile:
 ;   a: pattern number (0-63)
 ;   b: layer (0-31)
 ; Destroys:
-;   hl
+;   a, hl
 PutSprite16x16:
     ; TODO: optimization oportunity here (use constants and pass the VRAM sprite address)
     ld hl, SpriteAttrTable - 4      ; start by - 4 as there will be at least one loop iteration

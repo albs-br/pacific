@@ -296,7 +296,7 @@ NUMBER_OF_CHARS:  equ 36
 ;-----------------------------------------
 ; Define sprites
 
-NumberOfSprites:	equ 11			;
+NumberOfSprites:	equ 13			;
 
 	ld	bc, 32 * NumberOfSprites	; Block length
 	ld	de, SpritePatternTable		; VRAM address

@@ -134,9 +134,11 @@ IncrementCounter:
     ld (Enemy_1_Show), a
     
     inc hl
+    ld a, (hl)                  ; get enemy type
+    ld (Enemy_1_Type), a        ; save value
 
     inc hl
-    ld a, (hl)                  ; get 2nd color
+    ld a, (hl)                  ; get 1st color
     ld (Enemy_1_1stColor), a    ; save value
     
     inc hl
@@ -340,21 +342,21 @@ ShowScore:
 
 ShowDebugInfo:
     IFDEF DEBUG
-		; test sprite (1st color)
+		; test sprite (plane type 2 1st color)
 		ld d, 128
 		ld e, 80
 		ld c, 15						;   c: color (0-15)
 		ld a, 6							;   a: pattern number (0-63)
 		ld b, 20						;   b: layer (0-31)
 		call PutSprite16x16				;
-		; test sprite (2nd color)
+		; test sprite (plane type 2 2nd color)
 		ld d, 128
 		ld e, 80
 		ld c, 14						;   c: color (0-15)
 		ld a, 7							;   a: pattern number (0-63)
 		ld b, 19						;   b: layer (0-31)
 		call PutSprite16x16				;
-		; test sprite (1st color)
+		; test sprite (plane type 2 shadow)
 		ld d, 128+8
 		ld e, 80+8
 		ld c, 1							;   c: color (0-15)
@@ -382,9 +384,20 @@ ShowDebugInfo:
 		ld a, 10							;   a: pattern number (0-63)
 		ld b, 24						;   b: layer (0-31)
 		call PutSprite16x16				;
-
-
-
+		; test sprite (plane type 3 1st color)
+		ld d, 128
+		ld e, 128
+		ld c, 15						;   c: color (0-15)
+		ld a, 11						;   a: pattern number (0-63)
+		ld b, 15						;   b: layer (0-31)
+		call PutSprite16x16				;
+		; test sprite (plane type 3 2nd color)
+		ld d, 128
+		ld e, 128
+		ld c, 14						;   c: color (0-15)
+		ld a, 12						;   a: pattern number (0-63)
+		ld b, 14						;   b: layer (0-31)
+		call PutSprite16x16				;
     ENDIF
 
     ret
