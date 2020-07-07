@@ -131,6 +131,8 @@ GameLogic:
 .colisionTrue:
 	ld a, 0							; hide enemy
 	ld (Enemy_1_Show), a
+	inc a							; start animation
+	ld (Enemy_1_State), a
 
 	call DisableShot
     ; ld a, (Player_Shot)

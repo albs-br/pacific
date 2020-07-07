@@ -124,7 +124,7 @@ PutSprite16x16:
 
     push af
 
-    ; Sprite attributes: y, x, number, color    
+    ; Sprite attributes: y, x, pattern number, color    
 
     ; y coord    
 	ld	a, e        	            ; Value
@@ -139,6 +139,35 @@ PutSprite16x16:
     ; pattern number    
     inc hl                          ; VRAM address
 	pop af           	            ; Value
+	call BIOS_WRTVRM		        ; Writes data in VRAM (HL: address, A: value)
+
+    ; color    
+    inc hl                          ; VRAM address
+	ld a, c           	            ; Value
+	call BIOS_WRTVRM		        ; Writes data in VRAM (HL: address, A: value)
+
+    ret
+
+
+
+
+
+; ---------------------------------------------------------
+; xxxxxxxxxx
+; 
+; Inputs:
+;   hl: base sprite addr
+;   c: color (0-15)
+;   a: pattern number = ((0-63) * 4) + base addd
+; Destroys:
+;   a, hl
+SetSpritePatternAndColor:
+    ; Sprite attributes: y, x, pattern number, color    
+
+    inc hl
+    inc hl
+    
+    ; pattern number    
 	call BIOS_WRTVRM		        ; Writes data in VRAM (HL: address, A: value)
 
     ; color    

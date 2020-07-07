@@ -131,8 +131,11 @@ IncrementCounter:
 
 .showEnemy:
     ld a, 1
-    ld (Enemy_1_Show), a
-    
+    ld (Enemy_1_Show), a        ; show enemy
+
+	ld a, 0
+	ld (Enemy_1_State), a	    ; disable explosion animation
+
     inc hl
     ld a, (hl)                  ; get enemy type
     ld (Enemy_1_Type), a        ; save value

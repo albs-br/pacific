@@ -119,6 +119,70 @@ UpdateScreen:
 	jp .next
 
 .enemyHide:
+	;if(enemyState !=0)
+	ld a, (Enemy_1_State)
+	cp 0							; animation runs between 1 and 255
+	jp z, .enemyHideCont
+
+	inc a
+	cp 128
+	ld (Enemy_1_State), a
+	jp z, .enemyHideCont			; end animation
+
+
+	;call BIOS_BEEP ; [debug]
+
+	; Show explosion change sprite and color
+	; ld hl, SpriteAttrTable + (5 * 4)
+	; ld c, 10
+	; ld a, 8 * 4
+	; call SetSpritePatternAndColor	
+
+	ld a, (Enemy_1_X)				;   d: x coord
+	ld d, a
+	ld a, (Enemy_1_Y)				;   e: y coord
+	ld e, a
+	ld c, 10 						;   c: color (0-15)
+	
+	
+	ld a, (Enemy_1_State)
+	cp 100							;if(enemyState >= 100)
+	jp nc, .explosion1stFrame
+	cp 75							;if(enemyState >= 75)
+	jp nc, .explosion2ndFrame
+	cp 50							;if(enemyState >= 50)
+	jp nc, .explosion3rdFrame
+	cp 25							;if(enemyState >= 25)
+	jp nc, .explosion2ndFrame
+	jp .explosion1stFrame			;else
+.explosion3rdFrame:	
+	ld a, 10						;   a: pattern number (0-63)
+	jp .explosionCont
+.explosion2ndFrame:	
+	ld a, 9							;   a: pattern number (0-63)
+	jp .explosionCont
+.explosion1stFrame:	
+	ld a, 8							;   a: pattern number (0-63)
+.explosionCont:
+
+	ld b, 5							;   b: layer (0-31)
+	call PutSprite16x16				;
+
+	; hide other 2 sprites of enemy
+	ld d, 0
+	ld e, 0
+	ld a, 63
+	ld b, 6							;   b: layer (0-31)
+	call PutSprite16x16				;   put non existent sprite at layer, to hide the enemy
+	ld b, 30						;   b: layer (0-31)
+	call PutSprite16x16				;   put non existent sprite at layer, to hide the enemy
+
+	jp .next
+
+.enemyHideCont:
+	ld a, 0
+	ld (Enemy_1_State), a			; 	disable explosion animation
+
 	ld d, 0							;   d: x coord
 	ld e, 256 - 16					;   e: y coord		; place sprite off screen
 	ld a, 63					    ;   a: pattern number (0-63)
