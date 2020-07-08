@@ -25,8 +25,11 @@ InitVariables:
 
     ld (Enemy_1_Show), a                ; save value
     ld (Enemy_1_State), a               ; save value
+    ld (Enemy_2_Show), a                ; save value
+    ld (Enemy_2_State), a               ; save value
     
     ld (Enemy_Shot_1_Show), a           ; save value
+    ld (Enemy_Shot_2_Show), a           ; save value
 
     ld (Player_Trigger_Pressed), a      ; save value
     ld bc, 0
@@ -130,6 +133,9 @@ IncrementCounter:
     jp .continue1
 
 .showEnemy:
+
+
+;TODO check enemy number and update correct variables
     ld a, 1
     ld (Enemy_1_Show), a        ; show enemy
 

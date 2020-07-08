@@ -25,6 +25,8 @@ ReadInput:
 
 
 
+    ; check if trigger pressed only after trigger released
+    ; to avoid sequencial firing by just keeping trigger pressed
     ld a, (Player_Trigger_Pressed)          ; get trigger pressed flag
     cp 0
     call z, .checkTriggerPressed              

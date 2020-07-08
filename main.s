@@ -1,5 +1,5 @@
 {
- Pacific v.0.16.0           jun-jul/2020
+ Pacific v.0.17.0           jun-jul/2020
  for MSX 1 computers
 
  File to be assembled by tniasm 0.45
@@ -92,7 +92,7 @@ MainLoop:
 
     call GameLogic
 
-    call Delay
+    ; call Delay
 
     call IncrementCounter
 
@@ -112,7 +112,7 @@ INCLUDE "specificroutines.s"
 INCLUDE "constants.s"
 INCLUDE "readinput.s"
 INCLUDE "sound.s"
-INCLUDE "updatescreen.s"
+INCLUDE "updatescreen/updatescreen.s"
 INCLUDE "gamelogic.s"
 
 
