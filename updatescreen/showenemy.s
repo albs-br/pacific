@@ -31,9 +31,15 @@ enemy#          layer
     ; copy all enemy variables to temp enemy memory
     ; ld hl, Enemy_1_Base_Address       ; addr origin
     ld de, Enemy_Temp_Base_Address      ; addr destiny
-    ld bc, 7                            ; number of bytes
-    ldir                                ; copy BC bytes from HL to DE
-
+    ; ld bc, 7                            ; number of bytes
+    ; ldir                                ; copy BC bytes from HL to DE
+    ldi                                 ; ldi 7 times is faster the ldir
+    ldi
+    ldi
+    ldi
+    ldi
+    ldi
+    ldi
 
 
 	; Enemy plane
@@ -184,8 +190,8 @@ enemy#          layer
 	call PutSprite16x16				;
 
 	; hide other 2 sprites of enemy
-	ld d, 0
-	ld e, 0
+	ld d, 0							;   d: x coord
+	ld e, 256 - 16					;   e: y coord		; place sprite off screen
 	; ld b, 6							;   b: layer (0-31)
     ld a, (Enemy_Temp_Layer1stColor)
     ld b, a                         ;   b: layer (0-31)
@@ -201,7 +207,8 @@ enemy#          layer
 
 .enemyHideCont:
 	ld a, 0
-	ld (Enemy_Temp_State), a			; 	disable explosion animation
+	ld (Enemy_Temp_State), a		; 	disable explosion animation
+	ld (Enemy_Temp_Show), a			; 	hide enemy
 
 	ld d, 0							;   d: x coord
 	ld e, 256 - 16					;   e: y coord		; place sprite off screen
@@ -230,8 +237,10 @@ enemy#          layer
     ; copy all enemy variables from temp enemy memory back to the correct enemy
     ld hl, Enemy_Temp_Base_Address      ; addr origin
     pop de                              ; addr destiny
-    ld bc, 7                            ; number of bytes
-    ldir                                ; copy BC bytes from HL to DE
+    ;ld bc, 7                            ; number of bytes
+    ;ldir                                ; copy BC bytes from HL to DE
+    ldi                                 ; copy back only the first two vars, as the others aren't changed
+    ldi
 
 
     ret

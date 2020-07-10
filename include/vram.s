@@ -16,5 +16,5 @@ sprite 1:
 
 Sprite formation table: 14336
 }
-SpriteAttrTable:    equ 6912	; 0x1b00 - Base address for sprite attributes table (6192 to 6299); 32 * 4 = 128 bytes
+SpriteAttrTable:    equ 6912	; 0x1b00 - Base address for sprite attributes table (6912 to 7040); 32 * 4 = 128 bytes
 SpritePatternTable: equ 14336	; 0x3800 - Base address for sprite patterns table (14336 to 16383); 256 * 8 = 2048 bytes for 8x8, 64 * 32 = 2048 bytes for 16x16

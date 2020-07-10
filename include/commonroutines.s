@@ -28,6 +28,8 @@ Delay:
 ; 
 ; Inputs:
 ;   none
+; Destroys:
+;   hl, a, b, c, e
 RotateTile3Thirds:
     ld bc, PatternsTable                            ; first third
     call RotateTile
@@ -47,7 +49,9 @@ RotateTile3Thirds:
 ; Rotates only one tile pattern, so affects only one third of screen 2
 ; 
 ; Inputs:
-;   BC: Patterns table address
+;   bc: Patterns table address
+; Destroys:
+;   hl, a, b, e
 RotateTile:
 {
 170 B = VPEEK(C+7)
@@ -64,7 +68,7 @@ RotateTile:
     add hl, bc
 	;ld	hl, PatternsTable + 7   ; VRAM Address
 	call BIOS_RDVRM		        ; Reads data from VRAM, as VPEEK (HL: address, output in A)
-    ld e, a
+    ld e, a                     ; save pattern of the 8th (last) line
 
 ; FOR I=7 TO 1 STEP -1
     ld b, 7                     ; repeat 7 times
@@ -83,11 +87,10 @@ RotateTile:
     djnz .loop
 
 ;VPOKE C, B
-    pop bc                      ; Retrieve entry address
-	; ld	hl, PatternsTable   ; VRAM Address
-	ld	h, b                    ; VRAM Address; ld hl, bc
-	ld	l, c
-    ld a, e
+    pop hl                      ; Retrieve entry address directly to hl
+	; ld	h, b                    ; VRAM Address; ld hl, bc
+	; ld	l, c
+    ld a, e                     ; pattern of the last line will go to the first
 	call BIOS_WRTVRM		; Writes data in VRAM (HL: address, A: value)
 
     ret
@@ -107,22 +110,26 @@ RotateTile:
 ;   a, hl
 PutSprite16x16:
     ; TODO: optimization oportunity here (use constants and pass the VRAM sprite address)
-    ld hl, SpriteAttrTable - 4      ; start by - 4 as there will be at least one loop iteration
-    inc b
-    push de
-    ld de, 4                        ; constant to increment hl
-.loop:
+    ld hl, SpriteAttrTable            ;
+;     inc b
+;     push de
+;     ld de, 4                        ; constant to increment hl
+; .loop:
 
-    add hl, de                      ; calc base sprite addr = 6912 + (4 * layer)
-    djnz .loop
+;     add hl, de                      ; calc base sprite addr = 6912 + (4 * layer)
+;     djnz .loop
 
-    pop de
+;     pop de
+
+    sla b                           ; layer * 4
+    sla b                           ; 
+    ld l, b                         ; since the sprite attr table goes from 0x1b00 to 0x1b80, there is no need to worry with the hi byte, saving cpu clocks
 
     ; TODO: optimization oportunity here (use constants for sprite number and pass already multiplied by 4)
     sla a                           ; shift left accumulator; multiply pattern number by 4 (necessary when using 16x16 sprites)
     sla a
 
-    push af
+    ld b, a                         ; saves a (pattern number)
 
     ; Sprite attributes: y, x, pattern number, color    
 
@@ -132,17 +139,17 @@ PutSprite16x16:
 	call BIOS_WRTVRM		        ; Writes data in VRAM (HL: address, A: value)
 
     ; x coord    
-    inc hl                          ; VRAM address
+    inc l                           ; VRAM address
 	ld	a, d        	            ; Value
 	call BIOS_WRTVRM		        ; Writes data in VRAM (HL: address, A: value)
 
     ; pattern number    
-    inc hl                          ; VRAM address
-	pop af           	            ; Value
+    inc l                           ; VRAM address
+    ld a, b                         ; retrieves a (pattern number)
 	call BIOS_WRTVRM		        ; Writes data in VRAM (HL: address, A: value)
 
     ; color    
-    inc hl                          ; VRAM address
+    inc l                           ; VRAM address
 	ld a, c           	            ; Value
 	call BIOS_WRTVRM		        ; Writes data in VRAM (HL: address, A: value)
 

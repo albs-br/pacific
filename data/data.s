@@ -14,15 +14,15 @@ LevelDataStart:
     db  0, 0, 0             ; reserved
     db  0, 0, 0, 0          ; reserved
 
-    ; Enemy plane (type 0)
-    db  0x00, 0xff          ; counter value as bytes (HSB, LSB)
-    db  0                   ; action type (0: show enemy, 1: enemy shoots)
-    db  0                   ; enemy type
-    db  15, 14              ; enemy 1st, 2nd color
-    db  128, TOP_SCREEN     ; enemy position (x, y)
-    db  1                   ; enemy number
-    db  0, 0, 0             ; reserved
-    db  0, 0, 0, 0          ; reserved
+    ; ; Enemy plane (type 0)
+    ; db  0x00, 0xff          ; counter value as bytes (HSB, LSB)
+    ; db  0                   ; action type (0: show enemy, 1: enemy shoots)
+    ; db  0                   ; enemy type
+    ; db  15, 14              ; enemy 1st, 2nd color
+    ; db  128, TOP_SCREEN     ; enemy position (x, y)
+    ; db  1                   ; enemy number
+    ; db  0, 0, 0             ; reserved
+    ; db  0, 0, 0, 0          ; reserved
 
     ; Enemy shoots
     db  0x01, 0x40          ; counter value (HSB, LSB)
