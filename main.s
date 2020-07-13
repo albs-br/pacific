@@ -1,5 +1,5 @@
 {
- Pacific v.0.18.0           jun-jul/2020
+ Pacific v.0.19.0           jun-jul/2020
  for MSX 1 computers
 
  File to be assembled by tniasm 0.45
@@ -121,13 +121,14 @@ INCLUDE "gamelogic.s"
 INCLUDE "data/tiles.s"
 INCLUDE "data/sprites.s"
 INCLUDE "data/data.s"
+INCLUDE "data/spritebufferinit.s"
 
 End:
 ; Padding with 255 to make the file of 16K size (can be 4K, 8K, 16k, etc) but
 ; some MSX emulators or Rom loaders can not load 4K/8K Roms.
 ; (Alternatively, include macros.asm and use ALIGN 4000H)
  
-	ds 4000h+RomSize-End,255	; 8000h+RomSize-End if org 8000h
+	ds 0x4000 + RomSize - End, 255	; 8000h + RomSize - End if org 8000h
 
 
 

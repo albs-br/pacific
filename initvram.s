@@ -311,3 +311,12 @@ NumberOfSprites:	equ 13			;
     call BIOS_LDIRVM        		; Block transfer to VRAM from memory
 }
 
+
+
+;-----------------------------------------
+; Initialize VRAM Sprite attributes table buffer
+
+    ld hl, VramSpriteAttrBuffer_Init     			; addr origin
+    ld de, VramSpriteAttrBuffer     				; addr destiny
+    ld bc, 4 * 32                            		; number of bytes
+    ldir                                			; copy BC bytes from HL to DE

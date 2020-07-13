@@ -312,11 +312,18 @@ DisableShot:
     ld a, 0
     ld (Player_Shot), a         	; 
 
-	ld d, 0							;   d: x coord
-	ld e, 256 - 16					;   e: y coord		; place sprite off screen
-	ld a, 63					    ;   a: pattern number (0-63)
-	ld b, 2							;   b: layer (0-31)
-	call PutSprite16x16				;   put non existent sprite at layer, to hide the shot
+	; ld d, 0							;   d: x coord
+	; ld e, 256 - 16					;   e: y coord		; place sprite off screen
+	; ld a, 63					    ;   a: pattern number (0-63)
+	; ld b, 2							;   b: layer (0-31)
+	; call PutSprite16x16				;   put non existent sprite at layer, to hide the shot
+
+    ld a, 0
+    ld (Player_Shot_X), a
+    ld a, 256 - 16
+    ld (Player_Shot_Y), a
+    ld a, 63 * 4
+    ld (Player_Shot_Pattern), a
 
     ret
 

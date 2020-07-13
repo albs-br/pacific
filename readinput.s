@@ -113,6 +113,9 @@ PlanePlayerShot:
     ld a, (Player_Y)                        ; set Y of shot = Y of player
     ld (Player_Shot_Y), a                   ;
 
+    ld a, 2 * 4                             ; restore shot pattern
+    ld (Player_Shot_Pattern), a
+
     ret
 
 

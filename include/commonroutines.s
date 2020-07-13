@@ -97,6 +97,25 @@ RotateTile:
 
 
 
+; HL: address (should have the bit 6 set), A: value
+Vpoke:
+    push af
+
+    ld a, l
+    out (0x99), a
+    ; set 6, h                    ; Set write flag
+    ld a, h
+    out (0x99), a
+    
+    pop af
+    out (0x98), a
+
+    ; res 6, h                    ; Reset write flag
+
+    ret
+
+
+
 ; ---------------------------------------------------------
 ; Put sprite 16x16 on screen, similar to BASIC command
 ; 
@@ -110,16 +129,9 @@ RotateTile:
 ;   a, hl
 PutSprite16x16:
     ; TODO: optimization oportunity here (use constants and pass the VRAM sprite address)
-    ld hl, SpriteAttrTable            ;
-;     inc b
-;     push de
-;     ld de, 4                        ; constant to increment hl
-; .loop:
-
-;     add hl, de                      ; calc base sprite addr = 6912 + (4 * layer)
-;     djnz .loop
-
-;     pop de
+    ld hl, SpriteAttrTable
+    ; ld hl, 0x4000 OR SpriteAttrTable; Set write flag (bit 6 of high byte)
+    ; set 6, h                        ; Set write flag
 
     sla b                           ; layer * 4
     sla b                           ; 
@@ -137,21 +149,25 @@ PutSprite16x16:
 	ld	a, e        	            ; Value
     dec a                           ; fix bug of -1 on y axis
 	call BIOS_WRTVRM		        ; Writes data in VRAM (HL: address, A: value)
+    ; call Vpoke
 
     ; x coord    
     inc l                           ; VRAM address
 	ld	a, d        	            ; Value
 	call BIOS_WRTVRM		        ; Writes data in VRAM (HL: address, A: value)
+    ; call Vpoke
 
     ; pattern number    
     inc l                           ; VRAM address
     ld a, b                         ; retrieves a (pattern number)
 	call BIOS_WRTVRM		        ; Writes data in VRAM (HL: address, A: value)
+    ; call Vpoke
 
     ; color    
     inc l                           ; VRAM address
 	ld a, c           	            ; Value
 	call BIOS_WRTVRM		        ; Writes data in VRAM (HL: address, A: value)
+    ; call Vpoke
 
     ret
 
@@ -176,11 +192,13 @@ SetSpritePatternAndColor:
     
     ; pattern number    
 	call BIOS_WRTVRM		        ; Writes data in VRAM (HL: address, A: value)
+    ; call Vpoke
 
     ; color    
     inc hl                          ; VRAM address
 	ld a, c           	            ; Value
 	call BIOS_WRTVRM		        ; Writes data in VRAM (HL: address, A: value)
+    ; call Vpoke
 
     ret
 

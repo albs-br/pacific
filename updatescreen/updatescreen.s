@@ -12,6 +12,23 @@ UpdateScreen:
 	; call ShowLives
 	; call ShowScore
 
+
+	ld a, (Player_Y)
+	ld (SpriteLayer_1_Y), a				; 1st color
+
+	add 8
+	ld (SpriteLayer_31_Y), a			; shadow
+
+	ld a, (Player_X)
+	ld (SpriteLayer_1_X), a				; 1st color
+
+	add 8
+	ld (SpriteLayer_31_X), a			; shadow
+
+
+
+
+{
 	; Player plane 2nd color
 	ld a, (Player_X)				;   d: x coord
 	ld d, a
@@ -42,7 +59,7 @@ UpdateScreen:
 	ld a, 0							;   a: pattern number (0-63)
 	ld b, 31						;   b: layer (0-31)
 	call PutSprite16x16				;	
-
+}
 
 	;TODO: pass layers by register (speed)
 
@@ -71,14 +88,14 @@ UpdateScreen:
 	; jp z, .enemy3
 
 	; Show second (# 1) enemy
-	; ld a, 7							; sprite layer for 2nd color
-    ; ld (Enemy_Temp_Layer2ndColor), a
-	; inc a							; sprite layer for 1st color
-    ; ld (Enemy_Temp_Layer1stColor), a
-	; ld a, 27						; sprite layer shadow
-    ; ld (Enemy_Temp_LayerShadow), a
-	; ld hl, Enemy_2_Base_Address		; base addr of enemy variables
-	; call ShowEnemy
+	ld a, 7							; sprite layer for 2nd color
+    ld (Enemy_Temp_Layer2ndColor), a
+	inc a							; sprite layer for 1st color
+    ld (Enemy_Temp_Layer1stColor), a
+	ld a, 27						; sprite layer shadow
+    ld (Enemy_Temp_LayerShadow), a
+	ld hl, Enemy_2_Base_Address		; base addr of enemy variables
+	call ShowEnemy
 
 
 
@@ -106,19 +123,21 @@ UpdateScreen:
 	; ld a, (Player_Shot_Y)			;   e: y coord
 	; ld e, a
 	
-    ld c, 14						;   color gray
+    ld a, 14						;   color gray
+	ld (Player_Shot_Color), a
 
 	ld a, (Counter+4)	    	    ;
     bit 0, a
     jp z, .continueColor            ;   alternate colors of shot at each frame
 
-    ld c, 8						    ;   color red
+    ld a, 8						    ;   color red
+	ld (Player_Shot_Color), a
 
 .continueColor:
 
-	ld a, 2							;   a: pattern number (0-63)
-	ld b, 2							;   b: layer (0-31)
-	call PutSprite16x16				;
+	; ld a, 2							;   a: pattern number (0-63)
+	; ld b, 2							;   b: layer (0-31)
+	; call PutSprite16x16				;
 
 
 
@@ -163,5 +182,13 @@ UpdateScreen:
 
 
 	; rest of logic here
+
+
+
+	; copy from buffer to VRAM
+	ld	bc, 4 * 32									; Block length
+	ld	de, SpriteAttrTable							; VRAM address
+	ld	hl, VramSpriteAttrBuffer        			; RAM address
+    call BIOS_LDIRVM        						; Block transfer to VRAM from memory
 
     ret

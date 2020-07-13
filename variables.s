@@ -2,12 +2,41 @@
 ; Global counter                                ; big endian, LSB: 5th byte
     Counter:                    rb 5            ; rb n  = reserve n bytes in RAM
 
+
+
+; VRAM Sprite attributes table buffer
+    VramSpriteAttrBuffer:
+
+    ; Player 2nd color
+    SpriteLayer_0_Y:         Player_Y:                   rb 1            ;
+    SpriteLayer_0_X:         Player_X:                   rb 1            ;
+    SpriteLayer_0_Pattern:                               rb 1            ;
+    SpriteLayer_0_Color:                                 rb 1            ;
+
+    ; Player 1st color
+    SpriteLayer_1_Y:                                     rb 1            ;
+    SpriteLayer_1_X:                                     rb 1            ;
+    SpriteLayer_1_Pattern:                               rb 1            ;
+    SpriteLayer_1_Color:                                 rb 1            ;
+
+    ; Player shot
+    SpriteLayer_2_Y:         Player_Shot_Y:              rb 1            ;
+    SpriteLayer_2_X:         Player_Shot_X:              rb 1            ;
+    SpriteLayer_2_Pattern:   Player_Shot_Pattern:        rb 1            ;
+    SpriteLayer_2_Color:     Player_Shot_Color:          rb 1            ;
+
+                                                         rb 128-12-4
+
+    ; Player shadow
+    SpriteLayer_31_Y:                                    rb 1            ;
+    SpriteLayer_31_X:                                    rb 1            ;
+    SpriteLayer_31_Pattern:                              rb 1            ;
+    SpriteLayer_31_Color:                                rb 1            ;
+
+
+
 ; Player plane
-    Player_X:                   rb 1            ; rb 1  = reserve one byte in RAM
-    Player_Y:                   rb 1            ;
     Player_Shot:                rb 1            ; 0: dont shot, 1: shot (in future may be used to count number of simultaneous shots)
-    Player_Shot_X:              rb 1            ;
-    Player_Shot_Y:              rb 1            ;
     Player_Lives:               rb 1            ;
     Player_Score:               rb 2            ; 2 bytes using BCD code, so the max score is 9999 (shown on screen as 99990
     Player_Trigger_Pressed:     rb 1            ;
