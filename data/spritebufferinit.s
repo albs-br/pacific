@@ -12,6 +12,7 @@ VramSpriteAttrBuffer_Init:
 
     db      0,     0,   0 * 4,  0           ; 
     db      0,     0,   0 * 4,  0           ; 
+    
     db      0,     0,   0 * 4,  0           ; 
     db      0,     0,   0 * 4,  0           ; 
     db      0,     0,   0 * 4,  0           ; 

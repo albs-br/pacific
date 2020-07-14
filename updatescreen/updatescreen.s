@@ -69,12 +69,12 @@ UpdateScreen:
 	; jp z, .enemy2
 
 	; Show first (# 0) enemy
-	ld a, 5							; sprite layer for 2nd color
-    ld (Enemy_Temp_Layer2ndColor), a
-	inc a							; sprite layer for 1st color
-    ld (Enemy_Temp_Layer1stColor), a
-	ld a, 26						; sprite layer shadow
-    ld (Enemy_Temp_LayerShadow), a
+	; ld a, 5							; sprite layer for 2nd color
+    ; ld (Enemy_Temp_Layer2ndColor), a
+	; inc a							; sprite layer for 1st color
+    ; ld (Enemy_Temp_Layer1stColor), a
+	; ld a, 26						; sprite layer shadow
+    ; ld (Enemy_Temp_LayerShadow), a
 	ld hl, Enemy_1_Base_Address		; base addr of enemy variables
 	call ShowEnemy
 
@@ -88,14 +88,14 @@ UpdateScreen:
 	; jp z, .enemy3
 
 	; Show second (# 1) enemy
-	ld a, 7							; sprite layer for 2nd color
-    ld (Enemy_Temp_Layer2ndColor), a
-	inc a							; sprite layer for 1st color
-    ld (Enemy_Temp_Layer1stColor), a
-	ld a, 27						; sprite layer shadow
-    ld (Enemy_Temp_LayerShadow), a
-	ld hl, Enemy_2_Base_Address		; base addr of enemy variables
-	call ShowEnemy
+	; ld a, 7							; sprite layer for 2nd color
+    ; ld (Enemy_Temp_Layer2ndColor), a
+	; inc a							; sprite layer for 1st color
+    ; ld (Enemy_Temp_Layer1stColor), a
+	; ld a, 27						; sprite layer shadow
+    ; ld (Enemy_Temp_LayerShadow), a
+	; ld hl, Enemy_2_Base_Address		; base addr of enemy variables
+	; call ShowEnemy
 
 
 

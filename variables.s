@@ -2,36 +2,7 @@
 ; Global counter                                ; big endian, LSB: 5th byte
     Counter:                    rb 5            ; rb n  = reserve n bytes in RAM
 
-
-
-; VRAM Sprite attributes table buffer
-    VramSpriteAttrBuffer:
-
-    ; Player 2nd color
-    SpriteLayer_0_Y:         Player_Y:                   rb 1            ;
-    SpriteLayer_0_X:         Player_X:                   rb 1            ;
-    SpriteLayer_0_Pattern:                               rb 1            ;
-    SpriteLayer_0_Color:                                 rb 1            ;
-
-    ; Player 1st color
-    SpriteLayer_1_Y:                                     rb 1            ;
-    SpriteLayer_1_X:                                     rb 1            ;
-    SpriteLayer_1_Pattern:                               rb 1            ;
-    SpriteLayer_1_Color:                                 rb 1            ;
-
-    ; Player shot
-    SpriteLayer_2_Y:         Player_Shot_Y:              rb 1            ;
-    SpriteLayer_2_X:         Player_Shot_X:              rb 1            ;
-    SpriteLayer_2_Pattern:   Player_Shot_Pattern:        rb 1            ;
-    SpriteLayer_2_Color:     Player_Shot_Color:          rb 1            ;
-
-                                                         rb 128-12-4
-
-    ; Player shadow
-    SpriteLayer_31_Y:                                    rb 1            ;
-    SpriteLayer_31_X:                                    rb 1            ;
-    SpriteLayer_31_Pattern:                              rb 1            ;
-    SpriteLayer_31_Color:                                rb 1            ;
+                                                ; rw n  = reserve n words in RAM
 
 
 
@@ -51,10 +22,11 @@
     Enemy_Temp_2ndColor:           rb 1            ;
     Enemy_Temp_X:                  rb 1            ;
     Enemy_Temp_Y:                  rb 1            ;
+    Enemy_Temp_2ndColorPattern:    rb 1            ;
 
-    Enemy_Temp_Layer2ndColor:      rb 1            ;
-    Enemy_Temp_Layer1stColor:      rb 1            ;
-    Enemy_Temp_LayerShadow:        rb 1            ;
+    ; Enemy_Temp_Layer2ndColor:      rb 1            ;
+    ; Enemy_Temp_Layer1stColor:      rb 1            ;
+    ; Enemy_Temp_LayerShadow:        rb 1            ;
 
 
 ; Enemy plane 1
@@ -66,6 +38,7 @@
     Enemy_1_2ndColor:           rb 1            ;
     Enemy_1_X:                  rb 1            ;
     Enemy_1_Y:                  rb 1            ;
+    Enemy_1_2ndColorPattern:    rb 1            ;
 
 ; Enemy shot 1
     Enemy_Shot_1_Show:          rb 1            ;
@@ -84,6 +57,7 @@
     Enemy_2_2ndColor:           rb 1            ;
     Enemy_2_X:                  rb 1            ;
     Enemy_2_Y:                  rb 1            ;
+    Enemy_2_2ndColorPattern:    rb 1            ;
 
 ; Enemy shot 2
     Enemy_Shot_2_Show:          rb 1            ;

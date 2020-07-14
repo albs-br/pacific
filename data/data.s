@@ -11,8 +11,8 @@ LevelDataStart:
     db  15, 14              ; enemy 1st, 2nd color
     db  180, TOP_SCREEN     ; enemy position (x, y)
     db  0                   ; enemy number
-    db  0, 0, 0             ; reserved
-    db  0, 0, 0, 0          ; reserved
+    db  4                   ; enemy sprite pattern of 2nd color
+    db  0, 0, 0, 0, 0, 0    ; reserved
 
     ; ; Enemy plane (type 0)
     ; db  0x00, 0xff          ; counter value as bytes (HSB, LSB)
@@ -21,8 +21,8 @@ LevelDataStart:
     ; db  15, 14              ; enemy 1st, 2nd color
     ; db  128, TOP_SCREEN     ; enemy position (x, y)
     ; db  1                   ; enemy number
-    ; db  0, 0, 0             ; reserved
-    ; db  0, 0, 0, 0          ; reserved
+    ; db  0                   ; reserved
+    ; db  0, 0, 0, 0, 0, 0    ; reserved
 
     ; Enemy shoots
     db  0x01, 0x40          ; counter value (HSB, LSB)
@@ -42,8 +42,8 @@ LevelDataStart:
     db  15, 14              ; enemy 1st, 2nd color
     db  255, TOP_SCREEN+16  ; enemy position (x, y)
     db  0                   ; enemy number
-    db  0, 0, 0             ; reserved
-    db  0, 0, 0, 0          ; reserved
+    db  0                   ; reserved
+    db  0, 0, 0, 0, 0, 0    ; reserved
 
     ; Enemy shoots
     db  0x02, 0x80          ; counter value (HSB, LSB)
@@ -62,8 +62,9 @@ LevelDataStart:
     db  0                   ; enemy type
     db  9, 6                ; enemy 1st, 2nd color
     db  40, TOP_SCREEN      ; enemy position (x, y)
-    db  0, 0, 0, 0          ; reserved
-    db  0, 0, 0, 0          ; reserved
+    db  0                   ; enemy number
+    db  0                   ; reserved
+    db  0, 0, 0, 0, 0, 0    ; reserved
 
     ; Enemy shoots
     db  0x03, 0x10          ; counter value (HSB, LSB)
@@ -82,8 +83,9 @@ LevelDataStart:
     db  0                   ; enemy type
     db  7, 5                ; enemy 1st, 2nd color
     db  240, TOP_SCREEN     ; enemy position (x, y)
-    db  0, 0, 0, 0          ; reserved
-    db  0, 0, 0, 0          ; reserved
+    db  0                   ; enemy number
+    db  0                   ; reserved
+    db  0, 0, 0, 0, 0, 0    ; reserved
 
     ; Enemy plane (type 0)
     db  0x05, 0x00          ; counter value (HSB, LSB)
@@ -91,8 +93,9 @@ LevelDataStart:
     db  0                   ; enemy type
     db  3, 12               ; enemy 1st, 2nd color
     db  240, TOP_SCREEN     ; enemy position (x, y)
-    db  0, 0, 0, 0          ; reserved
-    db  0, 0, 0, 0          ; reserved
+    db  0                   ; enemy number
+    db  0                   ; reserved
+    db  0, 0, 0, 0, 0, 0    ; reserved
 
     ; Enemy shoots
     db  0x05, 0x01          ; counter value (HSB, LSB)
@@ -111,8 +114,9 @@ LevelDataStart:
     db  0                   ; enemy type
     db  11, 10              ; enemy 1st, 2nd color
     db  240, TOP_SCREEN     ; enemy position (x, y)
-    db  0, 0, 0, 0          ; reserved
-    db  0, 0, 0, 0          ; reserved
+    db  0                   ; enemy number
+    db  0                   ; reserved
+    db  0, 0, 0, 0, 0, 0    ; reserved
 
     ; Enemy plane (type 2)
     db  0x07, 0x00          ; counter value (HSB, LSB)
@@ -121,8 +125,8 @@ LevelDataStart:
     db  15, 14              ; enemy 1st, 2nd color
     db  0, 128              ; enemy position (x, y)
     db  0                   ; enemy number
-    db  0, 0, 0             ; reserved
-    db  0, 0, 0, 0          ; reserved
+    db  0                   ; reserved
+    db  0, 0, 0, 0, 0, 0    ; reserved
 
     ; Enemy shoots
     db  0x07, 0x80          ; counter value (HSB, LSB)
@@ -142,8 +146,8 @@ LevelDataStart:
     db  9, 6                ; enemy 1st, 2nd color
     db  255, 128            ; enemy position (x, y)
     db  0                   ; enemy number
-    db  0, 0, 0             ; reserved
-    db  0, 0, 0, 0          ; reserved
+    db  0                   ; reserved
+    db  0, 0, 0, 0, 0, 0    ; reserved
 
     ; Enemy shoots
     db  0x08, 0x80          ; counter value (HSB, LSB)
@@ -163,8 +167,8 @@ LevelDataStart:
     db  3, 12               ; enemy 1st, 2nd color
     db  0, TOP_SCREEN+16    ; enemy position (x, y)
     db  0                   ; enemy number
-    db  0, 0, 0             ; reserved
-    db  0, 0, 0, 0          ; reserved
+    db  0                   ; reserved
+    db  0, 0, 0, 0, 0, 0    ; reserved
 
 
 

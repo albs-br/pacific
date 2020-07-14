@@ -1,5 +1,5 @@
 {
- Pacific v.0.19.0           jun-jul/2020
+ Pacific v.0.20.0           jun-jul/2020
  for MSX 1 computers
 
  File to be assembled by tniasm 0.45
@@ -135,3 +135,4 @@ End:
 ; Variables (mapped to RAM memory)
 	org 0xc000
 INCLUDE "variables.s"
+INCLUDE 'vramspriteattrbuffer.s'
