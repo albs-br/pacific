@@ -27,6 +27,7 @@
     ; Enemy_Temp_Layer2ndColor:      rb 1            ;
     ; Enemy_Temp_Layer1stColor:      rb 1            ;
     ; Enemy_Temp_LayerShadow:        rb 1            ;
+    TempAddr:                      rw 1            ;
 
 
 ; Enemy plane 1

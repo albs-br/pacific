@@ -1,4 +1,5 @@
 INCLUDE "updatescreen/showenemy.s"
+INCLUDE "updatescreen/showenemyshot.s"
 
 
 UpdateScreen:
@@ -6,11 +7,6 @@ UpdateScreen:
     ; db  (192-32), (256/2)-4, 4, 14          ; Player Plane 2nd color
     ; db  (192-32), (256/2)-4, 0, 15          ; Player Plane 1st color
     ; db  (192-32)+8, (256/2)-4+8, 0, 1       ; Player Plane shadow
-
-
-
-	; call ShowLives
-	; call ShowScore
 
 
 	ld a, (Player_Y)
@@ -27,82 +23,18 @@ UpdateScreen:
 
 
 
-
-{
-	; Player plane 2nd color
-	ld a, (Player_X)				;   d: x coord
-	ld d, a
-	ld a, (Player_Y)				;   e: y coord
-	ld e, a
-	ld c, 12;14						;   c: color (0-15)
-	ld a, 1							;   a: pattern number (0-63)
-	ld b, 0							;   b: layer (0-31)
-	call PutSprite16x16				;
-
-	; Player plane 1st color
-	; ld d, (256/2)-4					;   d: x coord
-	; ld e, (192-32)					;   e: y coord
-	ld c, 3;15						;   c: color (0-15)
-	ld a, 0							;   a: pattern number (0-63)
-	ld b, 1							;   b: layer (0-31)
-	call PutSprite16x16				;	
-
-	; Player plane shadow
-	ld b, 8
-	ld a, (Player_X)				;   d: x coord
-	add a, b
-	ld d, a
-	ld a, (Player_Y)				;   e: y coord
-	add a, b
-	ld e, a
-	ld c, 1							;   c: color (0-15)
-	ld a, 0							;   a: pattern number (0-63)
-	ld b, 31						;   b: layer (0-31)
-	call PutSprite16x16				;	
-}
-
-	;TODO: pass layers by register (speed)
-
-	; if(Enemy_1_Show != 0)
-	; ld a, (Enemy_1_Show)
-	; cp 0
-	; jp z, .enemy2
-
 	; Show first (# 0) enemy
-	; ld a, 5							; sprite layer for 2nd color
-    ; ld (Enemy_Temp_Layer2ndColor), a
-	; inc a							; sprite layer for 1st color
-    ; ld (Enemy_Temp_Layer1stColor), a
-	; ld a, 26						; sprite layer shadow
-    ; ld (Enemy_Temp_LayerShadow), a
 	ld hl, Enemy_1_Base_Address		; base addr of enemy variables
+    ld ix, SpriteLayer_5_BaseAddr	; base addr of 2nd color layer
+	call ShowEnemy
+
+	; Show second (# 1) enemy
+	ld hl, Enemy_2_Base_Address		; base addr of enemy variables
+    ld ix, SpriteLayer_7_BaseAddr	; base addr of 2nd color layer
 	call ShowEnemy
 
 
 
-.enemy2:
-
-	; if(Enemy_2_Show != 0)
-	; ld a, (Enemy_2_Show)
-	; cp 0
-	; jp z, .enemy3
-
-	; Show second (# 1) enemy
-	; ld a, 7							; sprite layer for 2nd color
-    ; ld (Enemy_Temp_Layer2ndColor), a
-	; inc a							; sprite layer for 1st color
-    ; ld (Enemy_Temp_Layer1stColor), a
-	; ld a, 27						; sprite layer shadow
-    ; ld (Enemy_Temp_LayerShadow), a
-	; ld hl, Enemy_2_Base_Address		; base addr of enemy variables
-	; call ShowEnemy
-
-
-
-.enemy3:
-
-
-.next:
 
 	; TODO: maybe this logic would be on gamelogic.s
 	; Player plane shot
@@ -154,28 +86,48 @@ UpdateScreen:
 
 .continue:
 
-	; Enemy Shot
-	ld a, (Enemy_Shot_1_Show)		;   get indicator of enemy shot fired
-    cp 0
-    jp z, .enemyShotHide                 
+	ld ix, Enemy_1_Base_Address
+	ld iy, SpriteLayer_18_Y
+	call ShowEnemyShot
 
-	ld a, (Enemy_Shot_1_X)			;   d: x coord
-	ld d, a
-	ld a, (Enemy_Shot_1_Y)			;   e: y coord
-	ld e, a
+	ld ix, Enemy_2_Base_Address
+	ld iy, SpriteLayer_19_Y
+	call ShowEnemyShot
+
+; 	; Enemy Shot
+; 	ld a, (Enemy_Shot_1_Show)		;   get indicator of enemy shot fired
+;     cp 0
+;     jp z, .enemyShotHide                 
+
+; 	ld a, (Enemy_Shot_1_X)			;   d: x coord
+; 	; ld d, a
+; 	ld (SpriteLayer_18_X), a
+
+; 	ld a, (Enemy_Shot_1_Y)			;   e: y coord
+; 	; ld e, a
+; 	ld (SpriteLayer_18_Y), a
 	
-    ld c, 15						;   color white
-	ld a, 5							;   a: pattern number (0-63)
-	ld b, 10						;   b: layer (0-31)
-	call PutSprite16x16				;
-	jp .continue1
+;     ld a, 15						;   color white
+; 	ld (SpriteLayer_18_Color), a
+	
+; 	ld a, 5	* 4						;   a: pattern number (0-63)
+; 	ld (SpriteLayer_18_Pattern), a
+; 	; ld b, 18						;   b: layer (0-31)
+; 	; call PutSprite16x16				;
+; 	jp .continue1
 
-.enemyShotHide:
-	ld d, 0							;   d: x coord
-	ld e, 256 - 16					;   e: y coord		; place sprite off screen
-	ld a, 63					    ;   a: pattern number (0-63)
-	ld b, 10						;   b: layer (0-31)
-	call PutSprite16x16				;   put non existent sprite at layer, to hide the enemy
+; .enemyShotHide:
+; 	ld a, 0							;   d: x coord
+; 	ld (SpriteLayer_18_X), a
+
+; 	ld a, 256 - 16					;   e: y coord		; place sprite off screen
+; 	ld (SpriteLayer_18_X), a
+
+; 	ld a, 63 * 4				    ;   a: pattern number (0-63)
+; 	ld (SpriteLayer_18_Pattern), a
+
+; 	; ld b, 18						;   b: layer (0-31)
+; 	; call PutSprite16x16				;   put non existent sprite at layer, to hide the enemy
 
 
 .continue1:

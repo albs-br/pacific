@@ -109,6 +109,7 @@ IncrementCounter:
     ; 2 - after read an addr on chunck, tests if is > than current counter, if so, gives up, as the actions are ordered
 
 .loop1:
+; TODO: trade this by a dw
     push hl
     ld a, (hl)
     cp d
@@ -134,68 +135,136 @@ IncrementCounter:
 
 .showEnemy:
 
+    ; ld ix, Enemy_1_Base_Address
+    ; jp .contEnemyNumber
 
 ;TODO check enemy number and update correct variables
+; if (Enemy_N_Type == 0) ix = Enemy_1_Base_Address
+    push hl
+
+    ld bc, 6
+    add hl, bc
+
+    ; inc hl
+    ; inc hl
+    ; inc hl
+    ; inc hl
+    ; inc hl
+    ; inc hl
+    ld a, (hl)                  ; get enemy number
+    cp 0
+    jp z, .enemyNumber_0
+    cp 1
+    jp z, .enemyNumber_1
+    pop hl
+
+; call bios_beep ;debug
+; jp .contEnemyNumber
+
+.enemyNumber_0:
+    pop hl
+    ld ix, Enemy_1_Base_Address
+    jp .contEnemyNumber
+.enemyNumber_1:
+; call bios_beep ;debug
+    pop hl
+    ld ix, Enemy_2_Base_Address
+    jp .contEnemyNumber
+
+.contEnemyNumber:
     ld a, 1
-    ld (Enemy_1_Show), a        ; show enemy
+    ; ld (Enemy_1_Show), a        ; show enemy
+    ld (ix), a                  ; show enemy
 
 	ld a, 0
-	ld (Enemy_1_State), a	    ; disable explosion animation
+	; ld (Enemy_1_State), a	    ; disable explosion animation
+	ld (ix + 1), a	            ; disable explosion animation
 
     inc hl
     ld a, (hl)                  ; get enemy type
-    ld (Enemy_1_Type), a        ; save value
+    ; ld (Enemy_1_Type), a        ; save value
+    ld (ix + 2), a              ; save value
 
     inc hl
     ld a, (hl)                  ; get 1st color
-    ld (Enemy_1_1stColor), a    ; save value
+    ; ld (Enemy_1_1stColor), a    ; save value
+    ld (ix + 3), a              ; save value
     
     inc hl
     ld a, (hl)                  ; get 2nd color
-    ld (Enemy_1_2ndColor), a    ; save value
+    ; ld (Enemy_1_2ndColor), a    ; save value
+    ld (ix + 4), a              ; save value
     
     inc hl
     ld a, (hl)                  ; get x coord
-    ld (Enemy_1_X), a           ; save value
+    ; ld (Enemy_1_X), a           ; save value
+    ld (ix + 5), a              ; save value
     
     inc hl
     ld a, (hl)                  ; get y coord
-    ld (Enemy_1_Y), a           ; save value
+    ; ld (Enemy_1_Y), a           ; save value
+    ld (ix + 6), a              ; save value
 
     ret
 
 .enemyShoots:
-    inc hl                      ;TODO: use add hl, bc
-    inc hl
-    inc hl
-    inc hl
-    inc hl
-    inc hl
-    inc hl
+
+;TODO check enemy number and update correct variables
+    ; ld ix, Enemy_1_Base_Address
+
+    ld bc, 7
+    add hl, bc
+    ; inc hl                      ;TODO: use add hl, bc
+    ; inc hl
+    ; inc hl
+    ; inc hl
+    ; inc hl
+    ; inc hl
+    ; inc hl
     ld a, (hl)                  ; get number of related enemy
+    
     cp 0                        ; TODO: optimize
-    jp z, .checkIfEnemy_1_IsAlive
+    jp z, .enemy_0_shots
+
+    cp 1
+    jp z, .enemy_1_shots
+
     ret
 
-.checkIfEnemy_1_IsAlive:
-    ld a, (Enemy_1_Show)
+.enemy_0_shots:
+    ld ix, Enemy_1_Base_Address
+    jp .checkIfEnemy_IsAlive
+
+.enemy_1_shots:
+    ld ix, Enemy_2_Base_Address
+    ; jp .checkIfEnemy_IsAlive
+
+.checkIfEnemy_IsAlive:
+    ; ld a, (Enemy_1_Show)
+    ld a, (ix)
     cp 0
     ret z
 
     ld a, 1
-    ld (Enemy_Shot_1_Show), a
+    ; ld (Enemy_Shot_1_Show), a
+    ld (ix + 8), a
 
     inc hl
     ld a, (hl)                  ; get delta x (-1 to +1)
-    ld (Enemy_Shot_1_DeltaX), a ; save
+    ; ld (Enemy_Shot_1_DeltaX), a ; save
+    ld (ix + 11), a ; save
     
-    ld a, (Enemy_1_X)           ; get x coord of enemy
+    ; ld a, (Enemy_1_X)           ; get x coord of enemy
+    ld a, (ix + 5)              ; get x coord of enemy
     add a, 6                    ; add 6
-    ld (Enemy_Shot_1_X), a      ; save as x coord of shot
+    ; ld (Enemy_Shot_1_X), a      ; save as x coord of shot
+    ld (ix + 9), a      ; save as x coord of shot
     
-    ld a, (Enemy_1_Y)           ; get y coord of enemy
+    ; ld a, (Enemy_1_Y)           ; get y coord of enemy
+    ld a, (ix + 6)              ; get y coord of enemy
     add a, 16                   ; add 16
-    ld (Enemy_Shot_1_Y), a      ; save as y coord of shot
+    ; ld (Enemy_Shot_1_Y), a      ; save as y coord of shot
+    ld (ix + 10), a      ; save as y coord of shot
     
     ret
 
@@ -221,7 +290,7 @@ IncrementCounter:
 
     IFDEF DEBUG
         ; Show counter on screen (debug mode)
-        ld hl, Counter+4            ; LSB (5th byte)
+        ld hl, Counter + 4          ; LSB (5th byte)
         ld d, 2                     ; size in bytes (for now using only 2 bytes, although 5 bytes were reserved)
         ld bc, 35                   ; names table offset (0-255), 35 = 2nd line, 4th column
         call PrintNumber
