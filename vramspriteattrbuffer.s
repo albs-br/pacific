@@ -47,7 +47,46 @@
     SpriteLayer_8_Pattern:                               rb 1            ;
     SpriteLayer_8_Color:                                 rb 1            ;
 
-                                                         rb (8*4)
+    ; Enemy 2 2nd color
+    SpriteLayer_9_BaseAddr:
+    SpriteLayer_9_Y:                                     rb 1            ;
+    SpriteLayer_9_X:                                     rb 1            ;
+    SpriteLayer_9_Pattern:                               rb 1            ;
+    SpriteLayer_9_Color:                                 rb 1            ;
+
+    ; Enemy 2 1st color
+    SpriteLayer_10_Y:                                     rb 1            ;
+    SpriteLayer_10_X:                                     rb 1            ;
+    SpriteLayer_10_Pattern:                               rb 1            ;
+    SpriteLayer_10_Color:                                 rb 1            ;
+
+    ; Enemy 3 2nd color
+    SpriteLayer_11_BaseAddr:
+    SpriteLayer_11_Y:                                     rb 1            ;
+    SpriteLayer_11_X:                                     rb 1            ;
+    SpriteLayer_11_Pattern:                               rb 1            ;
+    SpriteLayer_11_Color:                                 rb 1            ;
+
+    ; Enemy 3 1st color
+    SpriteLayer_12_Y:                                     rb 1            ;
+    SpriteLayer_12_X:                                     rb 1            ;
+    SpriteLayer_12_Pattern:                               rb 1            ;
+    SpriteLayer_12_Color:                                 rb 1            ;2
+
+    ; Enemy 4 2nd color
+    SpriteLayer_13_BaseAddr:
+    SpriteLayer_13_Y:                                     rb 1            ;
+    SpriteLayer_13_X:                                     rb 1            ;
+    SpriteLayer_13_Pattern:                               rb 1            ;
+    SpriteLayer_13_Color:                                 rb 1            ;
+
+    ; Enemy 4 1st color
+    SpriteLayer_14_Y:                                     rb 1            ;
+    SpriteLayer_14_X:                                     rb 1            ;
+    SpriteLayer_14_Pattern:                               rb 1            ;
+    SpriteLayer_14_Color:                                 rb 1            ;2
+
+                                                         rb (3*4)
 
 
     ; Enemy shot 0
@@ -62,8 +101,26 @@
     SpriteLayer_19_Pattern:                               rb 1            ;
     SpriteLayer_19_Color:                                 rb 1            ;
 
+    ; Enemy shot 2
+    SpriteLayer_20_Y:                                     rb 1            ;
+    SpriteLayer_20_X:                                     rb 1            ;
+    SpriteLayer_20_Pattern:                               rb 1            ;
+    SpriteLayer_20_Color:                                 rb 1            ;
 
-                                                         rb (6*4)
+    ; Enemy shot 3
+    SpriteLayer_21_Y:                                     rb 1            ;
+    SpriteLayer_21_X:                                     rb 1            ;
+    SpriteLayer_21_Pattern:                               rb 1            ;
+    SpriteLayer_21_Color:                                 rb 1            ;
+
+    ; Enemy shot 4
+    SpriteLayer_22_Y:                                     rb 1            ;
+    SpriteLayer_22_X:                                     rb 1            ;
+    SpriteLayer_22_Pattern:                               rb 1            ;
+    SpriteLayer_22_Color:                                 rb 1            ;
+
+
+                                                         rb (3*4)
 
     ; Enemy 0 Shadow
     SpriteLayer_26_Y:                                     rb 1            ;
@@ -77,7 +134,24 @@
     SpriteLayer_27_Pattern:                               rb 1            ;
     SpriteLayer_27_Color:                                 rb 1            ;
 
-                                                         rb (4*4)
+    ; Enemy 2 Shadow
+    SpriteLayer_28_Y:                                     rb 1            ;
+    SpriteLayer_28_X:                                     rb 1            ;
+    SpriteLayer_28_Pattern:                               rb 1            ;
+    SpriteLayer_28_Color:                                 rb 1            ;
+
+    ; Enemy 3 Shadow
+    SpriteLayer_29_Y:                                     rb 1            ;
+    SpriteLayer_29_X:                                     rb 1            ;
+    SpriteLayer_29_Pattern:                               rb 1            ;
+    SpriteLayer_29_Color:                                 rb 1            ;
+
+    ; Enemy 4 Shadow
+    SpriteLayer_30_Y:                                     rb 1            ;
+    SpriteLayer_30_X:                                     rb 1            ;
+    SpriteLayer_30_Pattern:                               rb 1            ;
+    SpriteLayer_30_Color:                                 rb 1            ;
+
 
 
     ; Player shadow

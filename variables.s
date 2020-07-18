@@ -30,6 +30,24 @@
     TempAddr:                      rw 1            ;
 
 
+; Enemy plane 0
+    Enemy_0_Base_Address:
+    Enemy_0_Show:               rb 1            ;
+    Enemy_0_State:              rb 1            ; State, to control the explosion animation
+    Enemy_0_Type:               rb 1            ;
+    Enemy_0_1stColor:           rb 1            ;
+    Enemy_0_2ndColor:           rb 1            ;
+    Enemy_0_X:                  rb 1            ;
+    Enemy_0_Y:                  rb 1            ;
+    Enemy_0_2ndColorPattern:    rb 1            ;0
+; Enemy shot 0
+    Enemy_Shot_0_Show:          rb 1            ;
+    Enemy_Shot_0_X:             rb 1            ;
+    Enemy_Shot_0_Y:             rb 1            ;
+    Enemy_Shot_0_DeltaX:        rb 1            ;
+
+
+
 ; Enemy plane 1
     Enemy_1_Base_Address:
     Enemy_1_Show:               rb 1            ;
@@ -66,5 +84,42 @@
     Enemy_Shot_2_Y:             rb 1            ;
     Enemy_Shot_2_DeltaX:        rb 1            ;
 
+
+
+; Enemy plane 3
+    Enemy_3_Base_Address:
+    Enemy_3_Show:               rb 1            ;
+    Enemy_3_State:              rb 1            ; State, to control the explosion animation
+    Enemy_3_Type:               rb 1            ;
+    Enemy_3_1stColor:           rb 1            ;
+    Enemy_3_2ndColor:           rb 1            ;
+    Enemy_3_X:                  rb 1            ;
+    Enemy_3_Y:                  rb 1            ;
+    Enemy_3_2ndColorPattern:    rb 1            ;3
+
+; Enemy shot 3
+    Enemy_Shot_3_Show:          rb 1            ;
+    Enemy_Shot_3_X:             rb 1            ;
+    Enemy_Shot_3_Y:             rb 1            ;
+    Enemy_Shot_3_DeltaX:        rb 1            ;
+
+
+
+; Enemy plane 4
+    Enemy_4_Base_Address:
+    Enemy_4_Show:               rb 1            ;
+    Enemy_4_State:              rb 1            ; State, to control the explosion animation
+    Enemy_4_Type:               rb 1            ;
+    Enemy_4_1stColor:           rb 1            ;
+    Enemy_4_2ndColor:           rb 1            ;
+    Enemy_4_X:                  rb 1            ;
+    Enemy_4_Y:                  rb 1            ;
+    Enemy_4_2ndColorPattern:    rb 1            ;3
+
+; Enemy shot 4
+    Enemy_Shot_4_Show:          rb 1            ;
+    Enemy_Shot_4_X:             rb 1            ;
+    Enemy_Shot_4_Y:             rb 1            ;
+    Enemy_Shot_4_DeltaX:        rb 1            ;
 
 

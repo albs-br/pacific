@@ -10,6 +10,7 @@ GameLogicEnemy:
 	;if(enemytype == 0)
 	; ld a, (Enemy_1_Type)			;
 	ld a, (ix + 2)			;
+
 	cp 0
 	jp z, .enemyType_0
 
@@ -182,12 +183,5 @@ GameLogicEnemy:
 	ld (Player_Score), hl			; save updated score
 
 	call ShowScore
-
-	; call ShowScore
-	; ; show updated score on screen
-	; ld hl, Player_Score       	; LSB
-    ; ld d, 2                     ; size in bytes
-    ; ld bc, 10                   ; names table offset (0-255)
-    ; call PrintNumber_LittleEndian
 
     ret

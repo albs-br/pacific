@@ -23,13 +23,22 @@ InitVariables:
     ld a, 0                             ;
     ld (Player_Shot), a                 ; save value
 
+    ld (Enemy_0_Show), a                ; save value
+    ld (Enemy_0_State), a               ; save value
     ld (Enemy_1_Show), a                ; save value
     ld (Enemy_1_State), a               ; save value
     ld (Enemy_2_Show), a                ; save value
     ld (Enemy_2_State), a               ; save value
+    ld (Enemy_3_Show), a                ; save value
+    ld (Enemy_3_State), a               ; save value
+    ld (Enemy_4_Show), a                ; save value
+    ld (Enemy_4_State), a               ; save value
     
+    ld (Enemy_Shot_0_Show), a           ; save value
     ld (Enemy_Shot_1_Show), a           ; save value
     ld (Enemy_Shot_2_Show), a           ; save value
+    ld (Enemy_Shot_3_Show), a           ; save value
+    ld (Enemy_Shot_4_Show), a           ; save value
 
     ld (Player_Trigger_Pressed), a      ; save value
     ld bc, 0
@@ -122,7 +131,6 @@ IncrementCounter:
     pop hl
     
     ; do the action
-    ; call PlanePlayerShot
     inc hl
     inc hl
     ld a, (hl)                  ; get action type
@@ -152,10 +160,22 @@ IncrementCounter:
     ; inc hl
     ; inc hl
     ld a, (hl)                  ; get enemy number
+
     cp 0
     jp z, .enemyNumber_0
+
     cp 1
     jp z, .enemyNumber_1
+
+    cp 2
+    jp z, .enemyNumber_2
+
+    cp 3
+    jp z, .enemyNumber_3
+
+    cp 4
+    jp z, .enemyNumber_4
+
     pop hl
 
 ; call bios_beep ;debug
@@ -163,12 +183,23 @@ IncrementCounter:
 
 .enemyNumber_0:
     pop hl
-    ld ix, Enemy_1_Base_Address
+    ld ix, Enemy_0_Base_Address
     jp .contEnemyNumber
 .enemyNumber_1:
-; call bios_beep ;debug
+    pop hl
+    ld ix, Enemy_1_Base_Address
+    jp .contEnemyNumber
+.enemyNumber_2:
     pop hl
     ld ix, Enemy_2_Base_Address
+    jp .contEnemyNumber
+.enemyNumber_3:
+    pop hl
+    ld ix, Enemy_3_Base_Address
+    jp .contEnemyNumber
+.enemyNumber_4:
+    pop hl
+    ld ix, Enemy_4_Base_Address
     jp .contEnemyNumber
 
 .contEnemyNumber:
@@ -229,15 +260,36 @@ IncrementCounter:
     cp 1
     jp z, .enemy_1_shots
 
+    cp 2
+    jp z, .enemy_2_shots
+
+    cp 3
+    jp z, .enemy_3_shots
+
+    cp 4
+    jp z, .enemy_4_shots
+
     ret
 
 .enemy_0_shots:
-    ld ix, Enemy_1_Base_Address
+    ld ix, Enemy_0_Base_Address
     jp .checkIfEnemy_IsAlive
 
 .enemy_1_shots:
+    ld ix, Enemy_1_Base_Address
+    jp .checkIfEnemy_IsAlive
+
+.enemy_2_shots:
     ld ix, Enemy_2_Base_Address
-    ; jp .checkIfEnemy_IsAlive
+    jp .checkIfEnemy_IsAlive
+
+.enemy_3_shots:
+    ld ix, Enemy_3_Base_Address
+    jp .checkIfEnemy_IsAlive
+
+.enemy_4_shots:
+    ld ix, Enemy_4_Base_Address
+    jp .checkIfEnemy_IsAlive
 
 .checkIfEnemy_IsAlive:
     ; ld a, (Enemy_1_Show)

@@ -24,13 +24,28 @@ UpdateScreen:
 
 
 	; Show first (# 0) enemy
-	ld hl, Enemy_1_Base_Address		; base addr of enemy variables
+	ld hl, Enemy_0_Base_Address		; base addr of enemy variables
     ld ix, SpriteLayer_5_BaseAddr	; base addr of 2nd color layer
 	call ShowEnemy
 
 	; Show second (# 1) enemy
-	ld hl, Enemy_2_Base_Address		; base addr of enemy variables
+	ld hl, Enemy_1_Base_Address		; base addr of enemy variables
     ld ix, SpriteLayer_7_BaseAddr	; base addr of 2nd color layer
+	call ShowEnemy
+
+	; Show third (# 2) enemy
+	ld hl, Enemy_2_Base_Address		; base addr of enemy variables
+    ld ix, SpriteLayer_9_BaseAddr	; base addr of 2nd color layer
+	call ShowEnemy
+
+	; Show fourth (# 3) enemy
+	ld hl, Enemy_3_Base_Address		; base addr of enemy variables
+    ld ix, SpriteLayer_11_BaseAddr	; base addr of 2nd color layer
+	call ShowEnemy
+
+	; Show fifth (# 4) enemy
+	ld hl, Enemy_4_Base_Address		; base addr of enemy variables
+    ld ix, SpriteLayer_13_BaseAddr	; base addr of 2nd color layer
 	call ShowEnemy
 
 
@@ -86,12 +101,24 @@ UpdateScreen:
 
 .continue:
 
-	ld ix, Enemy_1_Base_Address
+	ld ix, Enemy_0_Base_Address
 	ld iy, SpriteLayer_18_Y
 	call ShowEnemyShot
 
-	ld ix, Enemy_2_Base_Address
+	ld ix, Enemy_1_Base_Address
 	ld iy, SpriteLayer_19_Y
+	call ShowEnemyShot
+
+	ld ix, Enemy_2_Base_Address
+	ld iy, SpriteLayer_20_Y
+	call ShowEnemyShot
+
+	ld ix, Enemy_3_Base_Address
+	ld iy, SpriteLayer_21_Y
+	call ShowEnemyShot
+
+	ld ix, Enemy_4_Base_Address
+	ld iy, SpriteLayer_22_Y
 	call ShowEnemyShot
 
 ; 	; Enemy Shot
