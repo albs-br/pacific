@@ -30,22 +30,22 @@ UpdateScreen:
 
 	; Show second (# 1) enemy
 	ld hl, Enemy_1_Base_Address		; base addr of enemy variables
-    ld ix, SpriteLayer_7_BaseAddr	; base addr of 2nd color layer
+    ld ix, SpriteLayer_6_BaseAddr	; base addr of 2nd color layer
 	call ShowEnemy
 
 	; Show third (# 2) enemy
 	ld hl, Enemy_2_Base_Address		; base addr of enemy variables
-    ld ix, SpriteLayer_9_BaseAddr	; base addr of 2nd color layer
+    ld ix, SpriteLayer_7_BaseAddr	; base addr of 2nd color layer
 	call ShowEnemy
 
 	; Show fourth (# 3) enemy
 	ld hl, Enemy_3_Base_Address		; base addr of enemy variables
-    ld ix, SpriteLayer_11_BaseAddr	; base addr of 2nd color layer
+    ld ix, SpriteLayer_8_BaseAddr	; base addr of 2nd color layer
 	call ShowEnemy
 
 	; Show fifth (# 4) enemy
 	ld hl, Enemy_4_Base_Address		; base addr of enemy variables
-    ld ix, SpriteLayer_13_BaseAddr	; base addr of 2nd color layer
+    ld ix, SpriteLayer_9_BaseAddr	; base addr of 2nd color layer
 	call ShowEnemy
 
 
@@ -121,40 +121,6 @@ UpdateScreen:
 	ld iy, SpriteLayer_22_Y
 	call ShowEnemyShot
 
-; 	; Enemy Shot
-; 	ld a, (Enemy_Shot_1_Show)		;   get indicator of enemy shot fired
-;     cp 0
-;     jp z, .enemyShotHide                 
-
-; 	ld a, (Enemy_Shot_1_X)			;   d: x coord
-; 	; ld d, a
-; 	ld (SpriteLayer_18_X), a
-
-; 	ld a, (Enemy_Shot_1_Y)			;   e: y coord
-; 	; ld e, a
-; 	ld (SpriteLayer_18_Y), a
-	
-;     ld a, 15						;   color white
-; 	ld (SpriteLayer_18_Color), a
-	
-; 	ld a, 5	* 4						;   a: pattern number (0-63)
-; 	ld (SpriteLayer_18_Pattern), a
-; 	; ld b, 18						;   b: layer (0-31)
-; 	; call PutSprite16x16				;
-; 	jp .continue1
-
-; .enemyShotHide:
-; 	ld a, 0							;   d: x coord
-; 	ld (SpriteLayer_18_X), a
-
-; 	ld a, 256 - 16					;   e: y coord		; place sprite off screen
-; 	ld (SpriteLayer_18_X), a
-
-; 	ld a, 63 * 4				    ;   a: pattern number (0-63)
-; 	ld (SpriteLayer_18_Pattern), a
-
-; 	; ld b, 18						;   b: layer (0-31)
-; 	; call PutSprite16x16				;   put non existent sprite at layer, to hide the enemy
 
 
 .continue1:

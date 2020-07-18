@@ -6,17 +6,17 @@ ShowEnemy:
 enemy#          layer
 ------          -----
 0               5           2nd color
-0               6           1st color
+0               13          1st color
 0               26          shadow
 
-1               7           2nd color
-1               8           1st color
+1               6           2nd color
+1               14          1st color
 1               27          shadow
 
 ...
 
-5               13           2nd color
-5               14           1st color
+5               9           2nd color
+5               17          1st color
 5               30          shadow
 
 ---------------
@@ -84,66 +84,6 @@ Enemy shots
 
 .enemyTypeCont:
 
-;	push af							; save pattern number
-
-	; Enemy plane 2nd color
-	; ld a, (Enemy_Temp_X)			;   d: x coord
-	; ld d, a
-
-	; ld a, (Enemy_Temp_Y)			;   e: y coord
-	; ld e, a
-
-	; ld a, (Enemy_Temp_2ndColor)		;   c: color (0-15)
-	; ld c, a
-	
-    ; ld c, 6 						;   c: color (0-15)
-	; ld a, 4						;   a: pattern number (0-63)
-	; ld b, 5							;   b: layer (0-31)
-    ; ld a, (Enemy_Temp_Layer2ndColor)
-    ; ld b, a                         ;   b: layer (0-31)
-	; pop af							; 	retrieve pattern number
-	; push af							;   save pattern number
-	;call PutSprite16x16				;
-
-    
-
-
-	; Enemy plane 1st color
-	; ld a, (Enemy_1_X)				;   d: x coord
-	; ld d, a
-	; ld a, (Enemy_1_Y)				;   e: y coord
-	; ld e, a
-
-	; ld a, (Enemy_Temp_1stColor)		;   c: color (0-15)
-	; ld c, a
-	; ld c, 9							;   c: color (0-15)
-	; ld a, 3							;   a: pattern number (0-63)
-	; ld b, 6							;   b: layer (0-31)
-    ; ld a, (Enemy_Temp_Layer1stColor)
-    ; ld b, a                         ;   b: layer (0-31)
-	; pop af							; 	retrieve pattern number
-	; dec a
-	; push af							;   save pattern number
-	; call PutSprite16x16				;
-	
-
-	; Enemy plane shadow
-	; ld b, 8
-	; ld a, (Enemy_Temp_X)			;   d: x coord
-	; add a, b
-	; ld d, a
-
-	; ld a, (Enemy_Temp_Y)			;   e: y coord
-	; add a, b
-	; ld e, a
-
-	; ld c, 1							;   c: color (0-15)
-	; ld a, 3							;   a: pattern number (0-63)
-	; ld b, 30						;   b: layer (0-31)
-    ; ld a, (Enemy_Temp_LayerShadow)
-    ; ld b, a                         ;   b: layer (0-31)
-	; pop af							; 	retrieve pattern number
-	; call PutSprite16x16				;	
 
 	jp .next
 
@@ -191,7 +131,7 @@ Enemy shots
 
 	; hide other 2 sprites of enemy
     ld a, 63 * 4                       ;   put non existent sprite at layer, to hide the enemy
-    ld (ix + 4 + 2), a                 ; Addr 1st color pattern
+    ld (ix + (8 * 4) + 2), a           ; Addr 1st color pattern
     ld (ix + (21 * 4) + 2), a          ; Addr shadow pattern
 
     ld a, (Enemy_Temp_2ndColorPattern)
@@ -201,29 +141,7 @@ Enemy shots
 
     call .CopyFromEnemyTempToEnemyBaseMemory    
 
-{
-	push af
-    ; ld b, 5							;   b: layer (0-31)
-    ld a, (Enemy_Temp_Layer2ndColor)
-    ld b, a                         ;   b: layer (0-31)
-    pop af
-	; call PutSprite16x16				;
 
-	; hide other 2 sprites of enemy
-	ld d, 0							;   d: x coord
-	ld e, 256 - 16					;   e: y coord		; place sprite off screen
-	; ld b, 6							;   b: layer (0-31)
-    ld a, (Enemy_Temp_Layer1stColor)
-    ld b, a                         ;   b: layer (0-31)
-	ld a, 63
-	; call PutSprite16x16				;   put non existent sprite at layer, to hide the enemy
-	; ld b, 30						;   b: layer (0-31)
-    ld a, (Enemy_Temp_LayerShadow)
-    ld b, a                         ;   b: layer (0-31)
-	ld a, 63
-	; call PutSprite16x16				;   put non existent sprite at layer, to hide the enemy
-}
-	; jp .next
     ret
 
 
@@ -234,28 +152,6 @@ Enemy shots
 
     call .DoHideEnemy
 
-{
-	ld d, 0							;   d: x coord
-	ld e, 256 - 16					;   e: y coord		; place sprite off screen
-	; ld b, 5							;   b: layer (0-31)
-    ld a, (Enemy_Temp_Layer2ndColor)
-    ld b, a                         ;   b: layer (0-31)
-	ld a, 63					    ;   a: pattern number (0-63)
-	; call PutSprite16x16				;   put non existent sprite at layer, to hide the enemy
-	; ld d, 0							;   d: x coord
-	; ld e, 256 - 16					;   e: y coord		; place sprite off screen
-	; ld a, 63					    ;   a: pattern number (0-63)
-	; ld b, 6							;   b: layer (0-31)
-    ld a, (Enemy_Temp_Layer1stColor)
-    ld b, a                         ;   b: layer (0-31)
-	ld a, 63					    ;   a: pattern number (0-63)
-	; call PutSprite16x16				;   put non existent sprite at layer, to hide the enemy
-	; ld b, 30						;   b: layer (0-31)
-    ld a, (Enemy_Temp_LayerShadow)
-    ld b, a                         ;   b: layer (0-31)
-	ld a, 63					    ;   a: pattern number (0-63)
-	; call PutSprite16x16				;   put non existent sprite at layer, to hide the enemy
-}
 
 
 .next:
@@ -356,12 +252,12 @@ Enemy shots
     ; ld bc, 4
     ; add hl, bc
     ; ld (hl), a                          ; Addr 1st color
-    ld (ix + 4), a                          ; Addr 1st color
+    ld (ix + (8 * 4)), a                  ; Addr 1st color
 
     ; ld bc, 20 * 4
     ; add hl, bc
     ; ld (hl), a                          ; Addr shadow
-    ld (ix + 4 + (20 * 4)), a                          ; Addr shadow
+    ld (ix + (21 * 4)), a                 ; Addr shadow
 
 
 ; color
@@ -377,13 +273,13 @@ Enemy shots
     ; ld bc, 4
     ; add hl, bc
     ; ld (hl), a                          ; Addr 1st color
-    ld (ix + 4), a                          ; Addr 1st color
+    ld (ix + (8 * 4)), a                  ; Addr 1st color
 
     ld a, 1
     ; ld bc, 20 * 4
     ; add hl, bc
     ; ld (hl), a                          ; Addr shadow
-    ld (ix + 4 + (20 * 4)), a                          ; Addr shadow
+    ld (ix + (21 * 4)), a                 ; Addr shadow
 
     ret
 
@@ -394,12 +290,12 @@ Enemy shots
     ; ld bc, 4
     ; add hl, bc
     ; ld (hl), a                          ; Addr 1st color
-    ld (ix + 4), a                          ; Addr 1st color
+    ld (ix + (8 * 4)), a                  ; Addr 1st color
 
     add 8                             
     ; ld bc, 20 * 4
     ; add hl, bc
     ; ld (hl), a                          ; Addr shadow
-    ld (ix + 4 + (20 * 4)), a                          ; Addr shadow
+    ld (ix + (21 * 4)), a                 ; Addr shadow
 
     ret

@@ -22,71 +22,37 @@
                                                          rb (2*4)
 
     ; Enemy 0 2nd color
-    SpriteLayer_5_BaseAddr:
-    SpriteLayer_5_Y:                                     rb 1            ;
-    SpriteLayer_5_X:                                     rb 1            ;
-    SpriteLayer_5_Pattern:                               rb 1            ;
-    SpriteLayer_5_Color:                                 rb 1            ;
-
-    ; Enemy 0 1st color
-    SpriteLayer_6_Y:                                     rb 1            ;
-    SpriteLayer_6_X:                                     rb 1            ;
-    SpriteLayer_6_Pattern:                               rb 1            ;
-    SpriteLayer_6_Color:                                 rb 1            ;
+    SpriteLayer_5_BaseAddr:                               rb 4
 
     ; Enemy 1 2nd color
-    SpriteLayer_7_BaseAddr:
-    SpriteLayer_7_Y:                                     rb 1            ;
-    SpriteLayer_7_X:                                     rb 1            ;
-    SpriteLayer_7_Pattern:                               rb 1            ;
-    SpriteLayer_7_Color:                                 rb 1            ;
-
-    ; Enemy 1 1st color
-    SpriteLayer_8_Y:                                     rb 1            ;
-    SpriteLayer_8_X:                                     rb 1            ;
-    SpriteLayer_8_Pattern:                               rb 1            ;
-    SpriteLayer_8_Color:                                 rb 1            ;
+    SpriteLayer_6_BaseAddr:                               rb 4
 
     ; Enemy 2 2nd color
-    SpriteLayer_9_BaseAddr:
-    SpriteLayer_9_Y:                                     rb 1            ;
-    SpriteLayer_9_X:                                     rb 1            ;
-    SpriteLayer_9_Pattern:                               rb 1            ;
-    SpriteLayer_9_Color:                                 rb 1            ;
-
-    ; Enemy 2 1st color
-    SpriteLayer_10_Y:                                     rb 1            ;
-    SpriteLayer_10_X:                                     rb 1            ;
-    SpriteLayer_10_Pattern:                               rb 1            ;
-    SpriteLayer_10_Color:                                 rb 1            ;
+    SpriteLayer_7_BaseAddr:                               rb 4
 
     ; Enemy 3 2nd color
-    SpriteLayer_11_BaseAddr:
-    SpriteLayer_11_Y:                                     rb 1            ;
-    SpriteLayer_11_X:                                     rb 1            ;
-    SpriteLayer_11_Pattern:                               rb 1            ;
-    SpriteLayer_11_Color:                                 rb 1            ;
-
-    ; Enemy 3 1st color
-    SpriteLayer_12_Y:                                     rb 1            ;
-    SpriteLayer_12_X:                                     rb 1            ;
-    SpriteLayer_12_Pattern:                               rb 1            ;
-    SpriteLayer_12_Color:                                 rb 1            ;2
+    SpriteLayer_8_BaseAddr:                               rb 4
 
     ; Enemy 4 2nd color
-    SpriteLayer_13_BaseAddr:
-    SpriteLayer_13_Y:                                     rb 1            ;
-    SpriteLayer_13_X:                                     rb 1            ;
-    SpriteLayer_13_Pattern:                               rb 1            ;
-    SpriteLayer_13_Color:                                 rb 1            ;
+    SpriteLayer_9_BaseAddr:                               rb 4
 
+    SpriteLayer_10_BaseAddr:                              rb 4
+    SpriteLayer_11_BaseAddr:                              rb 4
+    SpriteLayer_12_BaseAddr:                              rb 4
+
+
+    ; Enemy 0 1st color
+    SpriteLayer_13_BaseAddr:                              rb 4
+    ; Enemy 1 1st color
+    SpriteLayer_14_BaseAddr:                              rb 4
+    ; Enemy 2 1st color
+    SpriteLayer_15_BaseAddr:                              rb 4
+    ; Enemy 3 1st color
+    SpriteLayer_16_BaseAddr:                              rb 4
     ; Enemy 4 1st color
-    SpriteLayer_14_Y:                                     rb 1            ;
-    SpriteLayer_14_X:                                     rb 1            ;
-    SpriteLayer_14_Pattern:                               rb 1            ;
-    SpriteLayer_14_Color:                                 rb 1            ;2
+    SpriteLayer_17_BaseAddr:                              rb 4
 
-                                                         rb (3*4)
+
 
 
     ; Enemy shot 0
