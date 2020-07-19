@@ -1,5 +1,5 @@
 {
- Pacific v.0.23.0           jun-jul/2020
+ Pacific v.0.24.0           jun-jul/2020
  for MSX 1 computers
 
  File to be assembled by tniasm 0.45

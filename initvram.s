@@ -86,19 +86,19 @@
 ; First third
 	ld	bc, 3 * 8           ; Block length
 	ld	de, ColorsTable     ; VRAM Address
-	ld	hl, Colors_0        ; RAM Address
+	ld	hl, Colors_Sea_Daylight        ; RAM Address
     call BIOS_LDIRVM        ; Block transfer to VRAM from memory
     
 ; Second third
 	ld	bc, 8               ; Block length
 	ld	de, ColorsTable + (256 * 8)
-	ld	hl, Colors_0        ; RAM Address
+	ld	hl, Colors_Sea_Daylight        ; RAM Address
     call BIOS_LDIRVM        ; Block transfer to VRAM from memory
 
 ; Last third
 	ld	bc, 8               ; Block length
 	ld	de, ColorsTable + (256 * 8) + (256 * 8)
-	ld	hl, Colors_0        ; RAM Address
+	ld	hl, Colors_Sea_Daylight        ; RAM Address
     call BIOS_LDIRVM        ; Block transfer to VRAM from memory
 
 

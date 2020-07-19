@@ -353,3 +353,110 @@ FC9Eh	JIFFY	1	Contains value of the software clock, each interrupt of the VDP it
 The contents can be read or changed by the function 'TIME' or instruction 'TIME'.
 
 }
+
+
+{
+
+; new collision check routine
+
+; Inputs:
+;              h : x1
+;              l : width1
+;              i : x2
+;              y : width2
+;
+;              b : y1
+;              c : height1
+;              d : y2
+;              e : height2
+
+CollisionCheck_Boxes
+        ld      a, d            ; get y2
+        sub     b               ; calculate y2 - y1
+        jr      c, .other       ; jump if y2 < y1
+
+        sub     c               ; compare with heigth1
+        ret nc                  ; return if no collision
+        jp .checkX
+
+.other:
+
+        neg                     ; use negative value
+
+        sub     e               ; compare with heigth2
+
+        ret nc                  ; return if no collision
+
+ 
+
+.checkX:
+
+        ld      a, iyh          ; get x2
+
+        sub     h               ; calculate x2 - x1
+
+        jr      c, .other1      ; jump if y2 < y1
+
+        sub     l               ; compare with width1
+
+        ret                               ; return result
+
+.other1:
+
+        neg                     ; use negative value
+
+        sub     iyl             ; compare with width2
+
+        ret                               ; return result
+
+ 
+
+ 
+
+;
+
+; CollisionCheck
+
+;
+
+;   Calculates whether a collision occurs between two objects
+
+;   of a certain size
+
+;
+
+; IN: b = coordinate of object 1
+
+;     c = size of object 1
+
+;     d = coordinate of object 2
+
+;     e = size of object 2
+
+; OUT: Carry set if collision
+
+; CHANGES: AF
+
+;
+
+CollisionCheck_8b:
+
+        ld      a,d             ; get x2                       [5]
+
+        sub     b               ; calculate x2-x1              [5]
+
+        jr      c,.other        ; jump if x2<x1                [13/8]
+
+        sub     c               ; compare with size 1          [5]
+
+        ret                     ; return result                [11]
+
+.other:
+
+        neg                     ; use negative value           [10]
+
+        sub     e               ; compare with size 1          [5]
+
+        ret                     ; return result                [11]
+
+ }

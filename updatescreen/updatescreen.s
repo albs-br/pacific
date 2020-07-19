@@ -50,7 +50,6 @@ UpdateScreen:
 
 
 
-
 	; TODO: maybe this logic would be on gamelogic.s
 	; Player plane shot
 	ld a, (Player_Shot)				;   get indicator of shot fired
@@ -75,21 +74,10 @@ UpdateScreen:
 
 	ld a, (Counter+4)	    	    ;
     bit 0, a
-    jp z, .continueColor            ;   alternate colors of shot at each frame
+    jp z, .continue            ;   alternate colors of shot at each frame
 
     ld a, 8						    ;   color red
 	ld (Player_Shot_Color), a
-
-.continueColor:
-
-	; ld a, 2							;   a: pattern number (0-63)
-	; ld b, 2							;   b: layer (0-31)
-	; call PutSprite16x16				;
-
-
-
-
-
 
     jp .continue
 

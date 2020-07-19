@@ -102,7 +102,6 @@ GameLogicEnemy:
 	; ld e, 101
 
 	call CheckCollision             ; 
-    ;or a							; same as cp 0, but faster
     jp nz, .colisionTrue
 
 
@@ -134,7 +133,38 @@ GameLogicEnemy:
 	; ld (Enemy_Shot_1_Y), a				;
 	ld (ix + 10), a				;
 
+
+
+	; Check collision between enemy shot and player plane
+	; TODO: adjust the box size
+	ld h, (ix + 9)				; shot X
+	ld l, (ix + 10)				; shot Y
+
+	ld a, (Player_X)
+	ld b, a						; player x1
+	add 16
+	ld d, a						; player x2
+
+	ld a, (Player_Y)
+	ld c, a						; player y1
+	add 16
+	ld e, a						; player y2
+
+	call CheckCollision             ; 
+    jp nz, .colisionEnemyShotPlayerTrue
+
 	jp .next
+
+.colisionEnemyShotPlayerTrue:
+
+	ld a, (Player_Lives)
+	dec a
+	ld (Player_Lives), a
+	call ShowLives
+
+	ld a, (Player_Lives)
+	cp 0
+	jp z, .gameOver
 
 .disableEnemyShot:
 	ld a, 0
@@ -148,6 +178,10 @@ GameLogicEnemy:
     ret
 
 .colisionTrue:
+
+	; call SoundExplosion
+	call SoundGetItem
+
 	ld a, 0							; hide enemy
 	; ld (Enemy_1_Show), a
 	ld (ix), a
@@ -185,3 +219,7 @@ GameLogicEnemy:
 	call ShowScore
 
     ret
+
+
+.gameOver:
+	jp .gameOver

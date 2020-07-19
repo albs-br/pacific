@@ -32,6 +32,15 @@ ReadInput:
     call z, .checkTriggerPressed              
     call .checkTriggerReleased
 
+
+
+    ld a, 7                 ; 7th line
+    call BIOS_SNSMAT        ; Read Data Of Specified Line From Keyboard Matrix
+    bit 2, a                ; 6th bit (esc key)
+    call z, Pause
+
+
+
     ret
 
 .checkTriggerPressed:
@@ -123,5 +132,31 @@ PlanePlayerShot:
 PlaneTriggerReleased:
     ld a, 0                                 ; reset flag of shot fired
     ld (Player_Trigger_Pressed), a          ; trigger pressed flag
+
+    ret
+
+
+
+Pause:
+    ; wait for ESC to be released
+    ld a, 7                 ; 7th line
+    call BIOS_SNSMAT        ; Read Data Of Specified Line From Keyboard Matrix
+    bit 2, a                ; 6th bit (esc key)
+    jp z, Pause
+
+.isPaused:
+    ; wait for ESC to be pressed again
+    ld a, 7                 ; 7th line
+    call BIOS_SNSMAT        ; Read Data Of Specified Line From Keyboard Matrix
+    bit 2, a                ; 6th bit (esc key)
+    jp nz, .isPaused
+
+.wait:
+    ; wait for ESC to be released to unpause
+    ld a, 7                 ; 7th line
+    call BIOS_SNSMAT        ; Read Data Of Specified Line From Keyboard Matrix
+    bit 2, a                ; 6th bit (esc key)
+    jp z, .wait
+
 
     ret
