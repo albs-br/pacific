@@ -498,11 +498,10 @@ ShowScore:
 
 GameOver:
     ; write 'GAME OVER' on midscreen
-	ld	bc, 9               ; Block length
-	ld	de, NamesTable + 256 + (32 * 4) + 16 - 4 ; VRAM Address
-	ld	hl, Msg_GameOver          ; RAM Address
-    call BIOS_LDIRVM        ; Block transfer to VRAM from memory
-    
+	ld	de, NamesTable + 256 + (32 * 4) + 16 - 4        ; VRAM Address
+	ld	hl, Msg_GameOver                                ;
+    call PrintString                                    ; Write string in screen 2 (hl: string addr, de: vram addr)
+
     jp GameOver
 
 

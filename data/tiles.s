@@ -465,6 +465,17 @@ Tile_Char_Z:                     ;
 	db  01111110 b 		; 
 	db  00000000 b 		; 
 
+Tile_Char_Dot_Number:	equ 84	; NOT same as ascii code for this char
+Tile_Char_Dot:                     ;
+	db  00000000 b 		; 
+	db  00000000 b 		; 
+	db  00000000 b 		; 
+	db  00000000 b 		; 
+	db  00000000 b 		; 
+	db  00000000 b 		; 
+	db  00011000 b 		; 
+	db  00011000 b 		; 
+
 Colors_Char:                   ;
     db 0xf1                 ;   high nibble: foreground color; low nibble: background color
     db 0xf1                 ;

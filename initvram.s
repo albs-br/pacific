@@ -59,20 +59,20 @@
 ; Define patterns (copying 8 bytes from memory to VRAM)
 ; First third
 	ld	bc, 3 * 8           ; Block length
-	ld	de, PatternsTable   ; VRAM Address
-	ld	hl, Tile_Sea          ; RAM Address
+	ld	de, PatternsTable   ; VRAM start address
+	ld	hl, Tile_Sea        ; RAM start address
     call BIOS_LDIRVM        ; Block transfer to VRAM from memory
 
 ; Second third
-	ld	bc, 8               ; Block length
-	ld	de, PatternsTable + (256 * 8)
-	ld	hl, Tile_Sea          ; RAM Address
+	ld	bc, 3 * 8           ; Block length
+	ld	de, PatternsTable + (256 * 8); VRAM start address
+	ld	hl, Tile_Sea        ; RAM start address
     call BIOS_LDIRVM        ; Block transfer to VRAM from memory
 
 ; Last third
-	ld	bc, 8               ; Block length
-	ld	de, PatternsTable + (256 * 8) + (256 * 8)
-	ld	hl, Tile_Sea          ; RAM Address
+	ld	bc, 3 * 8           ; Block length
+	ld	de, PatternsTable + (256 * 8) + (256 * 8); VRAM start address
+	ld	hl, Tile_Sea        ; RAM start address
     call BIOS_LDIRVM        ; Block transfer to VRAM from memory
 
 
@@ -84,27 +84,27 @@
  
 ; Define colors (copying 8 bytes from memory to VRAM)
 ; First third
-	ld	bc, 3 * 8           ; Block length
-	ld	de, ColorsTable     ; VRAM Address
-	ld	hl, Colors_Sea_Daylight        ; RAM Address
-    call BIOS_LDIRVM        ; Block transfer to VRAM from memory
+	ld	bc, 3 * 8           						; Block length
+	ld	de, ColorsTable     						; VRAM start address
+	ld	hl, Colors_Sea_Daylight        				; RAM start address
+    call BIOS_LDIRVM        						; Block transfer to VRAM from memory
     
 ; Second third
-	ld	bc, 8               ; Block length
-	ld	de, ColorsTable + (256 * 8)
-	ld	hl, Colors_Sea_Daylight        ; RAM Address
-    call BIOS_LDIRVM        ; Block transfer to VRAM from memory
+	ld	bc, 3 * 8             						; Block length
+	ld	de, ColorsTable + (256 * 8)					; VRAM start address
+	ld	hl, Colors_Sea_Daylight        				; RAM start address
+    call BIOS_LDIRVM        						; Block transfer to VRAM from memory
 
 ; Last third
-	ld	bc, 8               ; Block length
-	ld	de, ColorsTable + (256 * 8) + (256 * 8)
-	ld	hl, Colors_Sea_Daylight        ; RAM Address
-    call BIOS_LDIRVM        ; Block transfer to VRAM from memory
+	ld	bc, 3 * 8              						; Block length
+	ld	de, ColorsTable + (256 * 8) + (256 * 8)		; VRAM start address
+	ld	hl, Colors_Sea_Daylight        				; RAM start address
+    call BIOS_LDIRVM        						; Block transfer to VRAM from memory
 
 
 
 ; Fill names table
-; First third
+; Top strip with lives, score, etc
 	ld	bc, 32              ; Block length
 	ld	de, NamesTable		; VRAM address
 	ld	hl, TopStripTiles   ; RAM Address
@@ -126,7 +126,7 @@
 ;---------------------
 
 
-NUMBER_OF_CHARS:  equ 36
+NUMBER_OF_CHARS:  equ 37
 
 ; Patterns Table (first third)
 	ld	bc, NUMBER_OF_CHARS * 8               ; Block length

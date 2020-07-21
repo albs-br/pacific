@@ -330,7 +330,7 @@ CollisionCheck_1d:
 ;
 ; Inputs:
 ;   DE: VRAM color table start address
-;   HL: RAM start address of tile patetrn (8 bytes)
+;   HL: RAM start address of tile pattern (8 bytes)
 ;   A: number of cells in color table to be filled by the pattern 
 ; Output:
 ;   
@@ -360,6 +360,67 @@ FillColorTable:
 	jr nz, FillColorTable
 	
 	ret
+
+
+; ---------------------------------------------------------
+; Write string on screen 2
+; 
+; Destroys:
+;   a
+;
+; Inputs:
+;   DE: VRAM names table start address
+;   HL: RAM start address of string (string should end with a zero)
+; Output:
+;   none
+PrintString:
+    ld a, (hl)
+    cp 0
+    ret z                           ; end of string
+
+
+    push hl
+    push de
+
+    cp 65
+    jp nc, .alpha                   ; if(a >= 65)
+
+    cp 48
+    jp nc, .print                   ; if(a >= 48) code is the same as ASCII
+
+    cp 46
+    jp z, .dot
+
+    cp 32
+    jp z, .space
+
+    jp .alpha
+
+.dot:
+    ld a, 84
+    jp .print
+
+.space:
+    ld a, 1
+    jp .print
+
+.alpha:
+    sub 7                           ; convert ASCII code to game's pattern table. eg. A = 65 to 58
+
+.print:
+    ld h, d
+    ld l, e
+	call BIOS_WRTVRM		        ; Writes data in VRAM (HL: address, A: value)
+    
+    pop de
+    pop hl
+
+
+    inc hl
+    inc de
+    
+    jp PrintString
+
 {
 ;if a < d 
     cp d
