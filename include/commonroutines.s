@@ -265,6 +265,63 @@ CheckCollision:
 
 
 
+; Struct object:
+Struct_CollisionBox:
+.X:         equ     0
+.Y:         equ     1
+.width:     equ     2
+.height:    equ     3
+
+
+
+; Inputs (both using Struct_CollisionBox):
+;   IX: obj 1
+;   IY: obj 2
+; Out: Carry set if collision
+CollisionCheck_Boxes:
+    ; check collision on x axis
+    ld b, (ix + Struct_CollisionBox.X)
+    ld c, (ix + Struct_CollisionBox.width)
+    ld d, (iy + Struct_CollisionBox.X)
+    ld e, (iy + Struct_CollisionBox.width)
+    call CollisionCheck_1d
+    ret nc
+
+    ; check collision on y axis
+    ld b, (ix + Struct_CollisionBox.Y)
+    ld c, (ix + Struct_CollisionBox.height)
+    ld d, (iy + Struct_CollisionBox.Y)
+    ld e, (iy + Struct_CollisionBox.height)
+    call CollisionCheck_1d
+    ret
+
+
+;
+; CollisionCheck 1d
+;
+;   Calculates whether a collision occurs between two objects
+;   of a certain size
+;
+; IN: b = coordinate of object 1
+;     c = size of object 1
+;     d = coordinate of object 2
+;     e = size of object 2
+; OUT: Carry set if collision
+; CHANGES: AF
+;
+CollisionCheck_1d:
+        ld      a,d             ; get x2                       [5]
+        sub     b               ; calculate x2-x1              [5]
+        jr      c,.other        ; jump if x2<x1                [13/8]
+        sub     c               ; compare with size 1          [5]
+        ret                     ; return result                [11]
+.other:
+        neg                     ; use negative value           [10]
+        sub     e               ; compare with size 2          [5]
+        ret                     ; return result                [11]
+
+
+
 ; ---------------------------------------------------------
 ; Fills a range of cells in color table with a color pattern in RAM
 ; 
@@ -355,108 +412,3 @@ The contents can be read or changed by the function 'TIME' or instruction 'TIME'
 }
 
 
-{
-
-; new collision check routine
-
-; Inputs:
-;              h : x1
-;              l : width1
-;              i : x2
-;              y : width2
-;
-;              b : y1
-;              c : height1
-;              d : y2
-;              e : height2
-
-CollisionCheck_Boxes
-        ld      a, d            ; get y2
-        sub     b               ; calculate y2 - y1
-        jr      c, .other       ; jump if y2 < y1
-
-        sub     c               ; compare with heigth1
-        ret nc                  ; return if no collision
-        jp .checkX
-
-.other:
-
-        neg                     ; use negative value
-
-        sub     e               ; compare with heigth2
-
-        ret nc                  ; return if no collision
-
- 
-
-.checkX:
-
-        ld      a, iyh          ; get x2
-
-        sub     h               ; calculate x2 - x1
-
-        jr      c, .other1      ; jump if y2 < y1
-
-        sub     l               ; compare with width1
-
-        ret                               ; return result
-
-.other1:
-
-        neg                     ; use negative value
-
-        sub     iyl             ; compare with width2
-
-        ret                               ; return result
-
- 
-
- 
-
-;
-
-; CollisionCheck
-
-;
-
-;   Calculates whether a collision occurs between two objects
-
-;   of a certain size
-
-;
-
-; IN: b = coordinate of object 1
-
-;     c = size of object 1
-
-;     d = coordinate of object 2
-
-;     e = size of object 2
-
-; OUT: Carry set if collision
-
-; CHANGES: AF
-
-;
-
-CollisionCheck_8b:
-
-        ld      a,d             ; get x2                       [5]
-
-        sub     b               ; calculate x2-x1              [5]
-
-        jr      c,.other        ; jump if x2<x1                [13/8]
-
-        sub     c               ; compare with size 1          [5]
-
-        ret                     ; return result                [11]
-
-.other:
-
-        neg                     ; use negative value           [10]
-
-        sub     e               ; compare with size 1          [5]
-
-        ret                     ; return result                [11]
-
- }

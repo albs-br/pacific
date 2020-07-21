@@ -4,8 +4,8 @@
     ; Player 2nd color
     SpriteLayer_0_Y:         Player_Y:                   rb 1            ;
     SpriteLayer_0_X:         Player_X:                   rb 1            ;
-    SpriteLayer_0_Pattern:                               rb 1            ;
-    SpriteLayer_0_Color:                                 rb 1            ;
+    SpriteLayer_0_Pattern:   Player_Pattern:             rb 1            ;
+    SpriteLayer_0_Color:     Player_Color:               rb 1            ;
 
     ; Player 1st color
     SpriteLayer_1_Y:                                     rb 1            ;

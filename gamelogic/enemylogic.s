@@ -36,6 +36,11 @@ GameLogicEnemy:
 	; ld (Enemy_1_Y), a				; save updated value
 	ld (ix + 6), a				; save updated value
 
+	push ix
+    ld ix, EnemyTemp_CollisionBox		; update coord of collision box
+    ld (ix + Struct_CollisionBox.Y), a
+	pop ix
+
 	jp .contGameLogic
 
 .enemyType_1:
@@ -47,6 +52,11 @@ GameLogicEnemy:
 
 	; ld (Enemy_1_X), a				; save updated value
 	ld (ix + 5), a				; save updated value
+
+	push ix
+    ld ix, EnemyTemp_CollisionBox		; update coord of collision box
+    ld (ix + Struct_CollisionBox.X), a
+	pop ix
 
 	jp .contGameLogic
 
@@ -60,6 +70,11 @@ GameLogicEnemy:
 	; ld (Enemy_1_X), a				; save updated value
 	ld (ix + 5), a				; save updated value
 
+	push ix
+    ld ix, EnemyTemp_CollisionBox		; update coord of collision box
+    ld (ix + Struct_CollisionBox.X), a
+	pop ix
+
 	jp .contGameLogic
 
 .hideEnemy:
@@ -70,12 +85,25 @@ GameLogicEnemy:
 
 .contGameLogic:
 
+	; Check collision between player and enemy
+	; push ix
+
+	; ld ix, Player_CollisionBox
+	; ld iy, EnemyTemp_CollisionBox
+	
+	; call CollisionCheck_Boxes
+	; pop ix
+    ; jp c, .playerPlaneGotHit
+
+
+
+
 	ld a, (Player_Shot)				; if there is no shot fired skip check collision between shot and enemy
 	cp 0
 	jp z, .skipCheckEnemy_1
 
+
     ; Test colision between shot and enemy
-	; TODO: check all 4 points not only one
 	ld a, (Player_Shot_X)			;   h: x coord
 	add a, 6						;   get the correct upper left pixel
 	ld h, a
@@ -103,6 +131,16 @@ GameLogicEnemy:
 
 	call CheckCollision             ; 
     jp nz, .colisionTrue
+
+
+	; push ix
+
+	; ld ix, Player_Shot_CollisionBox
+	; ld iy, EnemyTemp_CollisionBox
+	
+	; call CollisionCheck_Boxes
+	; pop ix
+    ; jp c, .colisionTrue
 
 
 .skipCheckEnemy_1:
@@ -151,20 +189,23 @@ GameLogicEnemy:
 	ld e, a						; player y2
 
 	call CheckCollision             ; 
-    jp nz, .colisionEnemyShotPlayerTrue
+    jp nz, .playerPlaneGotHit
 
 	jp .next
 
-.colisionEnemyShotPlayerTrue:
+.playerPlaneGotHit:
+
+	ld a, 1
+	ld (Player_State), a
 
 	ld a, (Player_Lives)
 	dec a
 	ld (Player_Lives), a
 	call ShowLives
 
-	ld a, (Player_Lives)
-	cp 0
-	jp z, .gameOver
+	; ld a, (Player_Lives)
+	; cp 0
+	; jp z, .gameOver
 
 .disableEnemyShot:
 	ld a, 0
@@ -221,5 +262,5 @@ GameLogicEnemy:
     ret
 
 
-.gameOver:
-	jp .gameOver
+; .gameOver:
+; 	jp .gameOver

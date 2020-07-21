@@ -100,7 +100,7 @@ Enemy shots
 
 	
 	
-	ld a, (Enemy_Temp_State)
+	;ld a, (Enemy_Temp_State)        ;TODO: is it necessary?
 	cp 40							;if(enemyState >= 40)
 	jp nc, .explosion1stFrame
 	cp 30							;if(enemyState >= 30)

@@ -7,11 +7,16 @@
 
 
 ; Player plane
+    Player_State:               rb 1            ; 0: dont shot, 1: shot (in future may be used to count number of simultaneous shots)
     Player_Shot:                rb 1            ; 0: dont shot, 1: shot (in future may be used to count number of simultaneous shots)
     Player_Lives:               rb 1            ;
     Player_Score:               rb 2            ; 2 bytes using BCD code, so the max score is 9999 (shown on screen as 99990
     Player_Trigger_Pressed:     rb 1            ;
 
+; Collison boxes (using Struct_CollisionBox)
+    Player_CollisionBox:        rb 4            ;
+    Player_Shot_CollisionBox:   rb 4            ;
+    EnemyTemp_CollisionBox:     rb 4            ;
 
 ; Enemy temp memory space
     Enemy_Temp_Base_Address:

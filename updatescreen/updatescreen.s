@@ -8,6 +8,9 @@ UpdateScreen:
     ; db  (192-32), (256/2)-4, 0, 15          ; Player Plane 1st color
     ; db  (192-32)+8, (256/2)-4+8, 0, 1       ; Player Plane shadow
 
+	ld a, (Player_State)
+	cp 0
+	jp nz, .playerExplosion
 
 	ld a, (Player_Y)
 	ld (SpriteLayer_1_Y), a				; 1st color
@@ -21,7 +24,92 @@ UpdateScreen:
 	add 8
 	ld (SpriteLayer_31_X), a			; shadow
 
+	jp .showEnemies
 
+.playerExplosion:
+	inc a
+	ld (Player_State), a
+
+	cp 255
+	jp z, .restorePlayer			;
+
+	cp 50							; counter number of animation end
+	jp nc, .endExplosionPlayer		; if(enemyState >= 50) end animation
+
+
+	cp 40							;if(enemyState >= 40)
+	jp nc, .explosion1stFrame
+	cp 30							;if(enemyState >= 30)
+	jp nc, .explosion2ndFrame
+	cp 20							;if(enemyState >= 20)
+	jp nc, .explosion3rdFrame
+	cp 10							;if(enemyState >= 10)
+	jp nc, .explosion2ndFrame
+	jp .explosion1stFrame			;else
+
+.restorePlayer:
+
+	ld a, (Player_Lives)
+	cp 0
+	jp z, GameOver
+
+
+	ld a, 0
+    ld (Player_State), a
+
+	ld a, 1 * 4					
+    ld (Player_Pattern), a
+	ld a, 12					
+    ld (Player_Color), a
+	
+	ld a, 0 * 4					
+    ld (SpriteLayer_1_Pattern), a
+	ld a, 3					
+    ld (SpriteLayer_1_Color), a
+	
+	ld a, 0 * 4					
+    ld (SpriteLayer_31_Pattern), a
+	ld a, 1
+    ld (SpriteLayer_31_Color), a
+	
+	jp .showEnemies
+
+.explosion3rdFrame:	
+	ld a, 10 * 4					;   a: pattern number (0-63)
+    ld (Player_Pattern), a
+	ld a, 10 						;   c: color (0-15)
+    ld (Player_Color), a
+	jp .explosionCont
+.explosion2ndFrame:	
+	ld a, 9	* 4						;   a: pattern number (0-63)
+    ld (Player_Pattern), a
+	ld a, 8 						;   c: color (0-15)
+    ld (Player_Color), a
+	jp .explosionCont
+.explosion1stFrame:	
+	ld a, 8	* 4						;   a: pattern number (0-63)
+    ld (Player_Pattern), a
+	ld a, 15 						;   c: color (0-15)
+    ld (Player_Color), a
+
+.endExplosionPlayer:
+	; hide player first sprite
+    ld a, 63 * 4                       		; put non existent sprite at layer, to hide the enemy
+    ld (Player_Pattern), a           		; Addr 2nd color pattern
+
+.explosionCont:
+	; hide other 2 sprites of player
+    ld a, 63 * 4                       		; put non existent sprite at layer, to hide the enemy
+    ld (SpriteLayer_1_Pattern), a           ; Addr 1st color pattern
+    ld (SpriteLayer_31_Pattern), a          ; Addr shadow pattern
+
+    ; ld a, (Enemy_Temp_2ndColorPattern)
+    ; ld (ix + 2), a                     ; Addr 2nd color pattern
+    ; ld a, (Enemy_Temp_2ndColor)
+    ; ld (ix + 3), a                     ; Addr 2nd color
+
+
+.showEnemies:
 
 	; Show first (# 0) enemy
 	ld hl, Enemy_0_Base_Address		; base addr of enemy variables
@@ -50,42 +138,6 @@ UpdateScreen:
 
 
 
-	; TODO: maybe this logic would be on gamelogic.s
-	; Player plane shot
-	ld a, (Player_Shot)				;   get indicator of shot fired
-    cp 0
-    jp z, .continue                 
-
-	ld a, (Player_Shot_Y)			;   get Y position of shot  
-    dec a
-    cp TOP_SCREEN - 1
-    jp z, .shotReachesTop           ;   if y=TOP_SCREEN disable shot
-
-	ld (Player_Shot_Y), a			;   saves updated Y position of shot  
-	ld e, a                         ;   put in e to call PutSprite later
-
-	ld a, (Player_Shot_X)			;   d: x coord
-	ld d, a
-	; ld a, (Player_Shot_Y)			;   e: y coord
-	; ld e, a
-	
-    ld a, 14						;   color gray
-	ld (Player_Shot_Color), a
-
-	ld a, (Counter+4)	    	    ;
-    bit 0, a
-    jp z, .continue            ;   alternate colors of shot at each frame
-
-    ld a, 8						    ;   color red
-	ld (Player_Shot_Color), a
-
-    jp .continue
-
-
-
-.shotReachesTop:
-
-	call DisableShot
 
 .continue:
 

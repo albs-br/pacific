@@ -1,5 +1,5 @@
-
-Tile_0:                     ; Sea
+Tile_Sea_Number:	equ 0
+Tile_Sea:                     ; Sea
 	db  10000000 b 		; 
 	db  00000000 b 		; 
 	db  00000000 b 		; 
@@ -40,7 +40,14 @@ Colors_Sea_Daylight:        ; Sea daylight
     db 0x74                 ;
 
 ; Colors_Sea_Nighttime:       ; Sea nighttime
-    ; db 0x41               ;
+;     db 0x41               ;
+;     db 0x41               ;
+;     db 0x41               ;
+;     db 0x41               ;
+;     db 0x41               ;
+;     db 0x41               ;
+;     db 0x41               ;
+;     db 0x41               ;
 
 Colors_Black:                   ;
     db 0x11                 ;   high nibble: foreground color; low nibble: background color
@@ -511,3 +518,8 @@ TestChars:
 TopStripTiles:                   ; screen top strip with lives, score, etc
     db      2, 1, 1, 1, 1, 1, 1, 1,  1, 76, 60, 72, 75, 62, 1, 1
     db      1, 1, 1, 1, 1, 1, 1, 1, 65, 66,  1,  1,  1, 1, 1, 1
+
+; TODO: put on adequate file
+Msg_Pause:
+	db		73, 58, 78, 76, 62
+

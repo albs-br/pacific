@@ -16,35 +16,49 @@ InitVariables:
     inc hl
     djnz .loop
 
+    ld ix, Player_CollisionBox
+
     ld a, 120                           ; (256/2) + 8  ; middle of screen minus half of sprite
-    ld (Player_X), a                    ; save value
+    ld (Player_X), a                    ;
+    ld (ix + Struct_CollisionBox.X), a
     ld a, 160                           ;
-    ld (Player_Y), a                    ; save value
-    ld a, 0                             ;
-    ld (Player_Shot), a                 ; save value
+    ld (Player_Y), a                    ;
+    ld (ix + Struct_CollisionBox.Y), a
 
-    ld (Enemy_0_Show), a                ; save value
-    ld (Enemy_0_State), a               ; save value
-    ld (Enemy_1_Show), a                ; save value
-    ld (Enemy_1_State), a               ; save value
-    ld (Enemy_2_Show), a                ; save value
-    ld (Enemy_2_State), a               ; save value
-    ld (Enemy_3_Show), a                ; save value
-    ld (Enemy_3_State), a               ; save value
-    ld (Enemy_4_Show), a                ; save value
-    ld (Enemy_4_State), a               ; save value
-    
-    ld (Enemy_Shot_0_Show), a           ; save value
-    ld (Enemy_Shot_1_Show), a           ; save value
-    ld (Enemy_Shot_2_Show), a           ; save value
-    ld (Enemy_Shot_3_Show), a           ; save value
-    ld (Enemy_Shot_4_Show), a           ; save value
+    ld a, 16
 
-    ld (Player_Trigger_Pressed), a      ; save value
+    ld (ix + Struct_CollisionBox.width), a  ; width and height of plane col box
+    ld (ix + Struct_CollisionBox.height), a
+
+    ld ix, EnemyTemp_CollisionBox
+    ld (ix + Struct_CollisionBox.width), a
+    ld (ix + Struct_CollisionBox.height), a
+
+
+    ld a, 0                             ; set all to zero
+    ld (Player_State), a                ;
+    ld (Player_Shot), a                 ;
+    ld (Enemy_0_Show), a                ;
+    ld (Enemy_0_State), a               ;
+    ld (Enemy_1_Show), a                ;
+    ld (Enemy_1_State), a               ;
+    ld (Enemy_2_Show), a                ;
+    ld (Enemy_2_State), a               ;
+    ld (Enemy_3_Show), a                ;
+    ld (Enemy_3_State), a               ;
+    ld (Enemy_4_Show), a                ;
+    ld (Enemy_4_State), a               ;
+    ld (Enemy_Shot_0_Show), a           ;
+    ld (Enemy_Shot_1_Show), a           ;
+    ld (Enemy_Shot_2_Show), a           ;
+    ld (Enemy_Shot_3_Show), a           ;
+    ld (Enemy_Shot_4_Show), a           ;
+    ld (Player_Trigger_Pressed), a      ;
+
     ld bc, 0
-    ld (Player_Score), bc               ; save value
+    ld (Player_Score), bc               ;
     ld a, 3                             ;
-    ld (Player_Lives), a                ; save value
+    ld (Player_Lives), a                ;
 
     
     ; ld a, 120               ;
@@ -477,6 +491,11 @@ ShowScore:
 
 
 
+GameOver:
+    jp GameOver
+
+
+    
 ShowDebugInfo:
     IFDEF DEBUG
 		; test sprite (plane type 2 1st color)

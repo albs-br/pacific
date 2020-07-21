@@ -1,6 +1,24 @@
 ReadInput:
 
 
+    ; Check for ESC key (pause)
+    ld a, 7                 ; 7th line
+    call BIOS_SNSMAT        ; Read Data Of Specified Line From Keyboard Matrix
+    bit 2, a                ; 6th bit (esc key)
+    call z, Pause
+
+
+
+
+    ld a, (Player_State)
+    cp 0
+    ret nz                  ; return if player isn't alive
+
+
+    ld ix, Player_CollisionBox
+
+
+
     ld a, 8                 ; 8th line
     call BIOS_SNSMAT        ; Read Data Of Specified Line From Keyboard Matrix
     bit 4, a                ; 4th bit (key left), table with all keys on MSX Progs em Ling. de Maq. pag 58
@@ -34,13 +52,6 @@ ReadInput:
 
 
 
-    ld a, 7                 ; 7th line
-    call BIOS_SNSMAT        ; Read Data Of Specified Line From Keyboard Matrix
-    bit 2, a                ; 6th bit (esc key)
-    call z, Pause
-
-
-
     ret
 
 .checkTriggerPressed:
@@ -66,7 +77,9 @@ PlanePlayerLeft:
     ld a, (Player_X)            ; player to left
     dec a
     ret z                       ; cancel if x=1
+
     ld (Player_X), a            ; save value
+    ld (ix + Struct_CollisionBox.X), a      ; set X of collision box
 
     ret
 
@@ -76,7 +89,9 @@ PlanePlayerRight:
     inc a
     cp 241
     ret nc                      ; cancel if x >= 241
+
     ld (Player_X), a            ; save value
+    ld (ix + Struct_CollisionBox.X), a      ; set X of collision box
 
     ret
 
@@ -86,7 +101,9 @@ PlanePlayerUp:
     dec a
     cp TOP_SCREEN - 1
     ret z                       ; cancel if y=TOP_SCREEN
+
     ld (Player_Y), a            ; save value
+    ld (ix + Struct_CollisionBox.Y), a      ; set Y of collision box
 
     ret
 
@@ -96,7 +113,9 @@ PlanePlayerDown:
     inc a
     cp 175
     ret nc                      ; cancel if y >= 175
+
     ld (Player_Y), a            ; save value
+    ld (ix + Struct_CollisionBox.Y), a      ; set Y of collision box
 
     ret
 
@@ -119,8 +138,19 @@ PlanePlayerShot:
     ld a, (Player_X)                        ; set X of shot = X of player
     ld (Player_Shot_X), a                   ;
 
+    ld ix, Player_Shot_CollisionBox
+
+    add 6
+    ld (ix + Struct_CollisionBox.X), a      ; set X of collision box
+    ld a, 4
+    ld (ix + Struct_CollisionBox.width), a  ; set width of collision box
+
     ld a, (Player_Y)                        ; set Y of shot = Y of player
     ld (Player_Shot_Y), a                   ;
+
+    ld (ix + Struct_CollisionBox.Y), a      ; set Y of collision box
+    ld a, 9
+    ld (ix + Struct_CollisionBox.height), a ; set height of collision box
 
     ld a, 2 * 4                             ; restore shot pattern
     ld (Player_Shot_Pattern), a
@@ -138,6 +168,13 @@ PlaneTriggerReleased:
 
 
 Pause:
+
+    ; write 'PAUSE' on midscreen
+	ld	bc, 5               ; Block length
+	ld	de, NamesTable + 256 + (32 * 4) + 16 - 2 ; VRAM Address
+	ld	hl, Msg_Pause          ; RAM Address
+    call BIOS_LDIRVM        ; Block transfer to VRAM from memory
+
     ; wait for ESC to be released
     ld a, 7                 ; 7th line
     call BIOS_SNSMAT        ; Read Data Of Specified Line From Keyboard Matrix
@@ -158,5 +195,12 @@ Pause:
     bit 2, a                ; 6th bit (esc key)
     jp z, .wait
 
+
+    ; Unpause
+    ; remove 'PAUSE' string from screen
+	ld	hl, NamesTable + 256 + (32 * 4) + 16 - 2 ; VRAM start address
+    ld  bc, 5            ; number of bytes
+    ld  a, Tile_Sea_Number                ; value
+    call BIOS_FILVRM        ; Fill VRAM
 
     ret
