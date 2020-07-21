@@ -1,7 +1,15 @@
+; These will be mapped to RAM, all values that will be modified need to be in RAM
 
-; Global counter                                ; big endian, LSB: 5th byte
-    Counter:                    rb 5            ; rb n  = reserve n bytes in RAM
 
+    LevelDataStart:             rb LevelDataChunckSize * 100        ; 100 max enemies per level
+    LevelDataEnd:               rb 1
+
+
+
+    Level:                      rb 1            ; number of current level
+    Counter:                    rb 5            ; Global counter; big endian, LSB: 5th byte
+    
+                                                ; rb n  = reserve n bytes in RAM
                                                 ; rw n  = reserve n words in RAM
 
 

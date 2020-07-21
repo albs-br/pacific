@@ -15,7 +15,7 @@ LevelDataChunckSize: equ    16       ; size in bytes
 ;    db 0                   ; 0: daylight / 1: nighttime
 
 
-LevelDataStart:
+Level_Test_DataStart:
     ; Enemy plane (type 0)
     ; dw  0xf000              ; counter value as word (little endian, LSB first)
     db  0x00, 0xd0          ; counter value as bytes (HSB, LSB)
@@ -318,7 +318,13 @@ LevelDataStart:
     db  0                   ; reserved
     db  0, 0, 0, 0, 0, 0    ; reserved
 
+.lastEnemy:
 
 
-LevelDataEnd:
+; Padding with 255 to make the level data 1600 bytes
+	ds Level_Test_DataStart - Level_Test_DataEnd - (Level_Test_DataStart - .lastEnemy), 255
+
+
+
+Level_Test_DataEnd:
     db  0

@@ -152,56 +152,33 @@ NUMBER_OF_CHARS:  equ 36
     call BIOS_LDIRVM        ; Block transfer to VRAM from memory
 
 
-;Colors table (first third)
 
+
+
+;Colors table (first third)
 ; color white gradiend, for digits  0-9
 	ld	de, ColorsTable + (Tile_Char_0_Number*8)     	; VRAM color table start address
 	ld	hl, Colors_Char        						; RAM start address of tile patetrn (8 bytes)
 	ld a, 10										; number of cells in color table to be filled by the pattern 
 	call FillColorTable
-
-
 ; color green gradiend (A-E):
 	ld	de, ColorsTable + (Tile_Char_A_Number*8)     	; VRAM color table start address
 	ld	hl, Colors_Char_1        					; RAM start address of tile patetrn (8 bytes)
 	ld a, NUMBER_OF_CHARS - 10						; number of cells in color table to be filled by the pattern 
 	call FillColorTable
 
-
-
 ;Colors table (second third)
-
 ; color white gradiend, for digits  0-9
 	ld	de, ColorsTable + (256 * 8) + (Tile_Char_0_Number*8)     	; VRAM color table start address
 	ld	hl, Colors_Char        						; RAM start address of tile patetrn (8 bytes)
 	ld a, 10										; number of cells in color table to be filled by the pattern 
 	call FillColorTable
-
 ; color green gradiend  (A-E):
 	ld	de, ColorsTable + (256 * 8) + (Tile_Char_A_Number*8)     	; VRAM color table start address
 	ld	hl, Colors_Char_1        					; RAM start address of tile patetrn (8 bytes)
 	ld a, NUMBER_OF_CHARS - 10						; number of cells in color table to be filled by the pattern 
 	call FillColorTable
 
-;names table
-; 	ld	hl, NamesTable+1      ; VRAM start address
-;     ld  a, 48                ; value
-;     ld  bc, 1             ; number of bytes
-; 	ld d, 3				; number of repetitions
-; .loop1:
-;     push af
-; 	push bc
-; 	push de
-; 	push hl
-; 	call BIOS_FILVRM        ; Fill VRAM
-; 	pop hl
-; 	pop de
-; 	pop bc
-; 	pop af
-; 	inc a
-; 	inc hl
-; 	dec d
-; 	jp z, .loop1
 
     IFDEF DEBUG
         ; Show tile set on screen (debug mode)

@@ -16,6 +16,9 @@ InitVariables:
     inc hl
     djnz .loop
 
+    ld a, 1                             ;
+    ld (Level), a                       ;
+
     ld ix, Player_CollisionBox
 
     ld a, 120                           ; (256/2) + 8  ; middle of screen minus half of sprite
@@ -36,6 +39,9 @@ InitVariables:
 
 
     ld a, 0                             ; set all to zero
+    
+    call ResetCounter
+
     ld (Player_State), a                ;
     ld (Player_Shot), a                 ;
     ld (Enemy_0_Show), a                ;
@@ -59,12 +65,6 @@ InitVariables:
     ld (Player_Score), bc               ;
     ld a, 3                             ;
     ld (Player_Lives), a                ;
-
-    
-    ; ld a, 120               ;
-    ; ld (Enemy_1_X), a       ; save value
-    ; ld a, 20                ;
-    ; ld (Enemy_1_Y), a       ; save value
     
     ret
 
@@ -85,14 +85,12 @@ IncrementCounter:
     dec hl    
     ld a, (hl)	    			; get value
     inc a
-    ; daa                       ; decimal adjust accumulator
     ld (hl), a                  ; save value
 
     jp z, .loop
 
 .continue:
     
-
     ; do actions based on current counter value
 	ld hl, Counter+4            ; LSB (5th byte)
     ld a, (hl)
@@ -122,6 +120,8 @@ IncrementCounter:
     ; cp 0x03                     
     ; jr nz, .continue1           ; checks 4th byte
 
+
+
     ; look for action to be done on current counter value
     ld d, b                         ; hi
     ld e, a                         ; lo
@@ -133,8 +133,13 @@ IncrementCounter:
 
 .loop1:
 ; TODO: trade this by a dw
-    push hl
     ld a, (hl)
+    
+    cp 255                     ; value 255 in the high byte o the counter in level data means end of data
+    ret z
+    
+    push hl
+
     cp d
     jp nz, .next               ; checks high byte of address
     inc hl
@@ -495,7 +500,29 @@ GameOver:
     jp GameOver
 
 
+
+; LoadLevelData
+; Input: HL addr of level data to be loaded
+LoadLevelData:
+    ;ld hl, addr                            ; addr origin
+    ld de, LevelDataStart                   ; addr destiny
+    ld bc, LevelDataEnd - LevelDataStart    ; number of bytes
+    ldir                                    ; copy BC bytes from HL to DE
     
+    call ResetCounter
+    ret
+
+
+ResetCounter:
+    ;ld a, 0
+    xor a                               ; same as ld a, 0 but faster
+    ld (Counter), a                     ;
+    ld (Counter + 1), a                 ;
+    ld (Counter + 2), a                 ;
+    ld (Counter + 3), a                 ;
+    ld (Counter + 4), a                 ;
+    ret
+
 ShowDebugInfo:
     IFDEF DEBUG
 		; test sprite (plane type 2 1st color)
@@ -537,7 +564,7 @@ ShowDebugInfo:
 		ld d, 160+32
 		ld e, 100
 		ld c, 15						;   c: color (0-15)
-		ld a, 10							;   a: pattern number (0-63)
+		ld a, 10						;   a: pattern number (0-63)
 		ld b, 24						;   b: layer (0-31)
 		call PutSprite16x16				;
 		; test sprite (plane type 3 1st color)

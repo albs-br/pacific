@@ -1,5 +1,5 @@
 {
- Pacific v.0.25.0           jun-jul/2020
+ Pacific v.0.26.0           jun-jul/2020
  for MSX 1 computers
 
  File to be assembled by tniasm 0.45
@@ -84,6 +84,8 @@ ENDIF
     call ShowLives
 
 
+    ld hl, Level_Test_DataStart
+    call LoadLevelData
 
 MainLoop:
 
