@@ -507,19 +507,3 @@ Colors_1:
     db 0x14                 ;
 }
 
-TestChars:
-	;       0                          9
-    db      48,49,50,51,52,53,54,55,56,57
-    ;       A                                   M
-    db      58,59,60,61,62,63,64,65,66,67,68,69,70
-    ;       N              S              X     Z
-    db      71,72,73,74,75,76,77,78,79,80,81,82,83
-
-TopStripTiles:                   ; screen top strip with lives, score, etc
-    db      2, 1, 1, 1, 1, 1, 1, 1,  1, 76, 60, 72, 75, 62, 1, 1
-    db      1, 1, 1, 1, 1, 1, 1, 1, 65, 66,  1,  1,  1, 1, 1, 1
-
-; TODO: put on adequate file
-Msg_Pause:
-	db		73, 58, 78, 76, 62
-

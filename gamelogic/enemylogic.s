@@ -175,6 +175,11 @@ GameLogicEnemy:
 
 	; Check collision between enemy shot and player plane
 	; TODO: adjust the box size
+
+	ld a, (Player_State)
+	cp 0
+	jp nz, .next				; skip if player isn't alive
+
 	ld h, (ix + 9)				; shot X
 	ld l, (ix + 10)				; shot Y
 

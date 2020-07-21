@@ -153,14 +153,14 @@ Level_Test_DataStart:
     db  0, 0, 0, 0, 0, 0    ; reserved
 
     ; Enemy shoots
-    db  0x02, 0x80          ; counter value (HSB, LSB)
+    db  0x02, 0x70          ; counter value (HSB, LSB)
     db  1                   ; action type (0: show enemy, 1: enemy shoots)
     db  0                   ; shot type
     db  0, 0                ; shot 1st, 2nd color (not used yet)
     db  0, 0                ; shot position (x, y) - not used
     db  0                   ; shot number
     db  0                   ; enemy number who shot this
-    db  0                  ; delta x (-1 to +1) signed byte
+    db  0                   ; delta x (-1 to +1) signed byte
     db  0, 0, 0, 0, 0       ; reserved
 
     ; Enemy plane (type 0)

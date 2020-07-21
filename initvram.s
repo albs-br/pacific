@@ -114,20 +114,9 @@
     ; ld  a, 1                ; value
     ; call BIOS_FILVRM        ; Fill VRAM
 
+; FIll the remainder of the 3 names tables
 	ld	hl, NamesTable + 32 ; VRAM start address
-    ld  bc, 256 - 32            ; number of bytes
-    ld  a, 0                ; value
-    call BIOS_FILVRM        ; Fill VRAM
-
-; Second third
-	ld	hl, NamesTable + 256
-    ld  bc, 256             ; number of bytes
-    ld  a, 0                ; value
-    call BIOS_FILVRM        ; Fill VRAM
-
-; Last third
-	ld	hl, NamesTable + 256 + 256
-    ld  bc, 256             ; number of bytes
+    ld  bc, 768 - 32            ; number of bytes
     ld  a, 0                ; value
     call BIOS_FILVRM        ; Fill VRAM
 
@@ -147,7 +136,13 @@ NUMBER_OF_CHARS:  equ 36
 
 ; Patterns Table (second third)
 	ld	bc, NUMBER_OF_CHARS * 8               ; Block length
-	ld	de, PatternsTable  + (256 * 8) + (Tile_Char_0_Number*8) ; VRAM Address
+	ld	de, PatternsTable + (256 * 8) + (Tile_Char_0_Number*8) ; VRAM Address
+	ld	hl, Tile_Char_0          ; RAM Address
+    call BIOS_LDIRVM        ; Block transfer to VRAM from memory
+
+; Patterns Table (third third)
+	ld	bc, NUMBER_OF_CHARS * 8               ; Block length
+	ld	de, PatternsTable + (256 * 8) + (256 * 8) + (Tile_Char_0_Number*8) ; VRAM Address
 	ld	hl, Tile_Char_0          ; RAM Address
     call BIOS_LDIRVM        ; Block transfer to VRAM from memory
 
@@ -175,6 +170,18 @@ NUMBER_OF_CHARS:  equ 36
 	call FillColorTable
 ; color green gradiend  (A-E):
 	ld	de, ColorsTable + (256 * 8) + (Tile_Char_A_Number*8)     	; VRAM color table start address
+	ld	hl, Colors_Char_1        					; RAM start address of tile patetrn (8 bytes)
+	ld a, NUMBER_OF_CHARS - 10						; number of cells in color table to be filled by the pattern 
+	call FillColorTable
+
+;Colors table (last third)
+; color white gradiend, for digits  0-9
+	ld	de, ColorsTable + (256 * 8) + (256 * 8) + (Tile_Char_0_Number*8)     	; VRAM color table start address
+	ld	hl, Colors_Char        						; RAM start address of tile patetrn (8 bytes)
+	ld a, 10										; number of cells in color table to be filled by the pattern 
+	call FillColorTable
+; color green gradiend  (A-E):
+	ld	de, ColorsTable + (256 * 8) + (256 * 8) + (Tile_Char_A_Number*8)     	; VRAM color table start address
 	ld	hl, Colors_Char_1        					; RAM start address of tile patetrn (8 bytes)
 	ld a, NUMBER_OF_CHARS - 10						; number of cells in color table to be filled by the pattern 
 	call FillColorTable

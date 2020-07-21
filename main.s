@@ -1,5 +1,5 @@
 {
- Pacific v.0.26.0           jun-jul/2020
+ Pacific v.0.27.0           jun-jul/2020
  for MSX 1 computers
 
  File to be assembled by tniasm 0.45
@@ -56,21 +56,6 @@ INCLUDE "initvram.s"
 
 
 
-
-; Loop 255 to 0
-{
-    ld b, 255
-	ld	hl, NamesTable      ; VRAM Address
- Loop:
-    inc hl
-
-; Place pattern on screen
-	ld	a, 0                ; Value
-	call BIOS_WRTVRM		; Writes data in VRAM (HL: address, A: value)
- 
-    djnz Loop
-}
-
 IFDEF DEBUG
     call ShowDebugInfo
 ENDIF
@@ -78,6 +63,10 @@ ENDIF
 
     call InitVariables
  
+
+    ; call TitleScreen
+
+
 
 ; Show initial values of lives and score
     call ShowScore
@@ -117,11 +106,13 @@ INCLUDE "readinput.s"
 INCLUDE "sound.s"
 INCLUDE "updatescreen/updatescreen.s"
 INCLUDE "gamelogic/gamelogic.s"
+INCLUDE "title.s"
 
 
 
  ; Data
 INCLUDE "data/tiles.s"
+INCLUDE "data/names.s"
 INCLUDE "data/sprites.s"
 INCLUDE "data/data.s"
 INCLUDE "data/spritebufferinit.s"
