@@ -1,9 +1,7 @@
-; initvram.s
-; depends on:
-;   include/msxbios.s
-;   include/vram.s
 
 
+
+InitVram:
 
 ; Set screen 2
 	ld	a, 2	               		; Screen Mode (0..3 for MSX 1)
@@ -102,23 +100,22 @@
     call BIOS_LDIRVM        						; Block transfer to VRAM from memory
 
 
+; ; Fill names table
+; ; Top strip with lives, score, etc
+; 	ld	bc, 32              ; Block length
+; 	ld	de, NamesTable		; VRAM address
+; 	ld	hl, TopStripTiles   ; RAM Address
+;     call BIOS_LDIRVM        ; Block transfer to VRAM from memory
+; 	; ld	hl, NamesTable 		; VRAM start address
+;     ; ld  bc, 32              ; number of bytes
+;     ; ld  a, 1                ; value
+;     ; call BIOS_FILVRM        ; Fill VRAM
 
-; Fill names table
-; Top strip with lives, score, etc
-	ld	bc, 32              ; Block length
-	ld	de, NamesTable		; VRAM address
-	ld	hl, TopStripTiles   ; RAM Address
-    call BIOS_LDIRVM        ; Block transfer to VRAM from memory
-	; ld	hl, NamesTable 		; VRAM start address
-    ; ld  bc, 32              ; number of bytes
-    ; ld  a, 1                ; value
-    ; call BIOS_FILVRM        ; Fill VRAM
-
-; FIll the remainder of the 3 names tables
-	ld	hl, NamesTable + 32 ; VRAM start address
-    ld  bc, 768 - 32            ; number of bytes
-    ld  a, 0                ; value
-    call BIOS_FILVRM        ; Fill VRAM
+; ; FIll the remainder of the 3 names tables
+; 	ld	hl, NamesTable + 32 ; VRAM start address
+;     ld  bc, 768 - 32            ; number of bytes
+;     ld  a, 0                ; value
+;     call BIOS_FILVRM        ; Fill VRAM
 
 
 
@@ -223,3 +220,22 @@ NumberOfSprites:	equ 13			;
     ld de, VramSpriteAttrBuffer     				; addr destiny
     ld bc, 4 * 32                            		; number of bytes
     ldir                                			; copy BC bytes from HL to DE
+
+	ret
+
+LoadNamesTable:
+
+	; Fill names table
+	; Top strip with lives, score, etc
+	ld	bc, 32              ; Block length
+	ld	de, NamesTable		; VRAM address
+	ld	hl, TopStripTiles   ; RAM Address
+    call BIOS_LDIRVM        ; Block transfer to VRAM from memory
+
+	; FIll the remainder of the 3 names tables
+	ld	hl, NamesTable + 32 ; VRAM start address
+    ld  bc, 768 - 32            ; number of bytes
+    ld  a, 0                ; value
+    call BIOS_FILVRM        ; Fill VRAM
+
+	ret

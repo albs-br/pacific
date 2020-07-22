@@ -1,5 +1,5 @@
 {
- Pacific v.0.28.0           jun-jul/2020
+ Pacific v.0.29.0           jun-jul/2020
  for MSX 1 computers
 
  File to be assembled by tniasm 0.45
@@ -52,9 +52,8 @@ Execute:
 
 
 
-INCLUDE "initvram.s"
 
-
+    call InitVram
 
 IFDEF DEBUG
     ;call ShowDebugInfo     ; not working anymore
@@ -67,14 +66,17 @@ ENDIF
     ; call TitleScreen
 
 
+    ; ld a, (Level)
+    ld a, 0
+    call LoadLevel
+
+
 
 ; Show initial values of lives and score
     call ShowScore
     call ShowLives
 
 
-    ld hl, Level_Test_DataStart
-    call LoadLevelData
 
 MainLoop:
 
@@ -99,6 +101,7 @@ Finished:
  
 
  ; Routines
+INCLUDE "initvram.s"
 INCLUDE "include/commonroutines.s"
 INCLUDE "specificroutines.s"
 INCLUDE "constants.s"
@@ -114,7 +117,7 @@ INCLUDE "title.s"
 INCLUDE "data/tiles.s"
 INCLUDE "data/names.s"
 INCLUDE "data/sprites.s"
-INCLUDE "data/data.s"
+INCLUDE "data/leveldata/leveldata.s"
 INCLUDE "data/spritebufferinit.s"
 
 End:

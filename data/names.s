@@ -13,7 +13,7 @@ TopStripTiles:                   ; screen top strip with lives, score, etc
     db      1, 1, 1, 1, 1, 1, 1, 1, 65, 66,  1,  1,  1, 1, 1, 1
 
 Msg_Pause:
-	db		73, 58, 78, 76, 62
+	db		"PAUSE", 0
 
 Msg_GameOver:
     db      "GAME OVER", 0
@@ -23,3 +23,6 @@ Msg_Start:
 
 Msg_TitleBottomLine:
     db      "1.0.0       ANDREBAPTISTA.COM.BR", 0
+
+Msg_Level:
+    db      "LEVEL ", 0

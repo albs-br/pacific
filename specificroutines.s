@@ -506,6 +506,44 @@ GameOver:
 
 
 
+; Input:
+;    a: Level Number (1-6, 0=test level)
+LoadLevel:
+	
+    cp 0
+    jp z, .testLevel
+
+    cp 1
+    jp z, .level1
+
+    jp .levelTitle
+
+.testLevel:
+    ld hl, MsgLevel_Test_Name
+    ld de, Level_Test_DataStart
+    jp .levelTitle
+
+.level1:
+    ld hl, MsgLevel_1_Name
+    ld de, Level_1_DataStart
+    jp .levelTitle
+
+.levelTitle:
+    push de
+
+    call LevelTitleScreen
+
+
+    ; ld hl, Level_Test_DataStart
+    pop hl                          ; from DE to HL
+    call LoadLevelData
+
+    call LoadNamesTable
+
+    ret
+
+
+
 ; LoadLevelData
 ; Input: HL addr of level data to be loaded
 LoadLevelData:

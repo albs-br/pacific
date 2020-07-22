@@ -170,10 +170,9 @@ PlaneTriggerReleased:
 Pause:
 
     ; write 'PAUSE' on midscreen
-	ld	bc, 5               ; Block length
-	ld	de, NamesTable + 256 + (32 * 4) + 16 - 2 ; VRAM Address
-	ld	hl, Msg_Pause          ; RAM Address
-    call BIOS_LDIRVM        ; Block transfer to VRAM from memory
+	ld	de, NamesTable + 256 + (32 * 4) + 16 - 2        ; VRAM Address
+	ld	hl, Msg_Pause                                   ;
+    call PrintString                                    ; Write string in screen 2 (hl: string addr, de: vram addr)
 
     ; wait for ESC to be released
     ld a, 7                 ; 7th line
