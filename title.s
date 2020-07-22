@@ -16,7 +16,7 @@ TitleScreen:
 
 
     ; Write 'START' on midscreen
-	ld	de, NamesTable + 256 + (32 * 4) + 16 - 2        ; VRAM Address
+	ld	de, NamesTable + 256 + (32 * 4) + 16 - 10       ; VRAM Address
 	ld	hl, Msg_Start                                   ;
     call PrintString                                    ; Write string in screen 2 (hl: string addr, de: vram addr)
 
@@ -25,11 +25,49 @@ TitleScreen:
 	ld	hl, Msg_TitleBottomLine                         ;
     call PrintString                                    ; Write string in screen 2 (hl: string addr, de: vram addr)
 
-.loop:
-    jp .loop
 
+
+.titleloop:
+
+    ld a, 0x51                                          ; a: color pattern for upper  
+    ld d, 0x71                                          ; d: color pattern for bottom
+    call ChangeColorTitle
+    call .delay
+    ret nz
+
+    ld a, 0x41                                          ; a: color pattern for upper  
+    ld d, 0x71                                          ; d: color pattern for bottom
+    call ChangeColorTitle
+    call .delay
+    ret nz
+
+    jp .titleloop
+
+
+.delay:
+    ;ld c, 0x04                  ; 3 nested loops
+    ld d, 0x60                  
+    ld e, 0xff              
+.loop:                          ; 
+    ; check if spacebar is pressed
+    ld a, 8                 ; 8th line
+    call BIOS_SNSMAT        ; Read Data Of Specified Line From Keyboard Matrix
+    bit 0, a                ; 0th bit (space bar)
+    jp z, .spacebarPressed
+
+    dec e
+    jp nz, .loop                ; inner loop
+    dec d
+    jp nz, .loop                ; 
+    ; dec c
+    ; jp nz, .loop                ; outer loop
+    
+    xor a                       ; same as ld a, 0, but faster
     ret
 
+.spacebarPressed:
+    or 1                        ; same as ld a, 1, but faster
+    ret
 
 
 
@@ -64,17 +102,7 @@ LevelTitleScreen:
     pop hl
     call PrintString                                    ; Write string in screen 2 (hl: string addr, de: vram addr)
 
-    ; Wait some seconds
-    ld hl, 3000
-    ld b, 255
-.wait:
-    djnz .wait
 
-    dec hl
-    ld a, h
-    or l                                                ; h OR l, to check zero
-
-    ld b, 255
-    jp nz, .wait
+    call WaitSomeSeconds
 
     ret

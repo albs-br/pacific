@@ -159,14 +159,12 @@ NUMBER_OF_CHARS:  equ 37
 
 
 
-;Colors table - Title screen (first third)
-; color white gradiend, for digits  0-9
+;Colors table - Title screen - (first third)
 	ld	de, ColorsTable + (Tile_TitleScreen_001_Number * 8)      	; VRAM color table start address
 	ld	hl, Colors_Title        										; RAM start address of tile pattern (8 bytes)
 	ld a, 0 + (EndTitleScreen - StartTitleScreen) / 8				; number of cells in color table to be filled by the pattern 
 	call FillColorTable
-;Colors table - Title screen (first third)
-; color white gradiend, for digits  0-9
+;Colors table - Title screen - (first third)
 	ld	de, ColorsTable + (256 * 8) + (Tile_TitleScreen_001_Number * 8)      	; VRAM color table start address
 	ld	hl, Colors_Title        										; RAM start address of tile pattern (8 bytes)
 	ld a, 0 + (EndTitleScreen - StartTitleScreen) / 8				; number of cells in color table to be filled by the pattern 
@@ -176,7 +174,7 @@ NUMBER_OF_CHARS:  equ 37
 
 
 
-;Colors table (first third)
+;Colors table - Chars - (first third)
 ; color white gradiend, for digits  0-9
 	ld	de, ColorsTable + (Tile_Char_0_Number*8)     	; VRAM color table start address
 	ld	hl, Colors_Char        						; RAM start address of tile pattern (8 bytes)
@@ -188,7 +186,7 @@ NUMBER_OF_CHARS:  equ 37
 	ld a, NUMBER_OF_CHARS - 10						; number of cells in color table to be filled by the pattern 
 	call FillColorTable
 
-;Colors table (second third)
+;Colors table - Chars -  (second third)
 ; color white gradiend, for digits  0-9
 	ld	de, ColorsTable + (256 * 8) + (Tile_Char_0_Number*8)     	; VRAM color table start address
 	ld	hl, Colors_Char        						; RAM start address of tile pattern (8 bytes)
@@ -266,5 +264,27 @@ LoadNamesTable:
     ld  bc, 768 - 32            ; number of bytes
     ld  a, 0                ; value
     call BIOS_FILVRM        ; Fill VRAM
+
+	ret
+
+
+; Inputs:
+; a: color pattern for upper 
+; d: color pattern for bottom 
+ChangeColorTitle:
+;Colors table - Title screen (first third)
+	ld	hl, ColorsTable + (Tile_TitleScreen_001_Number * 8)      				; VRAM color table start address
+    ld  bc, 0 + (EndTitleScreen - StartTitleScreen)		            			; number of bytes
+    call BIOS_FILVRM        													; Fill VRAM
+;Colors table - Title screen (first third)
+	ld	hl, ColorsTable + (256 * 8) + (Tile_TitleScreen_001_Number * 8)      	; VRAM color table start address
+    ld  bc, 0 + (EndTitleScreen - StartTitleScreen)		            			; number of bytes
+	ld a, d
+    call BIOS_FILVRM        													; Fill VRAM
+
+	; ld	de, ColorsTable + (256 * 8) + (Tile_TitleScreen_001_Number * 8)      	; VRAM color table start address
+	; ld	hl, Colors_Title        										; RAM start address of tile pattern (8 bytes)
+	; ld a, 0 + (EndTitleScreen - StartTitleScreen) / 8				; number of cells in color table to be filled by the pattern 
+	; call FillColorTable
 
 	ret

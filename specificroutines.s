@@ -502,7 +502,9 @@ GameOver:
 	ld	hl, Msg_GameOver                                ;
     call PrintString                                    ; Write string in screen 2 (hl: string addr, de: vram addr)
 
-    jp GameOver
+    call WaitSomeSeconds
+
+    jp Execute                                          ; restart game
 
 
 

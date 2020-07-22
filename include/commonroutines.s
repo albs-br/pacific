@@ -9,16 +9,17 @@
 ; ---------------------------------------------------------
 ; Self explanatory
 Delay:
-    ; push de
-    ; ld d, 0x00                  ; Two nested loops
+    ld c, 0x04                  ; 3 nested loops
+    ld d, 0xff                  
     ld e, 0xff              
-.loop:                          ; local label
+.loop:                          ; 
     dec e
     jp nz, .loop                ; inner loop
-    ; dec d
-    ; jp nz, .loop                ; outer loop
+    dec d
+    jp nz, .loop                ; 
+    dec c
+    jp nz, .loop                ; outer loop
     
-    ; pop de
     ret
 
 
@@ -420,6 +421,24 @@ PrintString:
     inc de
     
     jp PrintString
+
+
+
+WaitSomeSeconds:
+    ; Wait some seconds
+    ld hl, 3000
+    ld b, 255
+.wait:
+    djnz .wait
+
+    dec hl
+    ld a, h
+    or l                                                ; h OR l, to check zero
+
+    ld b, 255
+    jp nz, .wait
+
+    ret
 
 {
 ;if a < d 
