@@ -61,10 +61,22 @@ InitVram:
 	ld	hl, Tile_Sea        ; RAM start address
     call BIOS_LDIRVM        ; Block transfer to VRAM from memory
 
+	; Title
+	ld	bc, EndTitleScreen - StartTitleScreen           	; Block length
+	ld	de, PatternsTable + (Tile_TitleScreen_001_Number * 8)  ; VRAM start address
+	ld	hl, Tile_TitleScreen_001        ; RAM start address
+    call BIOS_LDIRVM        ; Block transfer to VRAM from memory
+
 ; Second third
 	ld	bc, 3 * 8           ; Block length
 	ld	de, PatternsTable + (256 * 8); VRAM start address
 	ld	hl, Tile_Sea        ; RAM start address
+    call BIOS_LDIRVM        ; Block transfer to VRAM from memory
+
+	; Title
+	ld	bc, EndTitleScreen - StartTitleScreen           	; Block length
+	ld	de, PatternsTable + (256 * 8) + (Tile_TitleScreen_001_Number * 8)  ; VRAM start address
+	ld	hl, Tile_TitleScreen_001        ; RAM start address
     call BIOS_LDIRVM        ; Block transfer to VRAM from memory
 
 ; Last third
@@ -147,39 +159,56 @@ NUMBER_OF_CHARS:  equ 37
 
 
 
+;Colors table - Title screen (first third)
+; color white gradiend, for digits  0-9
+	ld	de, ColorsTable + (Tile_TitleScreen_001_Number * 8)      	; VRAM color table start address
+	ld	hl, Colors_Title        										; RAM start address of tile pattern (8 bytes)
+	ld a, 0 + (EndTitleScreen - StartTitleScreen) / 8				; number of cells in color table to be filled by the pattern 
+	call FillColorTable
+;Colors table - Title screen (first third)
+; color white gradiend, for digits  0-9
+	ld	de, ColorsTable + (256 * 8) + (Tile_TitleScreen_001_Number * 8)      	; VRAM color table start address
+	ld	hl, Colors_Title        										; RAM start address of tile pattern (8 bytes)
+	ld a, 0 + (EndTitleScreen - StartTitleScreen) / 8				; number of cells in color table to be filled by the pattern 
+	call FillColorTable
+
+
+
+
+
 ;Colors table (first third)
 ; color white gradiend, for digits  0-9
 	ld	de, ColorsTable + (Tile_Char_0_Number*8)     	; VRAM color table start address
-	ld	hl, Colors_Char        						; RAM start address of tile patetrn (8 bytes)
+	ld	hl, Colors_Char        						; RAM start address of tile pattern (8 bytes)
 	ld a, 10										; number of cells in color table to be filled by the pattern 
 	call FillColorTable
 ; color green gradiend (A-E):
 	ld	de, ColorsTable + (Tile_Char_A_Number*8)     	; VRAM color table start address
-	ld	hl, Colors_Char_1        					; RAM start address of tile patetrn (8 bytes)
+	ld	hl, Colors_Char_1        					; RAM start address of tile pattern (8 bytes)
 	ld a, NUMBER_OF_CHARS - 10						; number of cells in color table to be filled by the pattern 
 	call FillColorTable
 
 ;Colors table (second third)
 ; color white gradiend, for digits  0-9
 	ld	de, ColorsTable + (256 * 8) + (Tile_Char_0_Number*8)     	; VRAM color table start address
-	ld	hl, Colors_Char        						; RAM start address of tile patetrn (8 bytes)
+	ld	hl, Colors_Char        						; RAM start address of tile pattern (8 bytes)
 	ld a, 10										; number of cells in color table to be filled by the pattern 
 	call FillColorTable
 ; color green gradiend  (A-E):
 	ld	de, ColorsTable + (256 * 8) + (Tile_Char_A_Number*8)     	; VRAM color table start address
-	ld	hl, Colors_Char_1        					; RAM start address of tile patetrn (8 bytes)
+	ld	hl, Colors_Char_1        					; RAM start address of tile pattern (8 bytes)
 	ld a, NUMBER_OF_CHARS - 10						; number of cells in color table to be filled by the pattern 
 	call FillColorTable
 
 ;Colors table (last third)
 ; color white gradiend, for digits  0-9
 	ld	de, ColorsTable + (256 * 8) + (256 * 8) + (Tile_Char_0_Number*8)     	; VRAM color table start address
-	ld	hl, Colors_Char        						; RAM start address of tile patetrn (8 bytes)
+	ld	hl, Colors_Char        						; RAM start address of tile pattern (8 bytes)
 	ld a, 10										; number of cells in color table to be filled by the pattern 
 	call FillColorTable
 ; color green gradiend  (A-E):
 	ld	de, ColorsTable + (256 * 8) + (256 * 8) + (Tile_Char_A_Number*8)     	; VRAM color table start address
-	ld	hl, Colors_Char_1        					; RAM start address of tile patetrn (8 bytes)
+	ld	hl, Colors_Char_1        					; RAM start address of tile pattern (8 bytes)
 	ld a, NUMBER_OF_CHARS - 10						; number of cells in color table to be filled by the pattern 
 	call FillColorTable
 

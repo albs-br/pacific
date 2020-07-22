@@ -8,12 +8,19 @@ TitleScreen:
     ld  a, 1                                            ; value
     call BIOS_FILVRM                                    ; Fill VRAM
 
+    ; Title 'PACIFIC'
+	ld	bc, 32 * 5                                      ; Block length
+	ld	de, NamesTable + 128                            ; VRAM start address
+	ld	hl, TitleTiles                                  ; RAM start address
+    call BIOS_LDIRVM                                    ; Block transfer to VRAM from memory
+
+
     ; Write 'START' on midscreen
 	ld	de, NamesTable + 256 + (32 * 4) + 16 - 2        ; VRAM Address
 	ld	hl, Msg_Start                                   ;
     call PrintString                                    ; Write string in screen 2 (hl: string addr, de: vram addr)
 
-    ; Write 'v.1.0.0   2020  ANDREBAPTISTA.COM.BR' on screen bottom
+    ; Write 'v.1.0.0     ANDREBAPTISTA.COM.BR' on screen bottom
 	ld	de, NamesTable + 256 + 256 + (32 * 7)           ; VRAM Address
 	ld	hl, Msg_TitleBottomLine                         ;
     call PrintString                                    ; Write string in screen 2 (hl: string addr, de: vram addr)

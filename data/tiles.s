@@ -29,45 +29,157 @@ Tile_Plane_Lives:                 ;
 	db  00011100 b 		; 
 	db  00000000 b 		; 
 
-Colors_Sea_Daylight:        ; Sea daylight
-    db 0x74                 ;   high nibble: foreground color; low nibble: background color
-    db 0x74                 ;
-    db 0x74                 ;
-    db 0x74                 ;
-    db 0x74                 ;
-    db 0x74                 ;
-    db 0x74                 ;
-    db 0x74                 ;
+; -------------------
+; Title screen
+StartTitleScreen:            ; 
+Tile_TitleScreen_001_Number:	equ 95
+Tile_TitleScreen_001:            ; 
+	db  11111111 b 		; 
+	db  11111111 b 		; 
+	db  11111111 b 		; 
+	db  01111111 b 		; 
+	db  00111111 b 		; 
+	db  00111111 b 		; 
+	db  00111111 b 		; 
+	db  00111111 b 		; 
 
-; Colors_Sea_Nighttime:       ; Sea nighttime
-;     db 0x41               ;
-;     db 0x41               ;
-;     db 0x41               ;
-;     db 0x41               ;
-;     db 0x41               ;
-;     db 0x41               ;
-;     db 0x41               ;
-;     db 0x41               ;
+; Tile_TitleScreen_002_Number:	equ 96
+; Tile_TitleScreen_002:            ; 
+	db  11111111 b 		; 
+	db  11111111 b 		; 
+	db  11111111 b 		; 
+	db  11111111 b 		; 
+	db  11111111 b 		; 
+	db  11111111 b 		; 
+	db  11111111 b 		; 
+	db  11111111 b 		; 
 
-Colors_Black:                   ;
-    db 0x11                 ;   high nibble: foreground color; low nibble: background color
-    db 0x11                 ;
-    db 0x11                 ;
-    db 0x11                 ;
-    db 0x11                 ;
-    db 0x11                 ;
-    db 0x11                 ;
-    db 0x11                 ;
+; Tile_TitleScreen_003_Number:	equ 97
+; Tile_TitleScreen_003:            ; 
+	db  11111000 b 		; 
+	db  11111100 b 		; 
+	db  11111110 b 		; 
+	db  11111110 b 		; 
+	db  11111110 b 		; 
+	db  11111110 b 		; 
+	db  11111110 b 		; 
+	db  11111110 b 		; 
 
-Colors_Plane_Lives:                   ;
-    db 0x31                 ;   high nibble: foreground color; low nibble: background color
-    db 0x31                 ;
-    db 0x31                 ;
-    db 0x21                 ;
-    db 0x21                 ;
-    db 0xc1                 ;
-    db 0xc1                 ;
-    db 0xc1                 ;
+; Tile_TitleScreen_004_Number:	equ 98
+; Tile_TitleScreen_004:            ; 
+	db  00111111 b 		; 
+	db  00111111 b 		; 
+	db  00111111 b 		; 
+	db  00111111 b 		; 
+	db  00111111 b 		; 
+	db  00111111 b 		; 
+	db  00111111 b 		; 
+	db  00111111 b 		; 
+
+; Tile_TitleScreen_005_Number:	equ 99
+; Tile_TitleScreen_005:            ; 
+	db  11111110 b 		; 
+	db  11111110 b 		; 
+	db  11111110 b 		; 
+	db  11111110 b 		; 
+	db  11111110 b 		; 
+	db  11111110 b 		; 
+	db  11111100 b 		; 
+	db  11111000 b 		; 
+
+; Tile_TitleScreen_006_Number:	equ 100
+; Tile_TitleScreen_006:            ; 
+	db  00111111 b 		; 
+	db  00111111 b 		; 
+	db  00111111 b 		; 
+	db  00111111 b 		; 
+	db  00111111 b 		; 
+	db  00111111 b 		; 
+	db  01111111 b 		; 
+	db  11111111 b 		; 
+
+; Tile_TitleScreen_007_Number:	equ 101
+; Tile_TitleScreen_007:            ; 
+	db  11000000 b 		; 
+	db  11000000 b 		; 
+	db  11000000 b 		; 
+	db  11000000 b 		; 
+	db  11000000 b 		; 
+	db  11000000 b 		; 
+	db  11000000 b 		; 
+	db  11000000 b 		; 
+
+; Tile_TitleScreen_008_Number:	equ 102
+; Tile_TitleScreen_008:            ; 
+	db  11111110 b 		; 
+	db  11111110 b 		; 
+	db  11111110 b 		; 
+	db  11111110 b 		; 
+	db  11111110 b 		; 
+	db  11111110 b 		; 
+	db  11111110 b 		; 
+	db  11111110 b 		; 
+
+; Tile_TitleScreen_009_Number:	equ 103
+; Tile_TitleScreen_009:            ; 
+	db  11000000 b 		; 
+	db  11000000 b 		; 
+	db  11000000 b 		; 
+	db  11000000 b 		; 
+	db  11000000 b 		; 
+	db  11000000 b 		; 
+	db  11100000 b 		; 
+	db  11110000 b 		; 
+
+; Tile_TitleScreen_010_Number:	equ 104
+; Tile_TitleScreen_010:            ; 
+	db  00001111 b 		; 
+	db  00011111 b 		; 
+	db  00111111 b 		; 
+	db  00111111 b 		; 
+	db  00111111 b 		; 
+	db  00111111 b 		; 
+	db  00111111 b 		; 
+	db  00111111 b 		; 
+
+; Tile_TitleScreen_011_Number:	equ 105
+; Tile_TitleScreen_011:            ; 
+	db  00111111 b 		; 
+	db  00111111 b 		; 
+	db  00111111 b 		; 
+	db  00111111 b 		; 
+	db  00111111 b 		; 
+	db  00111111 b 		; 
+	db  00011111 b 		; 
+	db  00001111 b 		; 
+
+; Tile_TitleScreen_012_Number:	equ 106
+; Tile_TitleScreen_012:            ; 
+	db  11110000 b 		; 
+	db  11110000 b 		; 
+	db  11110000 b 		; 
+	db  11100000 b 		; 
+	db  11000000 b 		; 
+	db  11000000 b 		; 
+	db  11000000 b 		; 
+	db  11000000 b 		; 
+
+; Tile_TitleScreen_013_Number:	equ 107
+; Tile_TitleScreen_013:            ; 
+	db  11111110 b 		; 
+	db  11111110 b 		; 
+	db  11111110 b 		; 
+	db  11111110 b 		; 
+	db  11111110 b 		; 
+	db  11111110 b 		; 
+	db  11111100 b 		; 
+	db  11111000 b 		; 
+
+
+
+EndTitleScreen:
+
+; -------------------
 
 Tile_Char_0_Number:	equ 48	; same as ascii code for this char
 Tile_Char_0:                     ;
@@ -475,26 +587,6 @@ Tile_Char_Dot:                     ;
 	db  00000000 b 		; 
 	db  00011000 b 		; 
 	db  00011000 b 		; 
-
-Colors_Char:                   ;
-    db 0xf1                 ;   high nibble: foreground color; low nibble: background color
-    db 0xf1                 ;
-    db 0xf1                 ;
-    db 0xe1                 ;
-    db 0xe1                 ;
-    db 0x71                 ;
-    db 0x71                 ;
-    db 0x71                 ;
-
-Colors_Char_1:                   ;
-    db 0x31                 ;   high nibble: foreground color; low nibble: background color
-    db 0x31                 ;
-    db 0x31                 ;
-    db 0x21                 ;
-    db 0x21                 ;
-    db 0xc1                 ;
-    db 0xc1                 ;
-    db 0xc1                 ;
 
 {
 Tile_1:
