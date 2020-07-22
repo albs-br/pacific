@@ -1,5 +1,5 @@
 {
- Pacific v.0.29.0           jun-jul/2020
+ Pacific v.0.30.0           jun-jul/2020
  for MSX 1 computers
 
  File to be assembled by tniasm 0.45
@@ -63,7 +63,7 @@ ENDIF
     call InitVariables
  
 
-    ; call TitleScreen
+    call TitleScreen
 
 
     ; ld a, (Level)
@@ -115,6 +115,7 @@ INCLUDE "title.s"
 
  ; Data
 INCLUDE "data/tiles.s"
+INCLUDE "data/colors.s"
 INCLUDE "data/names.s"
 INCLUDE "data/sprites.s"
 INCLUDE "data/leveldata/leveldata.s"
