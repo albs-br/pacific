@@ -292,7 +292,18 @@ Enemy shots
     ; ld (hl), a                          ; Addr 1st color
     ld (ix + (8 * 4)), a                  ; Addr 1st color
 
+    ; avoid the shadow appear on left
+    cp 248
+    jp nc, .set248	; nc: a >= argument
+
     add 8                             
+    jp .else
+
+    ; if(a >= 255) a = 255
+
+.set248:
+    ld a, 255
+.else:
     ; ld bc, 20 * 4
     ; add hl, bc
     ; ld (hl), a                          ; Addr shadow

@@ -1,10 +1,12 @@
 {
- Pacific v.0.32.0           jun-jul/2020
+ Pacific           
+ version (refer to data/strings.s)
+ developed jun-jul/2020
  for MSX 1 computers
 
  File to be assembled by tniasm 0.45
 
- Tested on WebMSX, Emulicious and openMSX emulators
+ Tested on WebMSX, Emulicious (C-Bios) and openMSX (Gradiente Expert 1.1 bios) emulators
 
  Acknowledgements:
  -https://datassette.org/
@@ -118,8 +120,9 @@ INCLUDE "data/tiles.s"
 INCLUDE "data/colors.s"
 INCLUDE "data/names.s"
 INCLUDE "data/sprites.s"
-INCLUDE "data/leveldata/leveldata.s"
+INCLUDE "data/strings.s"
 INCLUDE "data/spritebufferinit.s"
+INCLUDE "data/leveldata/leveldata.s"
 
 End:
 ; Padding with 255 to make the file of 16K size (can be 4K, 8K, 16k, etc) but

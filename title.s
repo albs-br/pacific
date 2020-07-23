@@ -20,9 +20,14 @@ TitleScreen:
 	ld	hl, Msg_Start                                   ;
     call PrintString                                    ; Write string in screen 2 (hl: string addr, de: vram addr)
 
-    ; Write 'v.1.0.0     ANDREBAPTISTA.COM.BR' on screen bottom
+    ; Write '            ANDREBAPTISTA.COM.BR' on screen bottom
 	ld	de, NamesTable + 256 + 256 + (32 * 7)           ; VRAM Address
 	ld	hl, Msg_TitleBottomLine                         ;
+    call PrintString                                    ; Write string in screen 2 (hl: string addr, de: vram addr)
+
+    ; Write version number on screen bottom
+	ld	de, NamesTable + 256 + 256 + (32 * 7)           ; VRAM Address
+	ld	hl, Msg_Version                                 ;
     call PrintString                                    ; Write string in screen 2 (hl: string addr, de: vram addr)
 
 

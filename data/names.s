@@ -19,17 +19,4 @@ TitleTiles:                                  ;     P        ;      A       ;    
     db      1,   1,   1,   1,   1,   1,   1,  98, 101,   1,   98, 101, 102,   98, 101,   1,  98, 101,   98, 101,   1,  98, 101,  98, 101,   1,   1,   1,   1,   1,   1,   1
     db      1,   1,   1,   1,   1,   1,   1, 100, 103,   1,  100, 103, 102,  105,  96, 107, 100, 103,  100, 103,   1, 100, 103, 105,  96, 107,   1,   1,   1,   1,   1,   1
 
-Msg_Pause:
-	db		"PAUSE", 0
 
-Msg_GameOver:
-    db      "GAME OVER", 0
-
-Msg_Start:
-    db      "PUSH TRIGGER TO START", 0
-
-Msg_TitleBottomLine:
-    db      "1.0.0       ANDREBAPTISTA.COM.BR", 0
-
-Msg_Level:
-    db      "LEVEL ", 0
