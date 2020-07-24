@@ -1,8 +1,21 @@
-;Level_Test_Nighttime
-MsgLevel_Test_Name:
+Level_Test:
+.msgLevelName:
     db '   TEST LEVEL   ', 0    ; 16 chars fixed size
 
-Level_Test_DataStart:
+    ; enemy types available:
+    ; from top:     db  0                   ; enemy type
+    ; from right:   db  1                   ; enemy type
+    ; from left:    db  2                   ; enemy type
+
+    ; color schemes available:
+    ; white/gray:   db  15, 14              ; enemy 1st, 2nd color
+    ; yellow:       db  11, 10              ; enemy 1st, 2nd color
+    ; red:          db  9, 6                ; enemy 1st, 2nd color
+    ; blue:         db  7, 5                ; enemy 1st, 2nd color
+    ; green:        db  3, 12               ; enemy 1st, 2nd color
+
+
+.levelDataStart:
     ; Enemy plane (type 0)
     ; dw  0xf000              ; counter value as word (little endian, LSB first)
     db  0x00, 0xd0          ; counter value as bytes (HSB, LSB)
@@ -309,9 +322,11 @@ Level_Test_DataStart:
 
 
 ; Padding with 255 to make the level data 1600 bytes
-	ds Level_Test_DataStart - Level_Test_DataEnd - (Level_Test_DataStart - .lastEnemy), 255
+	; ds Level_Test_DataStart - Level_Test_DataEnd - (Level_Test_DataStart - .lastEnemy), 255
+	; ds .levelDataStart - .levelDataEnd - (.levelDataStart - .lastEnemy), 255
+    ds .levelDataEnd - .levelDataStart - (.lastEnemy - .levelDataStart), 255
 
 
 
-Level_Test_DataEnd:
+.levelDataEnd:
     db  0

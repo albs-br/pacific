@@ -8,16 +8,17 @@
 
 InitVariables:
  ; fill all bytes of counter with 0
-    ld a, 0                             ; value
-    ld hl, Counter
-    ld b, 5                             ; number of bytes
-.loop:
-    ld (hl), a                          ; save value
-    inc hl
-    djnz .loop
+    call ResetCounter
+;     ld a, 0                             ; value
+;     ld hl, Counter
+;     ld b, 5                             ; number of bytes
+; .loop:
+;     ld (hl), a                          ; save value
+;     inc hl
+;     djnz .loop
 
-    ld a, 1                             ;
-    ld (Level), a                       ;
+    ; ld a, 1                             ;
+    ; ld (Level), a                       ;
 
     ld ix, Player_CollisionBox
 
@@ -61,10 +62,10 @@ InitVariables:
     ld (Enemy_Shot_4_Show), a           ;
     ld (Player_Trigger_Pressed), a      ;
 
-    ld bc, 0
-    ld (Player_Score), bc               ;
-    ld a, 3                             ;
-    ld (Player_Lives), a                ;
+    ; ld bc, 0
+    ; ld (Player_Score), bc               ;
+    ; ld a, 3                             ;
+    ; ld (Player_Lives), a                ;
     
     ret
 
@@ -157,6 +158,9 @@ IncrementCounter:
     call z, .showEnemy
     cp 1                        ; 1 = enemy shoots
     call z, .enemyShoots
+    cp 200                      ; 200 = level end
+    jp z, .levelEnd
+
 
     jp .continue1
 
@@ -339,6 +343,26 @@ IncrementCounter:
     
     ret
 
+.levelEnd:
+
+    ; write 'LEVEL  FINISHED' on midscreen
+	ld	de, NamesTable + 256 + (32 * 4) + 16 - 7        ; VRAM Address
+	ld	hl, Msg_LevelFinished                           ;
+    call PrintString                                    ; Write string in screen 2 (hl: string addr, de: vram addr)
+    ; write 'CONGRATULATIONS' on midscreen
+	ld	de, NamesTable + 256 + (32 * 5) + 16 - 7        ; VRAM Address
+	ld	hl, Msg_LevelFinished_1                         ;
+    call PrintString                                    ; Write string in screen 2 (hl: string addr, de: vram addr)
+
+    
+    call WaitSomeSeconds
+    
+    ld hl, Level
+    inc (hl)
+
+    pop bc              ; release SP
+    jp NewLevel
+
 .next:
     pop hl
     ld bc, LevelDataChunckSize
@@ -518,19 +542,22 @@ LoadLevel:
     cp 1
     jp z, .level1
 
-    jp .levelTitle
+    ; else
+    jp .testLevel
 
 .testLevel:
-    ld hl, MsgLevel_Test_Name
-    ld de, Level_Test_DataStart
-    jp .levelTitle
+    ; ld hl, MsgLevel_Test_Name
+    ld hl, Level_Test.msgLevelName
+    ; ld de, Level_Test_DataStart
+    ld de, Level_Test.levelDataStart
+    jp .showLevelTitle
 
 .level1:
-    ld hl, MsgLevel_1_Name
-    ld de, Level_1_DataStart
-    jp .levelTitle
+    ld hl, Level_1.msgLevelName
+    ld de, Level_1.levelDataStart
+    jp .showLevelTitle
 
-.levelTitle:
+.showLevelTitle:
     push de
 
     call LevelTitleScreen

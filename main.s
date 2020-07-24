@@ -37,24 +37,6 @@ INCLUDE "include/romheader.s"
 Execute:
 
 
-; Define screen colors and mode
-    ld a, 15                ; Foregoung color
-    ld (BIOS_FORCLR), a    
-    ld a, 4                 ; Backgroung color
-    ld (BIOS_BAKCLR), a     
-    ld a, 5                 ; Border color
-    ld (BIOS_BDRCLR), a    
-    ld a, 2                 ; Screen mode (0 to 3 for MSX1)
-    call BIOS_CHGCLR        ; Change Screen Color
-
-    ld a, 0
-    ld (ADDR_CLIKSW), a     ; Key Press Click Switch 0:Off 1:On (1B/RW)
-
-    call BIOS_INIGRP        ; Screen 2
-
-
-
-
     call InitVram
 
 IFDEF DEBUG
@@ -62,14 +44,30 @@ IFDEF DEBUG
 ENDIF
 
 
-    call InitVariables
- 
+;NewGame:
+    ld a, 0                             ; test level
+    ; ld a, 1                             ;
+    ld (Level), a                       ;
+
+    ld bc, 0
+    ld (Player_Score), bc               ;
+    ld a, 3                             ;
+    ld (Player_Lives), a                ;
+
 
     call TitleScreen
 
 
-    ; ld a, (Level)
-    ld a, 0
+NewLevel:
+    call InitVram
+
+
+    call InitVariables
+ 
+
+
+    ld a, (Level)
+    ;ld a, 1
     call LoadLevel
 
 

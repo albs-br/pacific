@@ -15,9 +15,14 @@ TitleScreen:
     call BIOS_LDIRVM                                    ; Block transfer to VRAM from memory
 
 
-    ; Write 'START' on midscreen
+    ; Write 'PUSH TRIGGER TO START' on midscreen
 	ld	de, NamesTable + 256 + (32 * 4) + 16 - 10       ; VRAM Address
 	ld	hl, Msg_Start                                   ;
+    call PrintString                                    ; Write string in screen 2 (hl: string addr, de: vram addr)
+
+    ; Write '2020' on midscreen
+	ld	de, NamesTable + 256 + (32 * 6) + 16 - 2        ; VRAM Address
+	ld	hl, Msg_2020                                    ;
     call PrintString                                    ; Write string in screen 2 (hl: string addr, de: vram addr)
 
     ; Write '            ANDREBAPTISTA.COM.BR' on screen bottom

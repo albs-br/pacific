@@ -3,6 +3,25 @@
 
 InitVram:
 
+
+; Define screen colors and mode
+    ld a, 15                ; Foregoung color
+    ld (BIOS_FORCLR), a    
+    ld a, 4                 ; Backgroung color
+    ld (BIOS_BAKCLR), a     
+    ld a, 5                 ; Border color
+    ld (BIOS_BDRCLR), a    
+    ld a, 2                 ; Screen mode (0 to 3 for MSX1)
+    call BIOS_CHGCLR        ; Change Screen Color
+
+    ld a, 0
+    ld (ADDR_CLIKSW), a     ; Key Press Click Switch 0:Off 1:On (1B/RW)
+
+    call BIOS_INIGRP        ; Screen 2
+
+
+
+
 ; Set screen 2
 	ld	a, 2	               		; Screen Mode (0..3 for MSX 1)
     call BIOS_CHGMOD        		; 
