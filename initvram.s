@@ -4,6 +4,8 @@
 InitVram:
 
 
+	; call BIOS_DISSCR		; 
+
 ; Define screen colors and mode
     ld a, 15                ; Foregoung color
     ld (BIOS_FORCLR), a    
@@ -259,13 +261,17 @@ NumberOfSprites:	equ 13			;
 
 
 
-;-----------------------------------------
-; Initialize VRAM Sprite attributes table buffer
+	;-----------------------------------------
+	; Initialize VRAM Sprite attributes table buffer
 
     ld hl, VramSpriteAttrBuffer_Init     			; addr origin
     ld de, VramSpriteAttrBuffer     				; addr destiny
     ld bc, 4 * 32                            		; number of bytes
     ldir                                			; copy BC bytes from HL to DE
+
+
+
+	; call BIOS_ENASCR		; 
 
 	ret
 
