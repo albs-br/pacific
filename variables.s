@@ -22,7 +22,7 @@
     Player_Score:               rb 2            ; 2 bytes using BCD code, so the max score is 9999 (shown on screen as 99990
     Player_Trigger_Pressed:     rb 1            ;
 
-; Collison boxes (using Struct_CollisionBox)
+; Collision boxes (using Struct_CollisionBox)
     Player_CollisionBox:        rb 4            ;
     Player_Shot_CollisionBox:   rb 4            ;
     EnemyTemp_CollisionBox:     rb 4            ;

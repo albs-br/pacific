@@ -96,6 +96,32 @@ GameLogicEnemy:
     ; jp c, .playerPlaneGotHit
 
 
+	; Check collision between player plane and enemy
+	ld a, (Player_State)
+	cp 0
+	jp nz, .next				; skip if player isn't alive
+
+	ld a, (ix + 5)				; enemy X + 7
+	add 7
+	ld h, a
+	ld a, (ix + 6)				; enemy Y + 7
+	add 7
+	ld l, a
+
+	ld a, (Player_X)
+	ld b, a						; player x1
+	add 16
+	ld d, a						; player x2
+
+	ld a, (Player_Y)
+	ld c, a						; player y1
+	add 16
+	ld e, a						; player y2
+	
+	call CheckCollision             ; 
+    jp nz, .playerPlaneGotHit
+
+
 
 
 	ld a, (Player_Shot)				; if there is no shot fired skip check collision between shot and enemy
@@ -150,6 +176,10 @@ GameLogicEnemy:
 	cp 0
 	jp z, .next
 
+
+
+
+	; update enemy shot position
 	; ld a, (Enemy_Shot_1_X)				;
 	ld a, (ix + 9)				;
 	ld b, a
@@ -170,6 +200,15 @@ GameLogicEnemy:
 
 	; ld (Enemy_Shot_1_Y), a				;
 	ld (ix + 10), a				;
+
+
+
+
+
+
+
+
+
 
 
 
