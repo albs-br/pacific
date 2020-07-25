@@ -324,7 +324,8 @@ Level_Test:
 ; Padding with 255 to make the level data 1600 bytes
 	; ds Level_Test_DataStart - Level_Test_DataEnd - (Level_Test_DataStart - .lastEnemy), 255
 	; ds .levelDataStart - .levelDataEnd - (.levelDataStart - .lastEnemy), 255
-    ds .levelDataEnd - .levelDataStart - (.lastEnemy - .levelDataStart), 255
+    ; ds .levelDataEnd - .levelDataStart - (.lastEnemy - .levelDataStart), 255
+    ds 1600 - (.lastEnemy - .levelDataStart), 255
 
 
 

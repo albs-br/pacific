@@ -505,7 +505,8 @@ Level_1:
 
 ; Padding with 255 to make the level data 1600 bytes
 	; ds .levelDataStart - .levelDataEnd - (.levelDataStart - .lastEnemy), 255
-    ds .levelDataEnd - .levelDataStart - (.lastEnemy - .levelDataStart), 255
+    ; ds .levelDataEnd - .levelDataStart - (.lastEnemy - .levelDataStart), 255
+    ds 1600 - (.lastEnemy - .levelDataStart), 255
 
 
 .levelDataEnd:

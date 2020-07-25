@@ -489,6 +489,19 @@ The values obtained from this method is much more *random* that what you get fro
 FC9Eh	JIFFY	1	Contains value of the software clock, each interrupt of the VDP it is increased by 1.
 The contents can be read or changed by the function 'TIME' or instruction 'TIME'.
 
+-----------------------
+
+How to know if is 50 or 60 Hz
+
+https://www.msx.org/pt-br/node/50159?page=2
+
+So the best way to know the current refresh frequency is:
+
+1. Check the MSX version number at 002DH of the BIOS
+2. If it’s 0, read the frequency from bit 7 of 002BH of the BIOS (0 = 60 Hz)
+3. Otherwise, read the frequency from bit 1 of 0FFE8H of the system area (0 = 60 Hz)
+
+
 }
 
 

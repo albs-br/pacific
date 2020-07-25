@@ -21,26 +21,32 @@ ReadInput:
 
     ld a, 8                 ; 8th line
     call BIOS_SNSMAT        ; Read Data Of Specified Line From Keyboard Matrix
+    ld b, a
+
     bit 4, a                ; 4th bit (key left), table with all keys on MSX Progs em Ling. de Maq. pag 58
-    call z, PlanePlayerLeft
+    jp z, PlanePlayerLeft
 
-    ld a, 8                 ; 8th line
-    call BIOS_SNSMAT        ; Read Data Of Specified Line From Keyboard Matrix
+    ; ld a, 8                 ; 8th line
+    ; call BIOS_SNSMAT        ; Read Data Of Specified Line From Keyboard Matrix
+    ld a, b
     bit 7, a                ; 7th bit (key right)
-    call z, PlanePlayerRight
+    jp z, PlanePlayerRight
 
-    ld a, 8                 ; 8th line
-    call BIOS_SNSMAT        ; Read Data Of Specified Line From Keyboard Matrix
+.checkUpDown:
+    ; ld a, 8                 ; 8th line
+    ; call BIOS_SNSMAT        ; Read Data Of Specified Line From Keyboard Matrix
+    ld a, b
     bit 5, a                ; 5th bit (key up)
-    call z, PlanePlayerUp
+    jp z, PlanePlayerUp
 
-    ld a, 8                 ; 8th line
-    call BIOS_SNSMAT        ; Read Data Of Specified Line From Keyboard Matrix
+    ; ld a, 8                 ; 8th line
+    ; call BIOS_SNSMAT        ; Read Data Of Specified Line From Keyboard Matrix
+    ld a, b
     bit 6, a                ; 6th bit (key down)
-    call z, PlanePlayerDown
+    jp z, PlanePlayerDown
 
 
-
+.checkTrigger:
 
 
     ; check if trigger pressed only after trigger released
@@ -81,7 +87,7 @@ PlanePlayerLeft:
     ld (Player_X), a            ; save value
     ld (ix + Struct_CollisionBox.X), a      ; set X of collision box
 
-    ret
+    jp ReadInput.checkUpDown
 
 
 PlanePlayerRight:
@@ -93,7 +99,7 @@ PlanePlayerRight:
     ld (Player_X), a            ; save value
     ld (ix + Struct_CollisionBox.X), a      ; set X of collision box
 
-    ret
+    jp ReadInput.checkUpDown
 
 
 PlanePlayerUp:
@@ -105,7 +111,7 @@ PlanePlayerUp:
     ld (Player_Y), a            ; save value
     ld (ix + Struct_CollisionBox.Y), a      ; set Y of collision box
 
-    ret
+    jp ReadInput.checkTrigger
 
 
 PlanePlayerDown:
@@ -117,7 +123,7 @@ PlanePlayerDown:
     ld (Player_Y), a            ; save value
     ld (ix + Struct_CollisionBox.Y), a      ; set Y of collision box
 
-    ret
+    jp ReadInput.checkTrigger
 
 
 PlanePlayerShot:

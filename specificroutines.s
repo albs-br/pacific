@@ -20,6 +20,7 @@ InitVariables:
     ; ld a, 1                             ;
     ; ld (Level), a                       ;
 
+
     ld ix, Player_CollisionBox
 
     ld a, 120                           ; (256/2) + 8  ; middle of screen minus half of sprite
@@ -91,7 +92,16 @@ IncrementCounter:
     jp z, .loop
 
 .continue:
-    
+
+    IFDEF DEBUG
+        ; Show counter on screen (debug mode)
+        ld hl, Counter + 4          ; LSB (5th byte)
+        ld d, 2                     ; size in bytes (for now using only 2 bytes, although 5 bytes were reserved)
+        ld bc, 35                   ; names table offset (0-255), 35 = 2nd line, 4th column
+        call PrintNumber
+    ENDIF
+
+
     ; do actions based on current counter value
 	ld hl, Counter+4            ; LSB (5th byte)
     ld a, (hl)
@@ -110,7 +120,7 @@ IncrementCounter:
     
     pop af
 
-    ; counter value is on AB. eg. counter = 0x0300
+    ; counter value is on BA. eg. counter = 0x0300
     ; b = 0x03 (hi)
     ; a = 0x00 (lo)
 
@@ -136,11 +146,33 @@ IncrementCounter:
 ; TODO: trade this by a dw
     ld a, (hl)
     
-    cp 255                     ; value 255 in the high byte o the counter in level data means end of data
+    cp 255                     ; value 255 in the high byte of the counter in level data means end of data
     ret z
     
     push hl
 
+
+    ; TODO: make this optimization work
+    ; DE: current counter value
+    ; HL: value on the current position of level data
+;     ld c, a
+;     inc hl
+;     ld a, (hl)
+;     ld l, a
+;     ld h, c
+;     call BIOS_DCOMPR            ; Compare Contents Of HL & DE, Set Z-Flag IF (HL == DE), Set CY-Flag IF (HL < DE)
+;     jp z, .equal
+;     call nc, .largerThan        ; return if HL > DE
+;     jp .next                    ; try next if HL < DE
+
+; .largerThan:
+;     pop hl
+;     ret
+
+
+
+
+    ; old code, slow, but works
     cp d
     jp nz, .next               ; checks high byte of address
     inc hl
@@ -148,8 +180,12 @@ IncrementCounter:
     cp e
     jp nz, .next               ; checks low byte of address
 
+
+
+
+.equal:
     pop hl
-    
+
     ; do the action
     inc hl
     inc hl
@@ -383,13 +419,13 @@ IncrementCounter:
 
 
 
-    IFDEF DEBUG
-        ; Show counter on screen (debug mode)
-        ld hl, Counter + 4          ; LSB (5th byte)
-        ld d, 2                     ; size in bytes (for now using only 2 bytes, although 5 bytes were reserved)
-        ld bc, 35                   ; names table offset (0-255), 35 = 2nd line, 4th column
-        call PrintNumber
-    ENDIF
+    ; IFDEF DEBUG
+    ;     ; Show counter on screen (debug mode)
+    ;     ld hl, Counter + 4          ; LSB (5th byte)
+    ;     ld d, 2                     ; size in bytes (for now using only 2 bytes, although 5 bytes were reserved)
+    ;     ld bc, 35                   ; names table offset (0-255), 35 = 2nd line, 4th column
+    ;     call PrintNumber
+    ; ENDIF
 
 
     ret
