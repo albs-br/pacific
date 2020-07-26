@@ -332,6 +332,7 @@ SetSpritePatternAndColor: equ 0421Fh ; last def. pass 3
 BIOS_H_ISRE: equ 0FF2Ah ; last def. pass 3
 BIOS_TEMPST: equ 0F67Ah ; last def. pass 3
 Tile_Char_C: equ 04CFEh ; last def. pass 3
+GameLogicEnemy.next1: equ 04A82h ; last def. pass 3
 BIOS_PRMFLG: equ 0F7B4h ; last def. pass 3
 SpriteLayer_7_BaseAddr: equ 0C6BBh ; last def. pass 3
 Player_Shot_Color: equ 0C6AAh ; last def. pass 3
@@ -348,7 +349,7 @@ TestChars: equ 04DF6h ; last def. pass 3
 BIOS_H_SCNE: equ 0FF98h ; last def. pass 3
 BIOS_H_COMP: equ 0FF57h ; last def. pass 3
 Colors_Title: equ 04DEEh ; last def. pass 3
-Level_5.lastEnemy: equ 07610h ; last def. pass 3
+Level_5.lastEnemy: equ 075F0h ; last def. pass 3
 BIOS_KBUF: equ 0F41Fh ; last def. pass 3
 BIOS_REDCLK: equ 01F5h ; last def. pass 3
 BIOS_MUSICF: equ 0FC3Fh ; last def. pass 3

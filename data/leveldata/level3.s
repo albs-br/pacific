@@ -362,7 +362,7 @@ Level_3:
 ;-------------------------
 
     ; Enemy plane (type 1)
-    db  0x08, 0x00          ; counter value (HSB, LSB)
+    db  0x09, 0x00          ; counter value (HSB, LSB)
     db  0                   ; action type (0: show enemy, 1: enemy shoots)
     db  1                   ; enemy type
     db  3, 12               ; enemy 1st, 2nd color
@@ -372,75 +372,11 @@ Level_3:
     db  0, 0, 0, 0, 0, 0    ; reserved
 
     ; Enemy plane (type 2)
-    db  0x08, 0x01          ; counter value (HSB, LSB)
-    db  0                   ; action type (0: show enemy, 1: enemy shoots)
-    db  2                   ; enemy type
-    db  3, 12               ; enemy 1st, 2nd color
-    db  0, TOP_SCREEN+64   ; enemy position (x, y)
-    db  1                   ; enemy number
-    db  0                   ; reserved
-    db  0, 0, 0, 0, 0, 0    ; reserved
-
-    ; Enemy plane (type 0)
-    db  0x08, 0x02          ; counter value as bytes (HSB, LSB)
-    db  0                   ; action type (0: show enemy, 1: enemy shoots)
-    db  0                   ; enemy type
-    db  3, 12              ; enemy 1st, 2nd color
-    db  85, TOP_SCREEN     ; enemy position (x, y)
-    db  2                   ; enemy number
-    db  0                   ; reserved
-    db  0, 0, 0, 0, 0, 0    ; reserved
-
-    ; Enemy plane (type 0)
-    db  0x08, 0x12          ; counter value as bytes (HSB, LSB)
-    db  0                   ; action type (0: show enemy, 1: enemy shoots)
-    db  0                   ; enemy type
-    db  3, 12              ; enemy 1st, 2nd color
-    db  170, TOP_SCREEN     ; enemy position (x, y)
-    db  3                   ; enemy number
-    db  0                   ; reserved
-    db  0, 0, 0, 0, 0, 0    ; reserved
-
-    ; Enemy shoots
-    db  0x08, 0x20          ; counter value (HSB, LSB)
-    db  1                   ; action type (0: show enemy, 1: enemy shoots)
-    db  0                   ; shot type
-    db  0, 0                ; shot 1st, 2nd color (not used yet)
-    db  0, 0                ; shot position (x, y) - not used
-    db  0                   ; shot number (unused)
-    db  0                   ; enemy number who shot this
-    db  0                   ; delta x (-1 to +1) signed byte
-    db  0, 0, 0, 0, 0       ; reserved
-
-    ; Enemy shoots
-    db  0x08, 0xc0          ; counter value (HSB, LSB)
-    db  1                   ; action type (0: show enemy, 1: enemy shoots)
-    db  0                   ; shot type
-    db  0, 0                ; shot 1st, 2nd color (not used yet)
-    db  0, 0                ; shot position (x, y) - not used
-    db  0                   ; shot number (unused)
-    db  1                   ; enemy number who shot this
-    db  0                   ; delta x (-1 to +1) signed byte
-    db  0, 0, 0, 0, 0       ; reserved
-
-;-------------------------
-
-    ; Enemy plane (type 1)
-    db  0x09, 0x00          ; counter value (HSB, LSB)
-    db  0                   ; action type (0: show enemy, 1: enemy shoots)
-    db  1                   ; enemy type
-    db  3, 12               ; enemy 1st, 2nd color
-    db  255, TOP_SCREEN+88  ; enemy position (x, y)
-    db  0                   ; enemy number
-    db  0                   ; reserved
-    db  0, 0, 0, 0, 0, 0    ; reserved
-
-    ; Enemy plane (type 2)
     db  0x09, 0x01          ; counter value (HSB, LSB)
     db  0                   ; action type (0: show enemy, 1: enemy shoots)
     db  2                   ; enemy type
     db  3, 12               ; enemy 1st, 2nd color
-    db  0, TOP_SCREEN+128   ; enemy position (x, y)
+    db  0, TOP_SCREEN+64   ; enemy position (x, y)
     db  1                   ; enemy number
     db  0                   ; reserved
     db  0, 0, 0, 0, 0, 0    ; reserved
@@ -466,7 +402,71 @@ Level_3:
     db  0, 0, 0, 0, 0, 0    ; reserved
 
     ; Enemy shoots
-    db  0x09, 0x10          ; counter value (HSB, LSB)
+    db  0x09, 0x20          ; counter value (HSB, LSB)
+    db  1                   ; action type (0: show enemy, 1: enemy shoots)
+    db  0                   ; shot type
+    db  0, 0                ; shot 1st, 2nd color (not used yet)
+    db  0, 0                ; shot position (x, y) - not used
+    db  0                   ; shot number (unused)
+    db  0                   ; enemy number who shot this
+    db  0                   ; delta x (-1 to +1) signed byte
+    db  0, 0, 0, 0, 0       ; reserved
+
+    ; Enemy shoots
+    db  0x09, 0xc0          ; counter value (HSB, LSB)
+    db  1                   ; action type (0: show enemy, 1: enemy shoots)
+    db  0                   ; shot type
+    db  0, 0                ; shot 1st, 2nd color (not used yet)
+    db  0, 0                ; shot position (x, y) - not used
+    db  0                   ; shot number (unused)
+    db  1                   ; enemy number who shot this
+    db  0                   ; delta x (-1 to +1) signed byte
+    db  0, 0, 0, 0, 0       ; reserved
+
+;-------------------------
+
+    ; Enemy plane (type 1)
+    db  0x0a, 0x00          ; counter value (HSB, LSB)
+    db  0                   ; action type (0: show enemy, 1: enemy shoots)
+    db  1                   ; enemy type
+    db  3, 12               ; enemy 1st, 2nd color
+    db  255, TOP_SCREEN+88  ; enemy position (x, y)
+    db  0                   ; enemy number
+    db  0                   ; reserved
+    db  0, 0, 0, 0, 0, 0    ; reserved
+
+    ; Enemy plane (type 2)
+    db  0x0a, 0x01          ; counter value (HSB, LSB)
+    db  0                   ; action type (0: show enemy, 1: enemy shoots)
+    db  2                   ; enemy type
+    db  3, 12               ; enemy 1st, 2nd color
+    db  0, TOP_SCREEN+128   ; enemy position (x, y)
+    db  1                   ; enemy number
+    db  0                   ; reserved
+    db  0, 0, 0, 0, 0, 0    ; reserved
+
+    ; Enemy plane (type 0)
+    db  0x0a, 0x02          ; counter value as bytes (HSB, LSB)
+    db  0                   ; action type (0: show enemy, 1: enemy shoots)
+    db  0                   ; enemy type
+    db  3, 12              ; enemy 1st, 2nd color
+    db  85, TOP_SCREEN     ; enemy position (x, y)
+    db  2                   ; enemy number
+    db  0                   ; reserved
+    db  0, 0, 0, 0, 0, 0    ; reserved
+
+    ; Enemy plane (type 0)
+    db  0x0a, 0x12          ; counter value as bytes (HSB, LSB)
+    db  0                   ; action type (0: show enemy, 1: enemy shoots)
+    db  0                   ; enemy type
+    db  3, 12              ; enemy 1st, 2nd color
+    db  170, TOP_SCREEN     ; enemy position (x, y)
+    db  3                   ; enemy number
+    db  0                   ; reserved
+    db  0, 0, 0, 0, 0, 0    ; reserved
+
+    ; Enemy shoots
+    db  0x0a, 0x10          ; counter value (HSB, LSB)
     db  1                   ; action type (0: show enemy, 1: enemy shoots)
     db  0                   ; shot type
     db  0, 0                ; shot 1st, 2nd color (not used yet)
@@ -477,7 +477,7 @@ Level_3:
     db  0, 0, 0, 0, 0       ; reserved
 
     ; Enemy shoots
-    db  0x09, 0x20          ; counter value (HSB, LSB)
+    db  0x0a, 0x20          ; counter value (HSB, LSB)
     db  1                   ; action type (0: show enemy, 1: enemy shoots)
     db  0                   ; shot type
     db  0, 0                ; shot 1st, 2nd color (not used yet)
@@ -490,7 +490,7 @@ Level_3:
 ; --------------------------
 
     ; Enemy plane (type 0)
-    db  0x0a, 0x00          ; counter value as bytes (HSB, LSB)
+    db  0x0b, 0x00          ; counter value as bytes (HSB, LSB)
     db  0                   ; action type (0: show enemy, 1: enemy shoots)
     db  0                   ; enemy type
     db  3, 12               ; enemy 1st, 2nd color
@@ -500,7 +500,7 @@ Level_3:
     db  0, 0, 0, 0, 0, 0    ; reserved
 
     ; Enemy plane (type 0)
-    db  0x0a, 0x10          ; counter value as bytes (HSB, LSB)
+    db  0x0b, 0x10          ; counter value as bytes (HSB, LSB)
     db  0                   ; action type (0: show enemy, 1: enemy shoots)
     db  0                   ; enemy type
     db  3, 12               ; enemy 1st, 2nd color
@@ -510,65 +510,11 @@ Level_3:
     db  0, 0, 0, 0, 0, 0    ; reserved
 
     ; Enemy plane (type 0)
-    db  0x0a, 0x20          ; counter value as bytes (HSB, LSB)
-    db  0                   ; action type (0: show enemy, 1: enemy shoots)
-    db  0                   ; enemy type
-    db  3, 12               ; enemy 1st, 2nd color
-    db  184, TOP_SCREEN      ; enemy position (x, y)
-    db  2                   ; enemy number
-    db  0                   ; reserved
-    db  0, 0, 0, 0, 0, 0    ; reserved
-
-    ; Enemy shoots
-    db  0x0a, 0x30          ; counter value (HSB, LSB)
-    db  1                   ; action type (0: show enemy, 1: enemy shoots)
-    db  0                   ; shot type
-    db  0, 0                ; shot 1st, 2nd color (not used yet)
-    db  0, 0                ; shot position (x, y) - not used
-    db  0                   ; shot number (unused)
-    db  0                   ; enemy number who shot this
-    db  -1                  ; delta x (-1 to +1) signed byte
-    db  0, 0, 0, 0, 0       ; reserved
-
-    ; Enemy shoots
-    db  0x0a, 0x40          ; counter value (HSB, LSB)
-    db  1                   ; action type (0: show enemy, 1: enemy shoots)
-    db  0                   ; shot type
-    db  0, 0                ; shot 1st, 2nd color (not used yet)
-    db  0, 0                ; shot position (x, y) - not used
-    db  0                   ; shot number (unused)
-    db  1                   ; enemy number who shot this
-    db  -1                  ; delta x (-1 to +1) signed byte
-    db  0, 0, 0, 0, 0       ; reserved
-
-; --------------------------
-
-    ; Enemy plane (type 0)
-    db  0x0b, 0x00          ; counter value as bytes (HSB, LSB)
-    db  0                   ; action type (0: show enemy, 1: enemy shoots)
-    db  0                   ; enemy type
-    db  3, 12               ; enemy 1st, 2nd color
-    db  0, TOP_SCREEN     ; enemy position (x, y)
-    db  0                   ; enemy number
-    db  0                   ; reserved
-    db  0, 0, 0, 0, 0, 0    ; reserved
-
-    ; Enemy plane (type 0)
-    db  0x0b, 0x10          ; counter value as bytes (HSB, LSB)
-    db  0                   ; action type (0: show enemy, 1: enemy shoots)
-    db  0                   ; enemy type
-    db  3, 12               ; enemy 1st, 2nd color
-    db  24, TOP_SCREEN     ; enemy position (x, y)
-    db  1                   ; enemy number
-    db  0                   ; reserved
-    db  0, 0, 0, 0, 0, 0    ; reserved
-
-    ; Enemy plane (type 0)
     db  0x0b, 0x20          ; counter value as bytes (HSB, LSB)
     db  0                   ; action type (0: show enemy, 1: enemy shoots)
     db  0                   ; enemy type
     db  3, 12               ; enemy 1st, 2nd color
-    db  48, TOP_SCREEN      ; enemy position (x, y)
+    db  184, TOP_SCREEN      ; enemy position (x, y)
     db  2                   ; enemy number
     db  0                   ; reserved
     db  0, 0, 0, 0, 0, 0    ; reserved
@@ -581,11 +527,65 @@ Level_3:
     db  0, 0                ; shot position (x, y) - not used
     db  0                   ; shot number (unused)
     db  0                   ; enemy number who shot this
-    db  +1                  ; delta x (-1 to +1) signed byte
+    db  -1                  ; delta x (-1 to +1) signed byte
     db  0, 0, 0, 0, 0       ; reserved
 
     ; Enemy shoots
     db  0x0b, 0x40          ; counter value (HSB, LSB)
+    db  1                   ; action type (0: show enemy, 1: enemy shoots)
+    db  0                   ; shot type
+    db  0, 0                ; shot 1st, 2nd color (not used yet)
+    db  0, 0                ; shot position (x, y) - not used
+    db  0                   ; shot number (unused)
+    db  1                   ; enemy number who shot this
+    db  -1                  ; delta x (-1 to +1) signed byte
+    db  0, 0, 0, 0, 0       ; reserved
+
+; --------------------------
+
+    ; Enemy plane (type 0)
+    db  0x0c, 0x00          ; counter value as bytes (HSB, LSB)
+    db  0                   ; action type (0: show enemy, 1: enemy shoots)
+    db  0                   ; enemy type
+    db  3, 12               ; enemy 1st, 2nd color
+    db  0, TOP_SCREEN     ; enemy position (x, y)
+    db  0                   ; enemy number
+    db  0                   ; reserved
+    db  0, 0, 0, 0, 0, 0    ; reserved
+
+    ; Enemy plane (type 0)
+    db  0x0c, 0x10          ; counter value as bytes (HSB, LSB)
+    db  0                   ; action type (0: show enemy, 1: enemy shoots)
+    db  0                   ; enemy type
+    db  3, 12               ; enemy 1st, 2nd color
+    db  24, TOP_SCREEN     ; enemy position (x, y)
+    db  1                   ; enemy number
+    db  0                   ; reserved
+    db  0, 0, 0, 0, 0, 0    ; reserved
+
+    ; Enemy plane (type 0)
+    db  0x0c, 0x20          ; counter value as bytes (HSB, LSB)
+    db  0                   ; action type (0: show enemy, 1: enemy shoots)
+    db  0                   ; enemy type
+    db  3, 12               ; enemy 1st, 2nd color
+    db  48, TOP_SCREEN      ; enemy position (x, y)
+    db  2                   ; enemy number
+    db  0                   ; reserved
+    db  0, 0, 0, 0, 0, 0    ; reserved
+
+    ; Enemy shoots
+    db  0x0c, 0x30          ; counter value (HSB, LSB)
+    db  1                   ; action type (0: show enemy, 1: enemy shoots)
+    db  0                   ; shot type
+    db  0, 0                ; shot 1st, 2nd color (not used yet)
+    db  0, 0                ; shot position (x, y) - not used
+    db  0                   ; shot number (unused)
+    db  0                   ; enemy number who shot this
+    db  +1                  ; delta x (-1 to +1) signed byte
+    db  0, 0, 0, 0, 0       ; reserved
+
+    ; Enemy shoots
+    db  0x0c, 0x40          ; counter value (HSB, LSB)
     db  1                   ; action type (0: show enemy, 1: enemy shoots)
     db  0                   ; shot type
     db  0, 0                ; shot 1st, 2nd color (not used yet)

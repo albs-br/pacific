@@ -99,7 +99,7 @@ GameLogicEnemy:
 	; Check collision between player plane and enemy
 	ld a, (Player_State)
 	cp 0
-	jp nz, .next				; skip if player isn't alive
+	jp nz, .next1				; skip if player isn't alive
 
 	ld a, (ix + 5)				; enemy X + 7
 	add 7
@@ -122,7 +122,7 @@ GameLogicEnemy:
     jp nz, .playerPlaneGotHit
 
 
-
+.next1:
 
 	ld a, (Player_Shot)				; if there is no shot fired skip check collision between shot and enemy
 	cp 0
