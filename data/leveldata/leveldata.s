@@ -3,6 +3,7 @@ INCLUDE "data/leveldata/level1.s"
 INCLUDE "data/leveldata/level2.s"
 INCLUDE "data/leveldata/level3.s"
 INCLUDE "data/leveldata/level4.s"
+INCLUDE "data/leveldata/level5.s"
 
 
 LevelDataChunckSize: equ    16       ; size in bytes

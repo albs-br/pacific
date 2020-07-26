@@ -587,6 +587,9 @@ LoadLevel:
     cp 4
     jp z, .level4
 
+    cp 5
+    jp z, .level5
+
     ; else
     jp .testLevel
 
@@ -615,6 +618,11 @@ LoadLevel:
 .level4:
     ld hl, Level_4.msgLevelName
     ld de, Level_4.levelDataStart
+    jp .showLevelTitle
+
+.level5:
+    ld hl, Level_5.msgLevelName
+    ld de, Level_5.levelDataStart
     jp .showLevelTitle
 
 .showLevelTitle:
