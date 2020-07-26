@@ -613,8 +613,8 @@ LoadLevel:
     jp .showLevelTitle
 
 .level4:
-    ; ld hl, Level_4.msgLevelName
-    ; ld de, Level_4.levelDataStart
+    ld hl, Level_4.msgLevelName
+    ld de, Level_4.levelDataStart
     jp .showLevelTitle
 
 .showLevelTitle:
