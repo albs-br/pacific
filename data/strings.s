@@ -1,5 +1,5 @@
 Msg_Version:    
-    db      "0.41.0", 0
+    db      "0.42.0", 0
 
 Msg_Pause:
 	db		"PAUSE", 0
@@ -24,3 +24,20 @@ Msg_LevelFinished:
 
 Msg_LevelFinished_1:
     db      "CONGRATULATIONS", 0
+
+Msg_GameFinished_0:
+    db      "        CONGRATULATIONS        ", 0        ; string size: 31 (32 with 0)
+Msg_GameFinished_1:
+    db      "                               ", 0
+Msg_GameFinished_2:
+    db      "  YOU HAVE FINISHED THE GAME   ", 0
+Msg_GameFinished_3:
+    db      "                               ", 0
+Msg_GameFinished_4:
+    db      "  ...........................  ", 0
+Msg_GameFinished_5:
+    db      "                               ", 0
+Msg_GameFinished_6:
+    db      "            CREDITS            ", 0
+Msg_GameFinished_7:
+    db      "      2020 ANDRE BAPTISTA      ", 0

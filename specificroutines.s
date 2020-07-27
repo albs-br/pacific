@@ -381,6 +381,11 @@ IncrementCounter:
 
 .levelEnd:
 
+    ; check if is the last level
+    ld a, (Level)
+    cp 6
+    jp z, GameFinished
+
     ; write 'LEVEL  FINISHED' on midscreen
 	ld	de, NamesTable + 256 + (32 * 4) + 16 - 7        ; VRAM Address
 	ld	hl, Msg_LevelFinished                           ;
@@ -590,6 +595,9 @@ LoadLevel:
     cp 5
     jp z, .level5
 
+    cp 6
+    jp z, .level6
+
     ; else
     jp .testLevel
 
@@ -624,6 +632,11 @@ LoadLevel:
     ld hl, Level_5.msgLevelName
     ld de, Level_5.levelDataStart
     jp .showLevelTitle
+
+.level6:
+    ld hl, Level_6.msgLevelName
+    ld de, Level_6.levelDataStart
+    ; jp .showLevelTitle
 
 .showLevelTitle:
     push de

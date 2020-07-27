@@ -46,7 +46,7 @@ ENDIF
 
 ;NewGame:
     ; ld a, 0                             ; test level
-    ld a, 3                             ;
+    ld a, 6                             ;
     ld (Level), a                       ;
 
     ld bc, 0

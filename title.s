@@ -116,3 +116,45 @@ LevelTitleScreen:
     call WaitSomeSeconds
 
     ret
+
+
+GameFinished:
+
+    ; Clear screen (fill screen with all black patterns)
+	; Fill all 3 names tables
+    ld	hl, NamesTable                                  ; VRAM start address
+    ld  bc, 256 * 3                                     ; number of bytes
+    ld  a, 1                                            ; value
+    call BIOS_FILVRM                                    ; Fill VRAM
+
+    ; Write Game Finished strings on midscreen
+	ld hl, Msg_GameFinished_0                           ; first string addr
+    ld a, 8                                             ; number of strings
+    ld	de, NamesTable + 256                            ; VRAM Address
+.loop:
+    push af
+    push hl
+    push de
+    call PrintString                                    ; Write string in screen 2 (hl: string addr, de: vram addr)
+
+    ld bc, 32                                           ; string size
+
+    ; de += 32
+    pop hl                                              ; from de to hl
+    add hl, bc
+    ld d, h
+    ld e, l
+
+    ; hl += 32
+    pop hl
+    add hl, bc
+
+    pop af
+    dec a
+    jp nz, .loop
+
+    call WaitSomeSeconds
+    call WaitSomeSeconds
+    call WaitSomeSeconds
+
+    jp Execute
