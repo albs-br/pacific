@@ -1,5 +1,5 @@
 Msg_Version:    
-    db      "0.42.0", 0
+    db      "0.43.0", 0
 
 Msg_Pause:
 	db		"PAUSE", 0

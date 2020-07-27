@@ -46,7 +46,7 @@ ENDIF
 
 ;NewGame:
     ; ld a, 0                             ; test level
-    ld a, 6                             ;
+    ld a, 1                             ;
     ld (Level), a                       ;
 
     ld bc, 0
@@ -55,7 +55,7 @@ ENDIF
     ld (Player_Lives), a                ;
 
 
-    ; call TitleScreen
+    call TitleScreen
 
 
 NewLevel:

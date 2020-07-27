@@ -20,6 +20,8 @@ InitVariables:
     ; ld a, 1                             ;
     ; ld (Level), a                       ;
 
+    ld hl, LevelDataStart
+    ld (LevelDataLastAddr), hl
 
     ld ix, Player_CollisionBox
 
@@ -136,11 +138,12 @@ IncrementCounter:
     ; look for action to be done on current counter value
     ld d, b                         ; hi
     ld e, a                         ; lo
-    ld hl, LevelDataStart
+    ; ld hl, LevelDataStart
+    ld hl, (LevelDataLastAddr)
 
     ; TODO: lots of optimizations are possible here
     ; 1 - save the address of last action done, next time start there instead of from the beginning
-    ; 2 - after read an addr on chunck, tests if is > than current counter, if so, gives up, as the actions are ordered
+    ; 2 - after read an addr on chunck, tests if is > than current counter, if so, gives up, as the actions are ordered     OK
 
 .loop1:
 ; TODO: trade this by a dw
@@ -155,36 +158,42 @@ IncrementCounter:
     ; TODO: make this optimization work
     ; DE: current counter value
     ; HL: value on the current position of level data
-;     ld c, a
-;     inc hl
-;     ld a, (hl)
-;     ld l, a
-;     ld h, c
-;     call BIOS_DCOMPR            ; Compare Contents Of HL & DE, Set Z-Flag IF (HL == DE), Set CY-Flag IF (HL < DE)
-;     jp z, .equal
-;     call nc, .largerThan        ; return if HL > DE
-;     jp .next                    ; try next if HL < DE
+    ; if (hl > de) exit
+    ld c, a                     ; hi byte of current position of level data
+    inc hl
+    ld a, (hl)
+    ld l, a                     ; lo byte current position of level data
+    ld h, c
+    push de
+    call BIOS_DCOMPR            ; Compare Contents Of HL & DE, Set Z-Flag IF (HL == DE), Set CY-Flag IF (HL < DE)
+    pop de
+    jp z, .equal
+    jp nc, .largerThan          ; return if HL > DE
+    jp .next                    ; try next if HL < DE
 
-; .largerThan:
-;     pop hl
-;     ret
+.largerThan:
+    pop hl
+    ret
 
 
 
 
     ; old code, slow, but works
-    cp d
-    jp nz, .next               ; checks high byte of address
-    inc hl
-    ld a, (hl)
-    cp e
-    jp nz, .next               ; checks low byte of address
+    ; cp d
+    ; jp nz, .next               ; checks high byte of address
+    ; inc hl
+    ; ld a, (hl)
+    ; cp e
+    ; jp nz, .next               ; checks low byte of address
 
 
 
 
 .equal:
     pop hl
+
+    ld (LevelDataLastAddr), hl
+
 
     ; do the action
     inc hl

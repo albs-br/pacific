@@ -3,7 +3,7 @@
 
     LevelDataStart:             rb LevelDataChunckSize * 100        ; reserve 1600 bytes for lavel data (100 max enemies per level)
     LevelDataEnd:               rb 1
-    ; LevelDataLastAddr:          rw 1
+    LevelDataLastAddr:          rw 1
 
 
 
