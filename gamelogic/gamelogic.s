@@ -18,10 +18,9 @@ GameLogic:
    ld ix, Player_Shot_CollisionBox
    ld (ix + Struct_CollisionBox.Y), a      ; update Y of collision box
 
-	ld a, (Player_Shot_X)			;   d: x coord
-
    ;no need to update X collision box, as it is always the same
-;   ld (ix + Struct_CollisionBox.X), a      ; update X of collision box
+	; ld a, (Player_Shot_X)			;   d: x coord
+   ; ld (ix + Struct_CollisionBox.X), a      ; update X of collision box
 
 
 
@@ -47,6 +46,87 @@ GameLogic:
 
 .continue:
 
+; check item
+	ld a, (Item_Show)				               ;   
+   cp 0
+   jp z, .enemies                 
+
+
+
+	; Check collision between player plane and item
+	ld a, (Player_State)
+	cp 0
+	jp nz, .enemies				; skip if player isn't alive
+
+	ld a, (Item_X)				; enemy X + 7
+	add 7
+	ld h, a
+	ld a, (Item_Y)				; enemy Y + 7
+	add 7
+	ld l, a
+
+	ld a, (Player_X)
+	ld b, a						; player x1
+	add 16
+	ld d, a						; player x2
+
+	ld a, (Player_Y)
+	ld c, a						; player y1
+	add 16
+	ld e, a						; player y2
+	
+	call CheckCollision             ; 
+   jp nz, .playerPlaneGotItem
+
+
+
+
+	ld a, (Counter+4)	    	      ;
+   ld b, a
+
+   bit 0, b
+   jp z, .skipDecY               ; dec Y only at each two frames
+
+	ld a, (Item_Y)			
+   inc a
+   cp 0
+   jp z, .itemReachesBottom
+
+	ld (Item_Y), a
+
+.skipDecY:
+   ; ld ix, Player_Shot_CollisionBox
+   ; ld (ix + Struct_CollisionBox.Y), a
+
+   ld a, 7						      ;   color 1
+	ld (Item_Color), a
+
+   bit 0, b
+   jp z, .enemies                ;   alternate colors of item at each frame
+
+   ld a, 8						      ;   color 2
+	ld (Item_Color), a
+
+   jp .enemies
+
+.itemReachesBottom:
+
+   call DisableItem
+   jp .enemies
+
+.playerPlaneGotItem:
+   ld a, (Player_Lives)
+   inc a
+   ld (Player_Lives), a
+   call ShowLives
+   
+   call SoundGetItem
+   
+   call DisableItem
+
+   jp .enemies
+
+.enemies:
    ld ix, Enemy_0_Base_Address
    call GameLogicEnemy
 

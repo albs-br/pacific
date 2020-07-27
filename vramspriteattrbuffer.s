@@ -13,12 +13,13 @@
     SpriteLayer_1_Pattern:                               rb 1            ;
     SpriteLayer_1_Color:                                 rb 1            ;
 
-    ; Player shot
+    ; Player shot 0
     SpriteLayer_2_Y:         Player_Shot_Y:              rb 1            ;
     SpriteLayer_2_X:         Player_Shot_X:              rb 1            ;
     SpriteLayer_2_Pattern:   Player_Shot_Pattern:        rb 1            ;
     SpriteLayer_2_Color:     Player_Shot_Color:          rb 1            ;
 
+    ; Reserved to player shots 1 and 2
                                                          rb (2*4)
 
     ; Enemy 0 2nd color
@@ -85,8 +86,14 @@
     SpriteLayer_22_Pattern:                               rb 1            ;
     SpriteLayer_22_Color:                                 rb 1            ;
 
+    ; Item (power up, extra life)
+    SpriteLayer_23_Y:        Item_Y:                      rb 1            ;
+    SpriteLayer_23_X:        Item_X:                      rb 1            ;
+    SpriteLayer_23_Pattern:  Item_Pattern:                rb 1            ;
+    SpriteLayer_23_Color:    Item_Color:                  rb 1            ;
 
-                                                         rb (3*4)
+
+                                                          rb (2*4)
 
     ; Enemy 0 Shadow
     SpriteLayer_26_Y:                                     rb 1            ;

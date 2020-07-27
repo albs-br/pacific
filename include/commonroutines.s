@@ -11,14 +11,14 @@
 Delay:
     ld c, 0x04                  ; 3 nested loops
     ld d, 0xff                  
-    ld e, 0xff              
+    ld e, 0x80              
 .loop:                          ; 
     dec e
     jp nz, .loop                ; inner loop
-    dec d
-    jp nz, .loop                ; 
-    dec c
-    jp nz, .loop                ; outer loop
+    ; dec d
+    ; jp nz, .loop                ; 
+    ; dec c
+    ; jp nz, .loop                ; outer loop
     
     ret
 

@@ -265,7 +265,7 @@ GameLogicEnemy:
 .colisionTrue:
 
 	; call SoundExplosion
-	call SoundGetItem
+	; call SoundGetItem
 
 	ld a, 0							; hide enemy
 	; ld (Enemy_1_Show), a

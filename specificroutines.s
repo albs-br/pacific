@@ -64,6 +64,7 @@ InitVariables:
     ld (Enemy_Shot_3_Show), a           ;
     ld (Enemy_Shot_4_Show), a           ;
     ld (Player_Trigger_Pressed), a      ;
+    ld (Item_Show), a
 
     ; ld bc, 0
     ; ld (Player_Score), bc               ;
@@ -203,6 +204,8 @@ IncrementCounter:
     call z, .showEnemy
     cp 1                        ; 1 = enemy shoots
     call z, .enemyShoots
+    cp 2                        ; 2 = item
+    call z, .item
     cp 200                      ; 200 = level end
     jp z, .levelEnd
 
@@ -304,6 +307,31 @@ IncrementCounter:
     ; ld (Enemy_1_Y), a           ; save value
     ld (ix + 6), a              ; save value
 
+    ret
+
+.item:
+
+    ;push hl
+
+    ld bc, 4
+    add hl, bc
+
+    ld a, (hl)
+    ld (Item_X), a
+
+    ld a, TOP_SCREEN
+    ld (Item_Y), a
+
+    ld a, 13 * 4
+    ld (Item_Pattern), a
+
+    ld a, 7
+    ld (Item_Color), a
+
+    ld a, 1
+    ld (Item_Show), a
+
+    ; pop hl
     ret
 
 .enemyShoots:
@@ -541,6 +569,18 @@ DisableShot:
 
     ret
 
+
+
+DisableItem:
+    ld a, 0
+    ld (Item_Show), a         	; 
+    ld (Item_X), a
+    ld a, 256 - 16
+    ld (Item_Y), a
+    ld a, 63 * 4
+    ld (Item_Pattern), a
+
+    ret
 
 
 ShowLives:

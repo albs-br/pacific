@@ -480,6 +480,43 @@ Sprite_12:           ; Enemy plane type 3 2nd color
 	db  0000 0000 b 		; 
 	db  0000 0000 b 		; 
 
+Sprite_13:           ; Item (extra life)
+	db  0000 0001 b 		; 
+	db  0000 0010 b 		; 
+	db  0000 0100 b 		; 
+	db  0000 1000 b 		; 
+	db  0001 0000 b 		; 
+	db  0010 0000 b 		; 
+	db  0100 0000 b 		; 
+	db  1000 0000 b 		; 
+
+	db  1111 1111 b 		; 
+	db  0111 1111 b 		; 
+	db  0011 1111 b 		; 
+	db  0001 1111 b 		; 
+	db  0000 1111 b 		; 
+	db  0000 0111 b 		; 
+	db  0000 0011 b 		; 
+	db  0000 0001 b 		; 
+
+	db  1000 0000 b 		; 
+	db  1100 0000 b 		; 
+	db  1110 0000 b 		; 
+	db  1111 0000 b 		; 
+	db  1111 1000 b 		; 
+	db  1111 1100 b 		; 
+	db  1111 1110 b 		; 
+	db  1111 1111 b 		; 
+
+	db  0000 0001 b 		; 
+	db  0000 0010 b 		; 
+	db  0000 0100 b 		; 
+	db  0000 1000 b 		; 
+	db  0001 0000 b 		; 
+	db  0010 0000 b 		; 
+	db  0100 0000 b 		; 
+	db  1000 0000 b 		; 
+
 
 {
 ; Sprite attributes: y, x, number, color    

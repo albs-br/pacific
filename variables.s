@@ -137,3 +137,5 @@
     Enemy_Shot_4_DeltaX:        rb 1            ;
 
 
+; Item
+    Item_Show:                  rb 1            ;

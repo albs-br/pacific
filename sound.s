@@ -43,46 +43,40 @@ SoundExplosion:
 ' mude o valor do registro 0 na linha 10 para alterar o timbre
 }
 SoundGetItem:
-    ld a, 8
+    ld a, 8					; Channel A Volume
     ld e, 15
-    call BIOS_WRTPSG
+    call BIOS_WRTPSG		
 
-    ld a, 0
+
+
+    ; for 0 to 20
+    ld b, 255
+.loop1:
+    ld a, 0					; Channel A Period (low 8 bits)
     ld e, 93
     call BIOS_WRTPSG
 
-    ld a, 1
+    ld a, 1					; Channel A Period (high 4 bits)
     ld e, 0
     call BIOS_WRTPSG
-
-    ; for 0 to 20
-    ; ld a, 255
-    ld b, 255
-.loop1:
+    
     djnz .loop1
-    ; dec a
-    ; jp nz, .loop1
 
-    ld a, 0
+
+    ld b, 255
+.loop2:
+    ld a, 0					; Channel A Period (low 8 bits)
     ld e, 45
     call BIOS_WRTPSG
 
-    ld a, 1
+    ld a, 1					; Channel A Period (high 4 bits)
     ld e, 0
     call BIOS_WRTPSG
 
-    ; for 0 to 29
-    ; ld a, 255
-    ld b, 255
-.loop2:
-    djnz .loop2
-    ; dec a
-    ; jp nz, .loop2
+	djnz .loop2
 
-    ld a, 8
+    ld a, 8					; Channel A Volume
     ld e, 0
     call BIOS_WRTPSG
-
-
 
     ret
