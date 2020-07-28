@@ -368,7 +368,7 @@ TestChars: equ 04F1Ch ; last def. pass 3
 BIOS_H_SCNE: equ 0FF98h ; last def. pass 3
 BIOS_H_COMP: equ 0FF57h ; last def. pass 3
 Colors_Title: equ 04F0Ch ; last def. pass 3
-Level_5.lastEnemy: equ 0783Bh ; last def. pass 3
+Level_5.lastEnemy: equ 0784Bh ; last def. pass 3
 BIOS_KBUF: equ 0F41Fh ; last def. pass 3
 BIOS_REDCLK: equ 01F5h ; last def. pass 3
 BIOS_MUSICF: equ 0FC3Fh ; last def. pass 3
@@ -738,7 +738,7 @@ Colors_Black: equ 04EECh ; last def. pass 3
 SpriteLayer_27_Pattern: equ 0C710h ; last def. pass 3
 BIOS_CURLIN: equ 0F41Ch ; last def. pass 3
 BIOS_H_NULO: equ 0FE5Dh ; last def. pass 3
-Level_3.lastEnemy: equ 06A95h ; last def. pass 3
+Level_3.lastEnemy: equ 06AA5h ; last def. pass 3
 BIOS_CGPNT: equ 0F91Fh ; last def. pass 3
 ResetPsg: equ 047ADh ; last def. pass 3
 Enemy_3_State: equ 0C68Ah ; last def. pass 3

@@ -597,6 +597,18 @@ Level_3:
     db  +1                  ; delta x (-1 to +1) signed byte
     db  0, 0, 0, 0, 0       ; reserved
 
+
+    ; Item (extra life)
+    db  0x0c, 0x50          ; counter value as bytes (HSB, LSB)
+    db  2                   ; action type (2: item)
+    db  0                   ; item type (0: extra life, 1: power up)
+    db  0, 0                ; not used
+    db  128, TOP_SCREEN     ; item position (x, y); y is ignored
+    db  0                   ; not used
+    db  0                   ; reserved
+    db  0, 0, 0, 0, 0, 0    ; reserved
+
+
 ; --------------------------
 
     ; Enemy plane (type 0)
