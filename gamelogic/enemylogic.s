@@ -239,6 +239,8 @@ GameLogicEnemy:
 
 .playerPlaneGotHit:
 
+	call SoundExplosion
+
 	ld a, 1
 	ld (Player_State), a
 
@@ -264,8 +266,7 @@ GameLogicEnemy:
 
 .colisionTrue:
 
-	; call SoundExplosion
-	; call SoundGetItem
+	call SoundExplosion
 
 	ld a, 0							; hide enemy
 	; ld (Enemy_1_Show), a

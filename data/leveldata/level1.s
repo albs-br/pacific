@@ -1,6 +1,8 @@
 Level_1:
 .msgLevelName:
     db 'TRAINING MISSION', 0    ; 16 chars fixed size
+.seaColor:
+    db  0                       ; 0: daylight, 1: nighttime
 
     ; enemy types available:
     ; from top:     db  0                   ; enemy type

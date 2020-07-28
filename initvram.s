@@ -313,3 +313,32 @@ ChangeColorTitle:
 	; call FillColorTable
 
 	ret
+
+; Input: HL: RAM addr of color pattern (8 bytes). It may be: Colors_Sea_Daylight or Colors_Sea_Nighttime
+SetSeaTileColor:
+; Define colors (copying 8 bytes from memory to VRAM)
+; First third
+	ld	bc, 8           							; Block length
+	ld	de, ColorsTable     						; VRAM start address
+	;ld	hl, Colors_Sea_Daylight        				; RAM start address
+	push hl
+    call BIOS_LDIRVM        						; Block transfer to VRAM from memory
+
+
+; Second third
+	ld	bc, 8           							; Block length
+	ld	de, ColorsTable + (256 * 8)					; VRAM start address
+	pop hl
+	push hl
+	;ld	hl, Colors_Sea_Daylight        				; RAM start address
+    call BIOS_LDIRVM        						; Block transfer to VRAM from memory
+
+
+; Last third
+	ld	bc, 8           							; Block length
+	ld	de, ColorsTable + (256 * 8) + (256 * 8)		; VRAM start address
+	; ld	hl, Colors_Sea_Daylight        				; RAM start address
+	pop hl
+    call BIOS_LDIRVM        						; Block transfer to VRAM from memory
+
+	ret

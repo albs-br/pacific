@@ -135,8 +135,6 @@ PlanePlayerShot:
     cp 0
     ret nz                                  ; cancel if already pressed
 
-    ; call SoundExplosion
-
     inc a                                   ; set flag of shot fired
     ld (Player_Shot), a                     ; 
     ld (Player_Trigger_Pressed), a          ; trigger pressed flag

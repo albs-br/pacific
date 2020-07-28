@@ -1,40 +1,3 @@
-SoundExplosion:
-
-    ld a, 7
-    ld e, 254
-    call BIOS_WRTPSG        ; call 147
-
-    ld a, 8
-    ld e, 15
-    call BIOS_WRTPSG
-
-    ld e, 40
-.ciclo:
-    ld a, 0
-    call BIOS_WRTPSG
-
-    ld a, 10
-.tempo:
-    push af
-    ld a, 255
-.tem:
-    dec a
-    jp nz, .tem
-
-    pop af
-    dec a
-    jp nz, .tempo
-    ld a, e
-    sub 150
-    ; jp z, .seg
-    ret z
-    add a, 151
-    ld e, a
-    jp .ciclo
-
-
-    ret
-
 
 {
  10 SOUND 8,15:SOUND 0,93:SOUND 1,0:FOR F=0 TO 20:NEXT F
@@ -43,7 +6,9 @@ SoundExplosion:
 ' mude o valor do registro 0 na linha 10 para alterar o timbre
 }
 SoundGetItem:
-    ld a, 8					; Channel A Volume
+	call ResetPsg
+; Register 7 must always contain 10xxxxxx or possible damage could result to the PSG
+    ld a, 8					; Channel A Volume (0-15)
     ld e, 15
     call BIOS_WRTPSG		
 
@@ -75,8 +40,88 @@ SoundGetItem:
 
 	djnz .loop2
 
-    ld a, 8					; Channel A Volume
+    ld a, 8					; Channel A Volume (0-15)
     ld e, 0
     call BIOS_WRTPSG
 
+    ret
+
+
+
+;5 sound 12, 40: sound 11, 0						' Envelope period (12: MSB, 11: LSB)
+;10 SOUND 0,0: SOUND 6,250: SOUND 7,82				' CAUTION WITH REGISTER 7!
+;20 SOUND 2,130: SOUND 8,16: SOUND 13,0
+SoundExplosion:
+	call ResetPsg
+
+	ld a, 12					;  Most significant bits of envelope period (0-255)
+    ld e, 40
+    call BIOS_WRTPSG
+
+    ld a, 11					;  Least significant bits of envelope period (0-255)
+    ld e, 0
+    call BIOS_WRTPSG
+
+    ld a, 0						;  Least significant bits of channel A frequency (0-255)
+    ld e, 0
+    call BIOS_WRTPSG
+
+    ld a, 6						;  Noise generator frequency (0-31)
+    ld e, 31
+    call BIOS_WRTPSG
+
+    ld a, 7						;  Mixer setting (128-191)
+    ld e, 146					;  128+18
+    call BIOS_WRTPSG
+
+    ld a, 2						;  Least significant bits of channel B frequency (0-255)
+    ld e, 130					;  
+    call BIOS_WRTPSG
+
+    ld a, 8						;  Volume of channel A (0-16)
+    ld e, 16					;  
+    call BIOS_WRTPSG
+
+    ld a, 13					;  Envelope shape (0-15)
+    ld e, 0						;  
+    call BIOS_WRTPSG
+
+	ret
+    
+
+
+ResetPsg:
+	;restore psg values
+    ld a, 12					;  Most significant bits of envelope period (0-255)
+    ld e, 0
+    call BIOS_WRTPSG
+    
+    ld a, 11					;  Least significant bits of envelope period (0-255)
+    ld e, 0x0b
+    call BIOS_WRTPSG
+
+    ld a, 0					; Channel A Period (low 8 bits)
+    ld e, 0x55
+    call BIOS_WRTPSG
+
+    ld a, 6						;  Noise generator frequency (0-31)
+    ld e, 0
+    call BIOS_WRTPSG
+
+    ld a, 7						;  Mixer setting (128-191)
+    ld e, 0xb8					;  128+18
+    call BIOS_WRTPSG
+
+    ld a, 2						;  Least significant bits of channel B frequency (0-255)
+    ld e, 0						;  
+    call BIOS_WRTPSG
+
+    ld a, 8						;  Volume of channel A (0-16)
+    ld e, 0						;  
+    call BIOS_WRTPSG
+
+    ld a, 13					;  Envelope shape (0-15)
+    ld e, 0						;  
+    call BIOS_WRTPSG
+    
     ret

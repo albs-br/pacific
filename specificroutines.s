@@ -651,33 +651,43 @@ LoadLevel:
     jp .testLevel
 
 .testLevel:
-    ; ld hl, MsgLevel_Test_Name
+    ld hl, Level_Test.seaColor
+    ld b, (hl)                          ; set sea color
     ld hl, Level_Test.msgLevelName
-    ; ld de, Level_Test_DataStart
     ld de, Level_Test.levelDataStart
     jp .showLevelTitle
 
 .level1:
+    ld hl, Level_1.seaColor
+    ld b, (hl)                          ; set sea color
     ld hl, Level_1.msgLevelName
     ld de, Level_1.levelDataStart
     jp .showLevelTitle
 
 .level2:
+    ld hl, Level_2.seaColor
+    ld b, (hl)                          ; set sea color
     ld hl, Level_2.msgLevelName
     ld de, Level_2.levelDataStart
     jp .showLevelTitle
 
 .level3:
+    ld hl, Level_3.seaColor
+    ld b, (hl)                          ; set sea color
     ld hl, Level_3.msgLevelName
     ld de, Level_3.levelDataStart
     jp .showLevelTitle
 
 .level4:
+    ld hl, Level_4.seaColor
+    ld b, (hl)                          ; set sea color
     ld hl, Level_4.msgLevelName
     ld de, Level_4.levelDataStart
     jp .showLevelTitle
 
 .level5:
+    ld hl, Level_5.seaColor
+    ld b, (hl)                          ; set sea color
     ld hl, Level_5.msgLevelName
     ld de, Level_5.levelDataStart
     jp .showLevelTitle
@@ -685,9 +695,12 @@ LoadLevel:
 .level6:
     ld hl, Level_6.msgLevelName
     ld de, Level_6.levelDataStart
+    ld hl, Level_6.seaColor
+    ld b, (hl)                          ; set sea color
     ; jp .showLevelTitle
 
 .showLevelTitle:
+    push bc                          ; save sea color info
     push de
 
     call LevelTitleScreen
@@ -698,6 +711,22 @@ LoadLevel:
     call LoadLevelData
 
     call LoadNamesTable
+
+    pop bc                          ; retrieve sea color info
+
+    ; set type of sea (Daylight or Nighttime)
+    ld a, b
+    cp 0
+    jp z, .setSeaDaylight
+    ;else
+    jp .setSeaNighttime
+.setSeaDaylight:
+    ld hl, Colors_Sea_Daylight
+    jp .cont2
+.setSeaNighttime:
+    ld hl, Colors_Sea_Nighttime
+.cont2:
+    call SetSeaTileColor
 
     ret
 

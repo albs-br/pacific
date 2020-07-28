@@ -56,7 +56,7 @@ GameLogic:
 	; Check collision between player plane and item
 	ld a, (Player_State)
 	cp 0
-	jp nz, .enemies				; skip if player isn't alive
+	jp nz, .skipCheckCollPlaneItem				; skip if player isn't alive
 
 	ld a, (Item_X)				; enemy X + 7
 	add 7
@@ -80,7 +80,7 @@ GameLogic:
 
 
 
-
+.skipCheckCollPlaneItem:
 	ld a, (Counter+4)	    	      ;
    ld b, a
 
