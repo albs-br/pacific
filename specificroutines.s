@@ -651,10 +651,10 @@ LoadLevel:
     jp .testLevel
 
 .testLevel:
-    ld hl, Level_Test.seaColor
-    ld b, (hl)                          ; set sea color
-    ld hl, Level_Test.msgLevelName
-    ld de, Level_Test.levelDataStart
+    ; ld hl, Level_Test.seaColor
+    ; ld b, (hl)                          ; set sea color
+    ; ld hl, Level_Test.msgLevelName
+    ; ld de, Level_Test.levelDataStart
     jp .showLevelTitle
 
 .level1:

@@ -1,6 +1,6 @@
 Msg_Version:    
     ;db      "0.45.0", 0        ; last version before submission to MSX Dev 20 on july 27th, 2020
-    db      "1.1.0", 0
+    db      "1.1.1", 0
 
 Msg_Pause:
 	db		"PAUSE", 0
