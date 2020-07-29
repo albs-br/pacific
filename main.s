@@ -132,5 +132,6 @@ End:
 
 ; Variables (mapped to RAM memory)
 	org 0xc000
+
 INCLUDE "variables.s"
 INCLUDE 'vramspriteattrbuffer.s'

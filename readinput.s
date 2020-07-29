@@ -19,67 +19,167 @@ ReadInput:
 
 
 
+    ; read joystick
+    ld a, 1                 ; 1: joystick 1
+    call BIOS_GTSTCK
+    cp 0
+    jp nz, .readJoystick    ; if joystick status is <> 0 (no direction), skip to check joystick
+
+
+
+    ; read keyboard
     ld a, 8                 ; 8th line
     call BIOS_SNSMAT        ; Read Data Of Specified Line From Keyboard Matrix
-    ld b, a
+    ld c, a                 ; save keyboard status
 
+    ; ld a, c
     bit 4, a                ; 4th bit (key left), table with all keys on MSX Progs em Ling. de Maq. pag 58
-    jp z, PlanePlayerLeft
+    jp z, .keyboardLeft
 
-    ; ld a, 8                 ; 8th line
-    ; call BIOS_SNSMAT        ; Read Data Of Specified Line From Keyboard Matrix
-    ld a, b
+    ; ld a, c
     bit 7, a                ; 7th bit (key right)
-    jp z, PlanePlayerRight
-
-.checkUpDown:
-    ; ld a, 8                 ; 8th line
-    ; call BIOS_SNSMAT        ; Read Data Of Specified Line From Keyboard Matrix
-    ld a, b
+    jp z, .keyboardRight
+.checkKeyboardUpDown:
+    ld a, c
     bit 5, a                ; 5th bit (key up)
-    jp z, PlanePlayerUp
+    jp z, .keyboardUp
 
-    ; ld a, 8                 ; 8th line
-    ; call BIOS_SNSMAT        ; Read Data Of Specified Line From Keyboard Matrix
-    ld a, b
+    ; ld a, c
     bit 6, a                ; 6th bit (key down)
-    jp z, PlanePlayerDown
+    jp z, .keyboardDown
+    
+    jp ReadInput.checkTrigger
 
+.readJoystick:
+    ld d, a                 ; save joystick direction
+
+    ;ld a, d
+    cp 7                    ; joystick to left
+    jp z, .joystickLeft
+
+    ;ld a, d
+    cp 3                    ; joystick to right
+    jp z, .joystickRight
+
+    ; ld a, d
+    cp 1                    ; joystick to up
+    jp z, .joystickUp
+
+    ; ld a, d
+    cp 5                    ; joystick to down
+    jp z, .joystickDown
+
+; .checkJoystickDiagonals:
+    ; ld a, d
+    cp 2                    ; joystick to up-right
+    jp z, .joystickUpRight
+
+    cp 8                    ; joystick to up-left
+    jp z, .joystickUpLeft
+
+    cp 6                    ; joystick to down-left
+    jp z, .joystickDownLeft
+
+    cp 4                    ; joystick to down-right
+    jp z, .joystickDownRight
+
+
+    jp ReadInput.checkTrigger
+
+.keyboardLeft:
+    call DoPlaneLeft
+    jp .checkKeyboardUpDown
+
+.keyboardRight:
+    call DoPlaneRight
+    jp .checkKeyboardUpDown
+
+.keyboardUp:
+    call DoPlaneUp
+    jp .checkTrigger
+
+.keyboardDown:
+    call DoPlaneDown
+    jp .checkTrigger
+
+
+
+.joystickLeft:
+    call DoPlaneLeft
+    jp .checkTrigger
+
+.joystickRight:
+    call DoPlaneRight
+    jp .checkTrigger
+
+.joystickUp:
+    call DoPlaneUp
+    jp .checkTrigger
+
+.joystickDown:
+    call DoPlaneDown
+    jp .checkTrigger
+
+.joystickUpRight:
+    call DoPlaneUp
+    call DoPlaneRight
+    jp .checkTrigger
+
+.joystickUpLeft:
+    call DoPlaneUp
+    call DoPlaneLeft
+    jp .checkTrigger
+
+.joystickDownLeft:
+    call DoPlaneDown
+    call DoPlaneLeft
+    jp .checkTrigger
+
+.joystickDownRight:
+    call DoPlaneDown
+    call DoPlaneRight
+    jp .checkTrigger
 
 .checkTrigger:
-
-
     ; check if trigger pressed only after trigger released
     ; to avoid sequencial firing by just keeping trigger pressed
     ld a, (Player_Trigger_Pressed)          ; get trigger pressed flag
     cp 0
-    call z, .checkTriggerPressed              
-    call .checkTriggerReleased
+    call z, .CheckTriggerPressed              
+    call .CheckTriggerReleased
 
 
+    ret                     ; ret of ReadInput
 
-    ret
-
-.checkTriggerPressed:
+.CheckTriggerPressed:
     ld a, 8                 ; 8th line
     call BIOS_SNSMAT        ; Read Data Of Specified Line From Keyboard Matrix
     bit 0, a                ; 0th bit (space bar)
-    call z, PlanePlayerShot
+    jp z, planePlayerShot
+
+    ld a, 1                 ; 1=JOY 1, TRIGGER A
+    call BIOS_GTTRIG        ; Output: A=255 button pressed, A=0 button released
+    jp nz, planePlayerShot
+.checkTriggerPressedReturn:
     ret
 
-.checkTriggerReleased:
+; TODO: fix bug both button and spacebar pressed continuously are shoting
+; the reason is this routine, if one of the two are released, the flag is reset
+.CheckTriggerReleased:
     ld a, 8                 ; 8th line
     call BIOS_SNSMAT        ; Read Data Of Specified Line From Keyboard Matrix
     bit 0, a                ; 0th bit (space bar)
-    call nz, PlaneTriggerReleased
+    jp nz, planeTriggerReleased
+
+    ld a, 1                 ; 1=JOY 1, TRIGGER A
+    call BIOS_GTTRIG        ; Output: A=255 button pressed, A=0 button released
+    jp z, planeTriggerReleased
+.checkTriggerReleasedReturn:
     ret
 
 
 
-
-
-
-PlanePlayerLeft:
+DoPlaneLeft:
     ld a, (Player_X)            ; player to left
     dec a
     ret z                       ; cancel if x=1
@@ -87,11 +187,11 @@ PlanePlayerLeft:
     ld (Player_X), a            ; save value
     ld (ix + Struct_CollisionBox.X), a      ; set X of collision box
 
-    jp ReadInput.checkUpDown
+    ret
 
 
-PlanePlayerRight:
-    ld a, (Player_X)            ; player to left
+DoPlaneRight:
+    ld a, (Player_X)            ; player to right
     inc a
     cp 241
     ret nc                      ; cancel if x >= 241
@@ -99,10 +199,10 @@ PlanePlayerRight:
     ld (Player_X), a            ; save value
     ld (ix + Struct_CollisionBox.X), a      ; set X of collision box
 
-    jp ReadInput.checkUpDown
+    ret
 
 
-PlanePlayerUp:
+DoPlaneUp:
     ld a, (Player_Y)            ; player up
     dec a
     cp TOP_SCREEN - 1
@@ -111,10 +211,10 @@ PlanePlayerUp:
     ld (Player_Y), a            ; save value
     ld (ix + Struct_CollisionBox.Y), a      ; set Y of collision box
 
-    jp ReadInput.checkTrigger
+    ret
 
 
-PlanePlayerDown:
+DoPlaneDown:
     ld a, (Player_Y)            ; player down
     inc a
     cp 175
@@ -123,19 +223,20 @@ PlanePlayerDown:
     ld (Player_Y), a            ; save value
     ld (ix + Struct_CollisionBox.Y), a      ; set Y of collision box
 
-    jp ReadInput.checkTrigger
+    ret
 
-
-PlanePlayerShot:
+planePlayerShot:
     ld a, (Player_Shot)                     ; get player shot flag
     cp 0
-    ret nz                                  ; cancel if already shot
+    ; ret nz                                  ; cancel if already shot
+    jp nz, ReadInput.checkTriggerPressedReturn       ; cancel if already shot
 
     ld a, (Player_Trigger_Pressed)          ; get trigger pressed flag
     cp 0
-    ret nz                                  ; cancel if already pressed
+    ; ret nz                                  ; cancel if already pressed
+    jp nz, ReadInput.checkTriggerPressedReturn       ; cancel if already pressed
 
-    inc a                                   ; set flag of shot fired
+    ld a, 1;inc a                                   ; set flag of shot fired
     ld (Player_Shot), a                     ; 
     ld (Player_Trigger_Pressed), a          ; trigger pressed flag
 
@@ -159,15 +260,17 @@ PlanePlayerShot:
     ld a, 2 * 4                             ; restore shot pattern
     ld (Player_Shot_Pattern), a
 
-    ret
+    ; and 0                                   ; force Z flag
+    ; ret
+    jp ReadInput.checkTriggerPressedReturn
 
 
 
-PlaneTriggerReleased:
+planeTriggerReleased:
     ld a, 0                                 ; reset flag of shot fired
     ld (Player_Trigger_Pressed), a          ; trigger pressed flag
 
-    ret
+    jp ReadInput.checkTriggerReleasedReturn
 
 
 

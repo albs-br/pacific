@@ -63,7 +63,12 @@ TitleScreen:
     ld a, 8                 ; 8th line
     call BIOS_SNSMAT        ; Read Data Of Specified Line From Keyboard Matrix
     bit 0, a                ; 0th bit (space bar)
-    jp z, .spacebarPressed
+    jp z, .triggerPressed
+
+    ld a, 1                 ; 1=JOY 1, TRIGGER A
+    call BIOS_GTTRIG        ; Output: A=255 button pressed, A=0 button released
+    jp nz, .triggerPressed
+
 
     dec e
     jp nz, .loop                ; inner loop
@@ -75,7 +80,7 @@ TitleScreen:
     xor a                       ; same as ld a, 0, but faster
     ret
 
-.spacebarPressed:
+.triggerPressed:
     or 1                        ; same as ld a, 1, but faster
     ret
 

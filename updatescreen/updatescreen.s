@@ -170,6 +170,8 @@ UpdateScreen:
 
 
 
+	; call AdjustECbitOfSpriteAttrTableBuffer
+
 	; copy from buffer to VRAM
 	ld	bc, 4 * 32									; Block length
 	ld	de, SpriteAttrTable							; VRAM address
@@ -177,3 +179,19 @@ UpdateScreen:
     call BIOS_LDIRVM        						; Block transfer to VRAM from memory
 
     ret
+
+
+; Adjust EC (early clock) bit, to correct sprites on left border
+; AdjustECbitOfSpriteAttrTableBuffer:
+; 	ld b, 32
+; 	ld hl, VramSpriteAttrBuffer + 1
+
+; .loop:
+; 	ld a, (hl)							; read X value
+; 	cp 0
+; 	jp 
+
+
+; 	djnz .loop
+
+; 	ret
