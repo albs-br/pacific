@@ -42,12 +42,11 @@ InitVariables:
     ld (ix + Struct_CollisionBox.height), a
 
 
-    ld a, 0                             ; set all to zero
-    
     call ResetCounter
 
+    ld a, 0                             ; set all to zero
     ld (Player_State), a                ;
-    ld (Player_Shot), a                 ;
+    ; ld (Player_Shot), a                 ;
     ld (Enemy_0_Show), a                ;
     ld (Enemy_0_State), a               ;
     ld (Enemy_1_Show), a                ;
@@ -64,7 +63,22 @@ InitVariables:
     ld (Enemy_Shot_3_Show), a           ;
     ld (Enemy_Shot_4_Show), a           ;
     ld (Player_Trigger_Pressed), a      ;
+    ld (TypeLastShotTriggered), a      ;
     ld (Item_Show), a
+
+
+    ; disable all 3 shots of player
+    ld iy, Player_Shot_0_Obj
+    ; ld (iy + Struct_PlayerShot.Enabled), a
+    call DisableShot
+    ld iy, Player_Shot_1_Obj
+    ; ld (iy + Struct_PlayerShot.Enabled), a
+    call DisableShot
+    ld iy, Player_Shot_2_Obj
+    ; ld (iy + Struct_PlayerShot.Enabled), a
+    call DisableShot
+
+
 
     ; ld bc, 0
     ; ld (Player_Score), bc               ;
@@ -249,8 +263,7 @@ IncrementCounter:
 
     pop hl
 
-; call bios_beep ;debug
-; jp .contEnemyNumber
+    jp .contEnemyNumber
 
 .enemyNumber_0:
     pop hl
@@ -423,6 +436,17 @@ IncrementCounter:
     cp 6
     jp z, GameFinished
 
+
+    ; hide player/shot sprites
+    ld a, 63 * 4                                        ; invalid pattern
+    ld (SpriteLayer_0_Pattern), a                       ; player 2nd color
+    ld (SpriteLayer_1_Pattern), a                       ; player 1st color
+    ld (SpriteLayer_2_Pattern), a                       ; player shot 0
+    ld (SpriteLayer_3_Pattern), a                       ; player shot 1
+    ld (SpriteLayer_4_Pattern), a                       ; player shot 2
+    ld (SpriteLayer_31_Pattern), a                      ; player plane shadow
+
+
     ; write 'LEVEL  FINISHED' on midscreen
 	ld	de, NamesTable + 256 + (32 * 4) + 16 - 7        ; VRAM Address
 	ld	hl, Msg_LevelFinished                           ;
@@ -548,24 +572,31 @@ PrintNumber_LittleEndian:
 
 
 
+; Input: IY: base address of the shot using Struct_PlayerShot
+; Output: none
 DisableShot:
+
+
     ; ld a, (Player_Shot)
-	; dec a                       	; reset flag of shot fired ; CAUSING BUG
+	; dec a                       	; reset flag of shot fired
+    ; ;ld a, 0
+    ; ld (Player_Shot), a         	; 
     ld a, 0
-    ld (Player_Shot), a         	; 
+    ld (iy + Struct_PlayerShot.Enabled), a
 
-	; ld d, 0							;   d: x coord
-	; ld e, 256 - 16					;   e: y coord		; place sprite off screen
-	; ld a, 63					    ;   a: pattern number (0-63)
-	; ld b, 2							;   b: layer (0-31)
-	; call PutSprite16x16				;   put non existent sprite at layer, to hide the shot
+    ; ld a, 0
+    ; ld (Player_Shot_X), a
+    ld (iy + Struct_PlayerShot.X), a
 
-    ld a, 0
-    ld (Player_Shot_X), a
     ld a, 256 - 16
-    ld (Player_Shot_Y), a
+    ; ld (Player_Shot_Y), a
+    ld (iy + Struct_PlayerShot.Y), a
+
     ld a, 63 * 4
-    ld (Player_Shot_Pattern), a
+    ; ld (Player_Shot_Pattern), a
+    ld (iy + Struct_PlayerShot.Pattern), a
+
+
 
     ret
 
@@ -694,9 +725,9 @@ LoadLevel:
 
 .level6:
     ld hl, Level_6.msgLevelName
+    ld b, (hl)                          ; set sea color
     ld de, Level_6.levelDataStart
     ld hl, Level_6.seaColor
-    ld b, (hl)                          ; set sea color
     ; jp .showLevelTitle
 
 .showLevelTitle:
@@ -813,5 +844,70 @@ ShowDebugInfo:
 		ld b, 14						;   b: layer (0-31)
 		call PutSprite16x16				;
     ENDIF
+
+    ret
+
+
+
+; Struct object:
+Struct_PlayerShot_Size:     equ 4
+Struct_PlayerShot:
+.Enabled:   equ     0
+.X:         equ     1
+.Y:         equ     2
+.Pattern:   equ     3
+
+
+
+; Input: none
+; Output: IY: base address of the first shot avaliable
+;         Z flag set if none avaliable
+GetFirstAvailableShot:
+    ; TODO: loop here
+    ld iy, Player_Shot_0_Obj
+    ld a, (iy + Struct_PlayerShot.Enabled)
+    cp 1
+    ret nz
+
+    ld iy, Player_Shot_1_Obj
+    ld a, (iy + Struct_PlayerShot.Enabled)
+    cp 1
+    ret nz
+
+    ld iy, Player_Shot_2_Obj
+    ld a, (iy + Struct_PlayerShot.Enabled)
+    cp 1
+    ret nz
+
+    ; no shot available
+    and 0                               ; force Z flag
+    ret
+
+UpdateShotSpritesAttrs:
+    ld iy, Player_Shot_0_Obj
+    ld ix, SpriteLayer_2_Y
+    call .UpdateShotSpriteAttrs
+
+    ld iy, Player_Shot_1_Obj
+    ld ix, SpriteLayer_3_Y
+    call .UpdateShotSpriteAttrs
+
+    ld iy, Player_Shot_2_Obj
+    ld ix, SpriteLayer_4_Y
+    call .UpdateShotSpriteAttrs
+
+    ret 
+
+; update ONE single shot sprite
+; Input: iy: Struct_PlayerShot
+.UpdateShotSpriteAttrs:
+    ld a, (iy + Struct_PlayerShot.Y)
+    ld (ix + 0), a
+
+    ld a, (iy + Struct_PlayerShot.X)
+    ld (ix + 1), a
+
+    ld a, (iy + Struct_PlayerShot.Pattern)
+    ld (ix + 2), a
 
     ret

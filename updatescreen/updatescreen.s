@@ -170,6 +170,10 @@ UpdateScreen:
 
 
 
+
+    call UpdateShotSpritesAttrs
+
+
 	; call AdjustECbitOfSpriteAttrTableBuffer
 
 	; copy from buffer to VRAM

@@ -2,45 +2,62 @@ INCLUDE "gamelogic/enemylogic.s"
 
 GameLogic:
 
+   ld iy, Player_Shot_0_Obj                  ; First shot
 
+   ld b, 3                                   ; number of shots
+.loop:
+   push bc
 
-	ld a, (Player_Shot)				;   get indicator of shot fired
+   ld a, (iy + Struct_PlayerShot.Enabled)    ;   get indicator of shot fired
+	; ld a, (Player_Shot)				            ;   get indicator of shot fired
    cp 0
-   jp z, .continue                 
+   jp z, .nextShot
 
-	ld a, (Player_Shot_Y)			;   get Y position of shot  
+	; ld a, (Player_Shot_Y)			            ;   get Y position of shot
+	ld a, (iy + Struct_PlayerShot.Y)          ;   get Y position of shot
    dec a
    cp TOP_SCREEN - 1
-   jp z, .shotReachesTop           ;   if y=TOP_SCREEN disable shot
+   call z, .ShotReachesTop                   ;   if y=TOP_SCREEN disable shot
 
-	ld (Player_Shot_Y), a			;   saves updated Y position of shot  
+	; ld (Player_Shot_Y), a			            ;   saves updated Y position of shot
+	ld (iy + Struct_PlayerShot.Y), a          ;   saves updated Y position of shot
 
    ld ix, Player_Shot_CollisionBox
-   ld (ix + Struct_CollisionBox.Y), a      ; update Y of collision box
+   ld (ix + Struct_CollisionBox.Y), a        ; update Y of collision box
 
    ;no need to update X collision box, as it is always the same
-	; ld a, (Player_Shot_X)			;   d: x coord
+	; ld a, (Player_Shot_X)			            ;   d: x coord
    ; ld (ix + Struct_CollisionBox.X), a      ; update X of collision box
 
+.nextShot:
+   ld bc, Struct_PlayerShot_Size
+   add iy, bc
+   pop bc
+   djnz .loop
 
 
-   ld a, 14						;   color gray
+
+   ld a, 14						                  ;   color gray
 	ld (Player_Shot_Color), a
+	ld (Player_Shot_1_Color), a
+	ld (Player_Shot_2_Color), a
 
-	ld a, (Counter+4)	    	    ;
+	ld a, (Counter+4)	    	                  ;
    bit 0, a
-   jp z, .continue            ;   alternate colors of shot at each frame
+   jp z, .continue                           ;   alternate colors of shots at each frame
 
-   ld a, 8						    ;   color red
+   ld a, 8						                  ;   color red
 	ld (Player_Shot_Color), a
+	ld (Player_Shot_1_Color), a
+	ld (Player_Shot_2_Color), a
 
    jp .continue
 
 
 
-.shotReachesTop:
-
-	call DisableShot
+.ShotReachesTop:
+   call DisableShot
+   ret
 
 
 

@@ -131,7 +131,8 @@ End:
 
 
 ; Variables (mapped to RAM memory)
-	org 0xc000
+	; org 0xc000                          ; for machines with 16kb of RAM (use it if you need 16kb RAM, will crash on 8kb machines, such as the Casio PV-7)
+	org 0xe000                          ; for machines with 8kb of RAM (use it if you need 8kb RAM or less, will work on any machine)
 
 INCLUDE "variables.s"
 INCLUDE 'vramspriteattrbuffer.s'

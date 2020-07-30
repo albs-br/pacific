@@ -155,25 +155,54 @@ ReadInput:
     ld a, 8                 ; 8th line
     call BIOS_SNSMAT        ; Read Data Of Specified Line From Keyboard Matrix
     bit 0, a                ; 0th bit (space bar)
-    jp z, planePlayerShot
+    jp z, .spacebarPressed
 
     ld a, 1                 ; 1=JOY 1, TRIGGER A
     call BIOS_GTTRIG        ; Output: A=255 button pressed, A=0 button released
-    jp nz, planePlayerShot
+    jp nz, .joystickButtonPressed
+
+    ret
+
+.spacebarPressed:
+    ld a, 1
+    ld (TypeLastShotTriggered), a
+    jp planePlayerShot
+    ret
+
+.joystickButtonPressed:
+    ld a, 2
+    ld (TypeLastShotTriggered), a
+    jp planePlayerShot
+    ret
+
 .checkTriggerPressedReturn:
     ret
 
 ; TODO: fix bug both button and spacebar pressed continuously are shoting
 ; the reason is this routine, if one of the two are released, the flag is reset
 .CheckTriggerReleased:
+
+    ; if(TypeLastShotTriggered == Spacebar) checkSpacebarReleased;
+    ; else if(TypeLastShotTriggered == Spacebar) checkJoystickButtonReleased;
+    ld a, (TypeLastShotTriggered)
+    cp 1
+    jp z, .checkSpacebarReleased
+    cp 2
+    jp z, .checkJoystickButtonReleased
+    ret
+
+.checkSpacebarReleased:
     ld a, 8                 ; 8th line
     call BIOS_SNSMAT        ; Read Data Of Specified Line From Keyboard Matrix
     bit 0, a                ; 0th bit (space bar)
     jp nz, planeTriggerReleased
+    ret
 
+.checkJoystickButtonReleased:
     ld a, 1                 ; 1=JOY 1, TRIGGER A
     call BIOS_GTTRIG        ; Output: A=255 button pressed, A=0 button released
     jp z, planeTriggerReleased
+    ret
 .checkTriggerReleasedReturn:
     ret
 
@@ -226,41 +255,60 @@ DoPlaneDown:
     ret
 
 planePlayerShot:
-    ld a, (Player_Shot)                     ; get player shot flag
+    ; ld a, (Player_Shot)                             ; get player shot counter
+    ; cp 0
+    ; ; ret nz                                        ; cancel if already shot
+    ; jp nz, ReadInput.checkTriggerPressedReturn      ; cancel if already shot
+
+
+    call GetFirstAvailableShot
+
+    jp z, ReadInput.checkTriggerPressedReturn       ; cancel if no shot avaliable
+
+
+
+    ld a, (Player_Trigger_Pressed)                  ; get trigger pressed flag
     cp 0
-    ; ret nz                                  ; cancel if already shot
-    jp nz, ReadInput.checkTriggerPressedReturn       ; cancel if already shot
+    ; ret nz                                        ; cancel if already pressed
+    jp nz, ReadInput.checkTriggerPressedReturn      ; cancel if already pressed
 
-    ld a, (Player_Trigger_Pressed)          ; get trigger pressed flag
-    cp 0
-    ; ret nz                                  ; cancel if already pressed
-    jp nz, ReadInput.checkTriggerPressedReturn       ; cancel if already pressed
 
-    ld a, 1;inc a                                   ; set flag of shot fired
-    ld (Player_Shot), a                     ; 
-    ld (Player_Trigger_Pressed), a          ; trigger pressed flag
 
-    ld a, (Player_X)                        ; set X of shot = X of player
-    ld (Player_Shot_X), a                   ;
 
-    ld ix, Player_Shot_CollisionBox
+    ld a, 1                                         ; set flag of shot fired
+    ; ld (Player_Shot), a                             ; 
+    ld (iy + Struct_PlayerShot.Enabled), a
+    ld (Player_Trigger_Pressed), a                  ; trigger pressed flag
 
-    add 6
-    ld (ix + Struct_CollisionBox.X), a      ; set X of collision box
-    ld a, 4
-    ld (ix + Struct_CollisionBox.width), a  ; set width of collision box
+    
+    
 
-    ld a, (Player_Y)                        ; set Y of shot = Y of player
-    ld (Player_Shot_Y), a                   ;
+    ld a, (Player_X)                                ; set X of shot = X of player
+    ld (iy + Struct_PlayerShot.X), a
+    ;ld (Player_Shot_X), a                           ;
 
-    ld (ix + Struct_CollisionBox.Y), a      ; set Y of collision box
-    ld a, 9
-    ld (ix + Struct_CollisionBox.height), a ; set height of collision box
 
-    ld a, 2 * 4                             ; restore shot pattern
-    ld (Player_Shot_Pattern), a
 
-    ; and 0                                   ; force Z flag
+    ld ix, Player_Shot_CollisionBox     
+
+    add 6       
+    ld (ix + Struct_CollisionBox.X), a              ; set X of collision box
+    ld a, 4     
+    ld (ix + Struct_CollisionBox.width), a          ; set width of collision box
+
+    ld a, (Player_Y)                                ; set Y of shot = Y of player
+    ; ld (Player_Shot_Y), a                           ;
+    ld (iy + Struct_PlayerShot.Y), a
+
+    ld (ix + Struct_CollisionBox.Y), a              ; set Y of collision box
+    ld a, 9     
+    ld (ix + Struct_CollisionBox.height), a         ; set height of collision box
+
+    ld a, 2 * 4                                     ; restore shot pattern
+    ; ld (Player_Shot_Pattern), a     
+    ld (iy + Struct_PlayerShot.Pattern), a
+
+    ; and 0                                         ; force Z flag
     ; ret
     jp ReadInput.checkTriggerPressedReturn
 
@@ -310,3 +358,4 @@ Pause:
     call BIOS_FILVRM        ; Fill VRAM
 
     ret
+

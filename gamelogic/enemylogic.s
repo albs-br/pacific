@@ -124,25 +124,38 @@ GameLogicEnemy:
 
 .next1:
 
-	ld a, (Player_Shot)				; if there is no shot fired skip check collision between shot and enemy
+	; ld a, (Player_Shot)				; if there is no shot fired skip check collision between shot and enemy
+	; cp 0
+	; jp z, .skipCheckEnemy_1
+
+	; TODO: loop throught all 3 player shots and check it against enemy
+   	ld iy, Player_Shot_0_Obj                  ; First shot
+
+   	ld b, 3                                   ; number of shots
+.loop:
+   	push bc
+
+    ld a, (iy + Struct_PlayerShot.Enabled)
 	cp 0
-	jp z, .skipCheckEnemy_1
+	jp z, .nextShot
 
 
     ; Test colision between shot and enemy
-	ld a, (Player_Shot_X)			;   h: x coord
+	; ld a, (Player_Shot_X)			;   h: x coord
+    ld a, (iy + Struct_PlayerShot.X);   h: x coord
 	add a, 6						;   get the correct upper left pixel
 	ld h, a
-	ld a, (Player_Shot_Y)			;   l: y coord
+	; ld a, (Player_Shot_Y)			;   l: y coord
+    ld a, (iy + Struct_PlayerShot.Y);   l: y coord
 	ld l, a
 
 	; ld a, (Enemy_1_X)				;   b: x1 coord
-	ld a, (ix + 5)				;   b: x1 coord
+	ld a, (ix + 5)					;   b: x1 coord
 	ld b, a
     add a, 15                       ;   d: x2 coord
     ld d, a
 	; ld a, (Enemy_1_Y)				;   c: y1 coord
-	ld a, (ix + 6)				;   c: y1 coord
+	ld a, (ix + 6)					;   c: y1 coord
 	ld c, a
     add a, 15                       ;   e: y2 coord
     ld e, a
@@ -156,7 +169,7 @@ GameLogicEnemy:
 	; ld e, 101
 
 	call CheckCollision             ; 
-    jp nz, .colisionTrue
+    call nz, .CollisionTrue
 
 
 	; push ix
@@ -168,6 +181,11 @@ GameLogicEnemy:
 	; pop ix
     ; jp c, .colisionTrue
 
+.nextShot:
+	ld bc, Struct_PlayerShot_Size
+	add iy, bc
+	pop bc
+	djnz .loop
 
 .skipCheckEnemy_1:
 
@@ -264,7 +282,7 @@ GameLogicEnemy:
 
     ret
 
-.colisionTrue:
+.CollisionTrue:
 
 	call SoundExplosion
 
@@ -275,7 +293,7 @@ GameLogicEnemy:
 	; ld (Enemy_1_State), a
 	ld (ix + 1), a
 
-	call DisableShot
+   	call DisableShot
     ; ld a, (Player_Shot)
 	; dec a                       	; reset flag of shot fired
     ; ld (Player_Shot), a         	; 

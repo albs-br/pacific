@@ -19,8 +19,17 @@
     SpriteLayer_2_Pattern:   Player_Shot_Pattern:        rb 1            ;
     SpriteLayer_2_Color:     Player_Shot_Color:          rb 1            ;
 
-    ; Reserved to player shots 1 and 2
-                                                         rb (2*4)
+    ; Player shot 1
+    SpriteLayer_3_Y:         Player_Shot_1_Y:            rb 1            ;
+    SpriteLayer_3_X:         Player_Shot_1_X:            rb 1            ;
+    SpriteLayer_3_Pattern:   Player_Shot_1_Pattern:      rb 1            ;
+    SpriteLayer_3_Color:     Player_Shot_1_Color:        rb 1            ;
+
+    ; Player shot 2
+    SpriteLayer_4_Y:         Player_Shot_2_Y:            rb 1            ;
+    SpriteLayer_4_X:         Player_Shot_2_X:            rb 1            ;
+    SpriteLayer_4_Pattern:   Player_Shot_2_Pattern:      rb 1            ;
+    SpriteLayer_4_Color:     Player_Shot_2_Color:        rb 1            ;
 
     ; Enemy 0 2nd color
     SpriteLayer_5_BaseAddr:                               rb 4
