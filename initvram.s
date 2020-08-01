@@ -66,6 +66,10 @@ InitVram:
     call BIOS_WRTVDP        		; Block transfer to VRAM from memory
 
 
+; --------------------------------------------------
+
+
+	call CleanVram
 
 
 

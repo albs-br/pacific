@@ -440,6 +440,17 @@ WaitSomeSeconds:
 
     ret
 
+
+; Fill all VRAM with 0x00
+CleanVram:
+	ld	hl, 0x0000 			; VRAM start address
+    ld  bc, 16768           ; number of bytes
+    ld  a, 0x00             ; value
+    call BIOS_FILVRM        ; Fill VRAM
+    
+    ret
+
+
 {
 ;if a < d 
     cp d
