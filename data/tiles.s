@@ -1,3 +1,7 @@
+; Tiles used so far:
+; 0-2: 		general
+; 48-84:	chars (0-9, A-Z, .)
+; 95-107:	title
 Tile_Sea_Number:	equ 0
 Tile_Sea:                     ; Sea
 	db  10000000 b 		; 

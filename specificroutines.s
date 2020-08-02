@@ -724,10 +724,10 @@ LoadLevel:
     jp .showLevelTitle
 
 .level6:
-    ld hl, Level_6.msgLevelName
-    ld b, (hl)                          ; set sea color
-    ld de, Level_6.levelDataStart
     ld hl, Level_6.seaColor
+    ld b, (hl)                          ; set sea color
+    ld hl, Level_6.msgLevelName
+    ld de, Level_6.levelDataStart
     ; jp .showLevelTitle
 
 .showLevelTitle:

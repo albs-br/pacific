@@ -36,6 +36,7 @@ INCLUDE "include/romheader.s"
 ; Program code entry point
 Execute:
 
+    call ClearRam
 
     call InitVram
 
@@ -46,7 +47,7 @@ ENDIF
 
 ;NewGame:
     ; ld a, 0                             ; test level
-    ld a, 1                             ;
+    ld a, 6                             ;
     ld (Level), a                       ;
 
     ld bc, 0
@@ -132,7 +133,12 @@ End:
 
 ; Variables (mapped to RAM memory)
 	org 0xc000                          ; for machines with 16kb of RAM (use it if you need 16kb RAM, will crash on 8kb machines, such as the Casio PV-7)
-	;org 0xe000                          ; for machines with 8kb of RAM (use it if you need 8kb RAM or less, will work on any machine)
+	; CAUTION: do not use 0xe000, it causes the game to crash on real machines with some SD mappers
+    ;org 0xe000                          ; for machines with 8kb of RAM (use it if you need 8kb RAM or less, will work on any machine)
+
+RamStart:
 
 INCLUDE "variables.s"
 INCLUDE 'vramspriteattrbuffer.s'
+
+RamEnd:

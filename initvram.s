@@ -69,7 +69,7 @@ InitVram:
 ; --------------------------------------------------
 
 
-	call CleanVram
+	call ClearVRAM
 
 
 
