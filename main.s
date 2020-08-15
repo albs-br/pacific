@@ -47,7 +47,7 @@ ENDIF
 
 ;NewGame:
     ; ld a, 0                             ; test level
-    ld a, 6                             ;
+    ld a, 1                             ;
     ld (Level), a                       ;
 
     ld bc, 0
@@ -132,9 +132,12 @@ End:
 
 
 ; Variables (mapped to RAM memory)
-	org 0xc000                          ; for machines with 16kb of RAM (use it if you need 16kb RAM, will crash on 8kb machines, such as the Casio PV-7)
+	org 0xc000, 0xefff                   ; for machines with 16kb of RAM (use it if you need 16kb RAM, will crash on 8kb machines, such as the Casio PV-7)
 	; CAUTION: do not use 0xe000, it causes the game to crash on real machines with some SD mappers
     ;org 0xe000                          ; for machines with 8kb of RAM (use it if you need 8kb RAM or less, will work on any machine)
+
+; use max addr for RAM:
+;         ORG  4000h,7FFFh        ; start from 4000h, warn if exceeding 7FFFh
 
 RamStart:
 
