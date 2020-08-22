@@ -23,7 +23,7 @@ Tile_Black:                 ;
 	db  00000000 b 		; 
 	db  00000000 b 		; 
 
-Tile_Plane_Lives:                 ; 
+Tile_Plane_Lifes:                 ; 
 	db  00001000 b 		; 
 	db  00001000 b 		; 
 	db  01111111 b 		; 

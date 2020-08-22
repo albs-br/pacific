@@ -18,7 +18,7 @@ Colors_Black:                   ;
     db 0x11                 ;
     db 0x11                 ;
 
-Colors_Plane_Lives:                   ;
+Colors_Plane_Lifes:                   ;
     db 0x31                 ;   high nibble: foreground color; low nibble: background color
     db 0x31                 ;
     db 0x31                 ;

@@ -132,10 +132,10 @@ GameLogic:
    jp .enemies
 
 .playerPlaneGotItem:
-   ld a, (Player_Lives)
+   ld a, (Player_Lifes)
    inc a
-   ld (Player_Lives), a
-   call ShowLives
+   ld (Player_Lifes), a
+   call ShowLifes
    
    call SoundGetItem
    

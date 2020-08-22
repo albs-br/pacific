@@ -135,6 +135,18 @@ Level_Test:
     db  -1                  ; delta x (-1 to +1) signed byte
     db  0, 0, 0, 0, 0       ; reserved
 
+    ; testing a bug (to be killed just before level ends gives infinite lifes)
+    ; Level finished
+    ;db  0x01, 0x90          ; counter value (HSB, LSB)
+    ;db  200                 ; action type (200: level finished)
+    ;db  0                   ; not used 
+    ;db  0, 0                ; not used 
+    ;db  0, 0                ; not used 
+    ;db  0                   ; not used 
+    ;db  0                   ; not used 
+    ;db  0                   ; not used 
+    ;db  0, 0, 0, 0, 0       ; not used 
+    
     ; Enemy plane (type 1)
     db  0x01, 0xe0          ; counter value (HSB, LSB)
     db  0                   ; action type (0: show enemy, 1: enemy shoots)

@@ -49,7 +49,7 @@ UpdateScreen:
 
 .restorePlayer:
 
-	ld a, (Player_Lives)
+	ld a, (Player_Lifes)
 	cp 0
 	jp z, GameOver
 

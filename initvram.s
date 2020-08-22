@@ -138,7 +138,7 @@ InitVram:
 
 
 ; ; Fill names table
-; ; Top strip with lives, score, etc
+; ; Top strip with lifes, score, etc
 ; 	ld	bc, 32              ; Block length
 ; 	ld	de, NamesTable		; VRAM address
 ; 	ld	hl, TopStripTiles   ; RAM Address
@@ -282,7 +282,7 @@ NumberOfSprites:	equ 14			;
 LoadNamesTable:
 
 	; Fill names table
-	; Top strip with lives, score, etc
+	; Top strip with lifes, score, etc
 	ld	bc, 32              ; Block length
 	ld	de, NamesTable		; VRAM address
 	ld	hl, TopStripTiles   ; RAM Address

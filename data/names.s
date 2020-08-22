@@ -8,7 +8,7 @@ TestChars:
     ;       N  O  P  Q  R  S  T  U  V  W  X  Y  Z  .
     db      71,72,73,74,75,76,77,78,79,80,81,82,83,84
 
-TopStripTiles:                   ; screen top strip with lives, score, etc
+TopStripTiles:                   ; screen top strip with lifes, score, etc
     db      2, 1, 1, 1, 1, 1, 1, 1,  1, 76, 60, 72, 75, 62, 1, 1
     db      1, 1, 1, 1, 1, 1, 1, 1,  1,  1,  1,  1,  1,  1, 1, 1    ; without HI (hi score)
     ;db      1, 1, 1, 1, 1, 1, 1, 1, 65, 66,  1,  1,  1,  1, 1, 1   ; with HI (hi score)

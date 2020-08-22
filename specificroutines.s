@@ -83,7 +83,7 @@ InitVariables:
     ; ld bc, 0
     ; ld (Player_Score), bc               ;
     ; ld a, 3                             ;
-    ; ld (Player_Lives), a                ;
+    ; ld (Player_Lifes), a                ;
     
     ret
 
@@ -431,6 +431,12 @@ IncrementCounter:
 
 .levelEnd:
 
+    ; check if the player is dead and with no extra lifes (explosion animation still running)
+	; this fixes the bug when you die in your last life just before level end and gives you 255 lifes
+    ld a, (Player_Lifes)
+	cp 0
+	jp z, .continue1
+
     ; check if is the last level
     ld a, (Level)
     cp 6
@@ -614,10 +620,10 @@ DisableItem:
     ret
 
 
-ShowLives:
-	; show current number of lives on top of screen
+ShowLifes:
+	; show current number of lifes on top of screen
     ld hl, NamesTable + 1	    ; VRAM address
-    ld a, (Player_Lives)
+    ld a, (Player_Lifes)
     add a, 48	                ; convert number to chars
     call BIOS_WRTVRM	        ; write to VRAM
 
@@ -682,10 +688,10 @@ LoadLevel:
     jp .testLevel
 
 .testLevel:
-    ; ld hl, Level_Test.seaColor
-    ; ld b, (hl)                          ; set sea color
-    ; ld hl, Level_Test.msgLevelName
-    ; ld de, Level_Test.levelDataStart
+    ;ld hl, Level_Test.seaColor
+    ;ld b, (hl)                          ; set sea color
+    ;ld hl, Level_Test.msgLevelName
+    ;ld de, Level_Test.levelDataStart
     jp .showLevelTitle
 
 .level1:

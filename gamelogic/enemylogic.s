@@ -262,14 +262,15 @@ GameLogicEnemy:
 	ld a, 1
 	ld (Player_State), a
 
-	ld a, (Player_Lives)
+	ld a, (Player_Lifes)
 	dec a
-	ld (Player_Lives), a
-	call ShowLives
+	ld (Player_Lifes), a
+	call ShowLifes
 
-	; ld a, (Player_Lives)
-	; cp 0
-	; jp z, .gameOver
+	;ld a, (Player_Lifes)
+	;cp 0
+	;jp z, GameOver
+	
 
 .disableEnemyShot:
 	ld a, 0

@@ -6,7 +6,7 @@
 
  File to be assembled by tniasm 0.45
 
- Tested on WebMSX, Emulicious (C-Bios) and openMSX (Gradiente Expert 1.1 bios) emulators
+ Tested on WebMSX, Emulicious (C-Bios) and openMSX (various bios) emulators
 
  Acknowledgements:
  -https://datassette.org/
@@ -15,6 +15,8 @@
  -Open MSX
  -Emulicious
  -MSX Pen
+ -MSX Community in Brazil, Facebook and Whatsapp groups
+ -8 bit workshop
 }
 
 FNAME "pacific.rom"      ; output file
@@ -36,6 +38,11 @@ INCLUDE "include/romheader.s"
 ; Program code entry point
 Execute:
 
+; init interrupt mode and stack pointer (in case the ROM isn't the first thing to be loaded)
+	di                      ; disable interrupts
+	im	1                   ; interrupt mode 1
+    ld sp, (BIOS_HIMEM)     ; init SP
+
     call ClearRam
 
     call InitVram
@@ -53,7 +60,8 @@ ENDIF
     ld bc, 0
     ld (Player_Score), bc               ;
     ld a, 3                             ;
-    ld (Player_Lives), a                ;
+    ;ld a, 1                             ; debug (min number of lifes is 1)
+    ld (Player_Lifes), a                ;
 
 
     call TitleScreen
@@ -72,9 +80,9 @@ NewLevel:
 
 
 
-; Show initial values of lives and score
+; Show initial values of lifes and score
     call ShowScore
-    call ShowLives
+    call ShowLifes
 
 
 
